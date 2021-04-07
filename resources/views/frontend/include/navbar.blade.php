@@ -1,4 +1,4 @@
-<div class="header-menu-content">
+<style>.our-post-content{	    display: none;}.funfact-area {    position: relative;    z-index: 1;    display: none;}</style><div class="header-menu-content">
     <div class="container-fluid">
         <div class="main-menu-content">
             <div class="row align-items-center h-100">
@@ -45,11 +45,11 @@
                                     <div class="form-group">
                                         <!-- Search bar -->
                                         <input class="form-control" id="search" type="text" name="search"
-                                               placeholder="@translate(Search for anything)">
+                                               placeholder="@translate(Search for courses)">
                                         <span class="la la-search search-icon"></span>
 
                                         <!-- Search bar END - -->
-
+  
                                         <!-- ======================== Search Suggession ============================= -->
                                         <div class="overflow-hidden search-list w-100">
                                             <div id="appendSearchCart1"></div>
@@ -67,10 +67,9 @@
                         </div><!-- end contact-form-action -->
 
                         <!-- end main-menu -->
-
                         @auth
                             <div class="logo-right-button">
-
+  <div class="header-right-info d-flex align-items-center">                            @guest()                                <ul class="user-action d-flex align-items-center mr-10">                                    <li><a href="{{ route('login') }}">@translate(Login)</a></li>                                </ul>                            @endguest                        </div>
 
                                 <div class="header-action-button d-flex align-items-center">
 
@@ -582,7 +581,7 @@
                             <div class="logo-right-button">
                                 <ul id="custom_toggle_bar" class="d-flex">
                                     <li class="pr-2"><a href="{{route('instructor.register')}}"
-                                                        class="theme-btn instructor-btn">@translate(Instructor)</a></li>
+                                                        class="theme-btn instructor-btn">Trainer</a></li>
                                     <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Become Student)</a></li>
                                 </ul>
                                 <div class="side-menu-open">
@@ -666,7 +665,7 @@
                             </div><!-- end side-menu-wrap -->
                             {{-- responsive menu END--}}
                         </div><!-- end side-nav-container -->
-                    </div><!-- end menu-wrapper -->
+                    </div><!-- end menu-wrapper -->                    
                 </div><!-- end col-lg-9 -->
             </div><!-- end row -->
         </div>

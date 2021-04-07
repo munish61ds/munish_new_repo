@@ -8,48 +8,59 @@
     <section class="slider-area slider-area2">
         <div class="homepage-slide2">
             @foreach($sliders as $item)
-                <div class="single-slide-item" style="background-image: url({{filePath($item->image)}});}">
-                    <div id="perticles-js-2"></div>
+                <div class="single-slide-item" >
+                    <div id="perticles-js-2" style="    background-color: #00004f;"></div>
                     <div class="slide-item-table">
                         <div class="slide-item-tablecell">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-lg-8">
-                                        <div class="section-heading">
-                                            <h2 class="section__title">{{$item->title}}</h2>
-                                            <p class="section__desc">
+                                          <div class="col-lg-7">
+                                       <img src="{{ filePath($item->image) }}" style="height: 615px;
+    /* width: 566px; */
+    margin-left: -261px;
+    margin-top: -139px;">
+                                       </div>
+									   
+                                    <div class="col-lg-5">
+                                        <div class="section-heading" style="    margin-top: 54px;">
+                                            <h2 class="section__title" style="font-size: 55px;
+    line-height: 61px;
+    ">{{$item->title}}</h2>
+                                            <p class="section__desc" style="color: #fff700;
+    font-size: 22px;
+    font-weight: bold;">
                                                 {{$item->sub_title}}
                                             </p>
                                         </div>
-                                        <div class="hero-search-form">
-                                            <div class="contact-form-action">
-                                                <form>
-                                                    <div class="input-box">
-                                                        <div class="form-group mb-0">
+                                        <!--<div class="hero-search-form">-->
+                                        <!--    <div class="contact-form-action">-->
+                                        <!--        <form>-->
+                                        <!--            <div class="input-box">-->
+                                        <!--                <div class="form-group mb-0">-->
                                                             <!-- Search bar -->
-                                                            <input class="form-control" id="slider-search" type="text"
-                                                                   name="search"
-                                                                   placeholder="@translate(Search for anything)">
-                                                            <span class="la la-search search-icon"></span>
+                                        <!--                    <input class="form-control" id="slider-search" type="text"-->
+                                        <!--                           name="search"-->
+                                        <!--                           placeholder="@translate(Search for anything)">-->
+                                        <!--                    <span class="la la-search search-icon"></span>-->
 
                                                             <!-- Search bar END - -->
 
                                                             <!-- ======================== Search Suggession ============================= -->
-                                                            <div class="overflow-hidden search-list w-100">
-                                                                <div id="appendSearchCart2"></div>
-                                                            </div>
+                                        <!--                    <div class="overflow-hidden search-list w-100">-->
+                                        <!--                        <div id="appendSearchCart2"></div>-->
+                                        <!--                    </div>-->
 
-                                                        </div>
-                                                    </div><!-- end input-box -->
-                                                </form>
-                                            </div><!-- end contact-form-action -->
-                                        </div>
+                                        <!--                </div>-->
+                                        <!--            </div><!-- end input-box 
+                                        <!--        </form>-->
+                                        <!--    </div><!-- end contact-form-action
+                                        <!--</div>-->
                                     </div><!-- col-lg-6 -->
                                 </div><!-- row -->
                             </div><!-- container -->
 
 
-                            <div class="our-post-content">
+                            <div class="our-post-content" style="    margin-top: 0px;">
                                 <span class="hw-circle"></span>
                                 <span class="hw-circle"></span>
                                 <span class="hw-circle"></span>
@@ -333,255 +344,7 @@
     <!--======================================
             START COURSE AREA
     ======================================-->
-    <section class="course-area">
-        <div class="course-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-heading text-center">
-                            <h5 class="section__meta">@translate(choose your desired courses)</h5>
-                            <h2 class="section__title">@translate(Browse Our Top Courses)</h2>
-                            <span class="section-divider"></span>
-                        </div><!-- end section-heading -->
-                    </div><!-- end col-lg-12 -->
-                </div><!-- end row -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tab margin-top-28px margin-bottom-55px">
-                            <ul class="nav nav-tabs justify-content-center text-center" role="tablist" id="review">
-                                @php
-                                    $i=0;
-                                @endphp
-                                @foreach($cat as $item)
-                                    <li role="presentation">
-                                        <a href="#tab{{$loop->index++}}" role="tab" data-toggle="tab"
-                                           class="theme-btn {{$i == 0 ? 'active':'rumon'}}"
-                                           aria-selected="{{$loop->index++ == 0 ? 'true':'false'}}">
-                                            {{$item}}
-                                        </a>
-                                    </li>
-                                    <span class="invisible">{{$i++}}</span>
-                                @endforeach
-                            </ul>
-                        </div><!-- end section-tab -->
-                    </div><!-- end col-lg-12 -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </div> <!-- end course-wrapper -->
-        <div class="card-content-wrapper section-bg padding-top-60px padding-bottom-110px">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="tab-content">
-                            @php
-                                $i=0;
-                            @endphp
-                            @foreach($course as $items)
-                                <div role="tabpanel" class="tab-pane fade {{$i == 0 ? 'show active':'rumon'}}"
-                                     id="tab{{$loop->index++}}">
-                                    @if($items->count() > 0)
-                                        <div class="row">
-                                            @foreach($items as $course)
-                                                <div class="col-lg-4">
-                                                    <div class="column-td-half">
-                                                        <div class="card-item card-preview"
-                                                             data-tooltip-content="#tooltip_content_{{$course->id}}">
-                                                            <div class="card-image">
-                                                                <a href="{{route('course.single',$course->slug)}}"
-                                                                   class="card__img"><img
-                                                                        src="{{ filePath($course->image) }}"
-                                                                        alt="{{$course->title}}"></a>
-                                                                @if(bestSellingTags($course->id))
-                                                                    <div class="card-badge">
-                                                                                <span
-                                                                                    class="badge-label">@translate(bestseller)</span>
-                                                                    </div>
-                                                                @endif
-                                                            </div><!-- end card-image -->
-                                                            <div class="card-content">
-                                                                <p class="card__label">
-                                                                                <span
-                                                                                    class="card__label-text">{{$course->level}}</span>
-                                                                    @auth()
-                                                                        <a href="#!"
-                                                                           onclick="addToCart({{$course->id}},'{{route('add.to.wishlist')}}')"
-                                                                           class="card__collection-icon love-{{$course->id}}"><span
 
-                                                                                class="la la-heart-o love-span-{{$course->id}}"></span></a>
-                                                                    @endauth
-
-                                                                    @guest()
-                                                                        <a href="{{route('login')}}"
-                                                                           class="card__collection-icon"
-                                                                           data-toggle="tooltip" data-placement="top"
-                                                                           title="Add to Wishlist"><span
-                                                                                class="la la-heart-o"></span></a>
-                                                                    @endguest
-                                                                </p>
-                                                                <h3 class="card__title">
-                                                                    <a href="{{route('course.single',$course->slug)}}">{{ Str::limit($course->title,58) }}</a>
-                                                                </h3>
-                                                                <p class="card__author">
-                                                                    <a href="{{route('single.instructor',$course->relationBetweenInstructorUser->slug)}}">{{$course->relationBetweenInstructorUser->name}}</a>
-                                                                </p>
-                                                                <div class="rating-wrap d-flex mt-2 mb-3">
-                                                                <span class="star-rating-wrap">
-                                                                 @translate(Enrolled) <span
-                                                                        class="star__count">{{\App\Model\Enrollment::where('course_id',$course->id)->count()}}</span>
-                                                              </span>
-                                                                </div><!-- end rating-wrap -->
-                                                                <div class="card-action">
-                                                                    <ul class="card-duration d-flex justify-content-between align-items-center">
-                                                                        <li>
-                                                                      <span class="meta__date">
-                                                                          <i class="la la-play-circle"></i> {{$course->classes->count()}} @translate(Classes)
-                                                                      </span>
-                                                                        </li>
-                                                                        <li>
-                                                                      <span class="meta__date">
-                                                                          @php
-                                                                              $total_duration = 0;
-                                                                              foreach ($course->classes as $item){
-                                                                                  $total_duration +=$item->contents->sum('duration');
-                                                                              }
-                                                                          @endphp
-                                                                          <i class="la la-clock-o"></i>{{duration($total_duration)}}
-                                                                      </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div><!-- end card-action -->
-                                                                <div
-                                                                    class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                                    <!--if free-->
-                                                                    @if($course->is_free)
-                                                                        <span
-                                                                            class="card__price">@translate(Free)</span>
-                                                                    @else
-                                                                        @if($course->is_discount)
-                                                                            <span class="card__price">{{formatPrice($course->discount_price)}}</span>
-                                                                            <span class="card__price"><del>{{formatPrice($course->price)}}</del></span>
-                                                                        @else
-                                                                            <span
-                                                                                class="card__price">{{formatPrice($course->price)}}</span>
-                                                                        @endif
-                                                                    @endif
-                                                                <!--there are the login-->
-                                                                    @auth()
-                                                                        @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                                                            <a href="#!"
-                                                                               class="text-btn addToCart-{{$course->id}}"
-
-                                                                               onclick="addToCart({{$course->id}},'{{route('add.to.cart')}}')">@translate(Add to cart)</a>
-                                                                        @else
-                                                                            <a href="{{route('login')}}"
-                                                                               class="text-btn">@translate(Add to cart)</a>
-                                                                        @endif
-                                                                    @endauth
-
-                                                                    @guest()
-                                                                        <a href="{{route('login')}}" class="text-btn">@translate(Add to cart)</a>
-                                                                    @endguest
-
-
-                                                                </div><!-- end card-price-wrap -->
-                                                            </div><!-- end card-content -->
-                                                        </div>
-                                                    </div>
-                                                </div><!-- end col-lg-4 -->
-
-                                            @endforeach
-                                            @foreach($items as $c_tooltip)
-                                                <div class="tooltip_templates">
-                                                    <div id="tooltip_content_{{$c_tooltip->id}}">
-                                                        <div class="card-item">
-                                                            <div class="card-content">
-                                                                <p class="card__author">
-                                                                    By <a
-                                                                        href="{{route('single.instructor',$c_tooltip->relationBetweenInstructorUser->slug)}}">{{$c_tooltip->relationBetweenInstructorUser->name}}</a>
-                                                                </p>
-                                                                <h3 class="card__title">
-                                                                    <a href="{{route('course.single',$c_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($c_tooltip->title,58)}}</a>
-                                                                </h3>
-                                                                <p class="card__label">
-                                                                    <span class="mr-1">@translate(in)</span><a
-                                                                        href="{{route('course.category',$c_tooltip->category->slug)}}"
-                                                                        class="mr-1">{{$c_tooltip->category->name}}</a>
-                                                                </p>
-                                                                <div class="rating-wrap d-flex mt-2 mb-3">
-
-                                                                                                                        <span
-                                                                                                                            class="star-rating-wrap">
-                                                                                                                 @translate(Enrolled) <span
-                                                                                                                                class="star__count">{{\App\Model\Enrollment::where('course_id',$c_tooltip->id)->count()}}</span>
-                                                                                                            </span>
-                                                                </div><!-- end rating-wrap -->
-                                                                <ul class="list-items mb-3 font-size-14">
-                                                                    @foreach(json_decode($c_tooltip->requirement) as $requirement)
-                                                                        <li>{{$requirement}}</li>
-                                                                    @endforeach
-
-                                                                </ul>
-                                                                <div class="card-action">
-                                                                    <ul class="card-duration d-flex justify-content-between align-items-center">
-                                                                        <li><span class="meta__date"><i
-                                                                                    class="la la-play-circle"></i> {{$c_tooltip->classes->count()}} @translate(Classes)</span>
-                                                                        </li>
-                                                                        <li><span class="meta__date">
-                                                                                                                        @php
-                                                                                                                            $total_duration = 0;
-                                                                                                                            foreach ($c_tooltip->classes as $item){
-                                                                                                                                $total_duration +=$item->contents->sum('duration');
-                                                                                                                            }
-                                                                                                                        @endphp
-                                                                                                                        <i class="la la-clock-o"></i>{{duration($total_duration)}}
-                                                                                                                  </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div><!-- end card-action -->
-                                                                <div class="btn-box w-100 text-center mb-3">
-                                                                    <a href="{{route('course.single',$c_tooltip->slug)}}"
-                                                                       class="theme-btn d-block">
-                                                                        @translate(Preview this course)</a>
-                                                                </div>
-
-                                                            </div><!-- end card-content -->
-                                                        </div><!-- end card-item -->
-                                                    </div>
-                                                </div><!-- end tooltip_templates -->
-                                            @endforeach
-                                        </div><!-- end course-block -->
-
-                                        @if($i != 0)
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="btn-box mt-4 text-center">
-                                                        <a href="{{route('course.category',$c_tooltip->first()->category->slug)}}"
-                                                           class="theme-btn"> @translate(browse all Courses)</a>
-                                                    </div><!-- end btn-box -->
-                                                </div><!-- end col-lg-12 -->
-                                            </div>
-                                        @else
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="btn-box mt-4 text-center">
-                                                        <a href="{{route('course.filter')}}" class="theme-btn">
-                                                            @translate(browse all Courses)</a>
-                                                    </div><!-- end btn-box -->
-                                                </div><!-- end col-lg-12 -->
-                                            </div>
-                                        @endif
-                                    @endif
-                                </div>
-                                <span class="invisible">{{$i++}}</span>
-                        @endforeach<!-- end tab-pane -->
-                        </div><!-- end row -->
-                    </div><!-- end container -->
-                </div><!-- end card-content-wrapper -->
-            </div><!-- end card-content-wrapper -->
-        </div><!-- end card-content-wrapper -->
-
-
-    </section><!-- end courses-area -->
     <!--======================================
             END COURSE AREA
     ======================================-->
@@ -589,230 +352,11 @@
     <!--======================================
             START COURSE AREA
     ======================================-->
-    <section class="course-area padding-top-120px">
-        <div class="course-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-heading text-center">
-                            <h5 class="section__meta">@translate(Learn on your schedule)</h5>
-                            <h2 class="section__title">@translate(Trending Courses)</h2>
-                            <span class="section-divider"></span>
-                        </div><!-- end section-heading -->
-                    </div><!-- end col-lg-12 -->
-                </div><!-- end row -->
-                <div class="row margin-top-28px">
-                    <div class="col-lg-12">
-                        <div class="tab-content">
-                            <div class="course-carousel">
-                                @foreach($trading_courses as $t_courses)
-                                    <div class="card-item card-preview"
-                                         data-tooltip-content="#tooltip_content_{{$t_courses->id}}">
-                                        <div class="card-image">
-                                            <a href="{{route('course.single',$t_courses->slug)}}"
-                                               class="card__img"><img
-                                                    src="{{ filePath($t_courses->image) }}"
-                                                    alt="{{$t_courses->title}}"></a>
-                                            @if(bestSellingTags($t_courses->id))
-                                                <div class="card-badge">
-                                                                        <span
-                                                                            class="badge-label">@translate(bestseller)</span>
-                                                </div>
-                                            @endif
-                                        </div><!-- end card-image -->
-                                        <div class="card-content">
-                                            <p class="card__label">
-                                                <span class="card__label-text">{{$t_courses->level}}</span>
-                                                @auth()
-                                                    <a href="#!"
-                                                       onclick="addToCart({{$t_courses->id}},'{{route('add.to.wishlist')}}')"
-                                                       class="card__collection-icon love-{{$t_courses->id}}"><span
-                                                            class="la la-heart-o love-span-{{$t_courses->id}}"></span></a>
-                                                @endauth
-
-                                                @guest()
-                                                    <a href="{{route('login')}}"
-                                                       class="card__collection-icon"
-                                                       data-toggle="tooltip" data-placement="top"
-                                                       title="Add to Wishlist"><span
-                                                            class="la la-heart-o"></span></a>
-                                                @endguest
-                                            </p>
-                                            <h3 class="card__title">
-                                                <a href="{{route('course.single',$t_courses->slug)}}">{{\Illuminate\Support\Str::limit($t_courses->title,58)}}</a>
-                                            </h3>
-                                            <p class="card__author">
-                                                <a href="{{route('single.instructor',$t_courses->relationBetweenInstructorUser->slug)}}">{{$t_courses->relationBetweenInstructorUser->name}}</a>
-                                            </p>
-                                            <div class="rating-wrap d-flex mt-2 mb-3">
-                                                        <span class="star-rating-wrap">
-                                                         @translate(Enrolled) <span
-                                                                class="star__count">{{\App\Model\Enrollment::where('course_id',$t_courses->id)->count()}}</span>
-                                                      </span>
-                                            </div><!-- end rating-wrap -->
-                                            <div class="card-action">
-                                                <ul class="card-duration d-flex justify-content-between align-items-center">
-                                                    <li>
-                                                              <span class="meta__date">
-                                                                  <i class="la la-play-circle"></i> {{$t_courses->classes->count()}} @translate(Classes)
-                                                              </span>
-                                                    </li>
-                                                    <li>
-                                                              <span class="meta__date">
-                                                                  @php
-                                                                      $total_duration = 0;
-                                                                      foreach ($t_courses->classes as $item){
-                                                                          $total_duration +=$item->contents->sum('duration');
-                                                                      }
-                                                                  @endphp
-                                                                  <i class="la la-clock-o"></i>{{duration($total_duration)}}
-
-                                                              </span>
-                                                    </li>
-                                                </ul>
-                                            </div><!-- end card-action -->
-                                            <div
-                                                class="card-price-wrap d-flex justify-content-between align-items-center">
-                                                <!--if free-->
-                                                @if($t_courses->is_free)
-                                                    <span class="card__price">@translate(Free)</span>
-                                                @else
-                                                    @if($t_courses->is_discount)
-                                                        <span class="card__price">{{formatPrice($t_courses->discount_price)}}</span>
-                                                        <span class="card__price"><del>{{formatPrice($t_courses->price)}}</del></span>
-                                                    @else
-                                                        <span
-                                                            class="card__price">{{formatPrice($t_courses->price)}}</span>
-                                                    @endif
-                                                @endif
-                                            <!--there are the login-->
-                                                @auth()
-                                                    @if(\Illuminate\Support\Facades\Auth::user()->user_type == 'Student')
-                                                        <a href="#!" class="text-btn addToCart-{{$t_courses->id}}"
-                                                           onclick="addToCart({{$t_courses->id}},'{{route('add.to.cart')}}')">@translate(Add to cart)</a>
-                                                    @else
-                                                        <a href="{{route('login')}}" class="text-btn">@translate(Add to cart)</a>
-                                                    @endif
-                                                @endauth
-
-                                                @guest()
-                                                    <a href="{{route('login')}}" class="text-btn">@translate(Add to cart)</a>
-                                                @endguest
-
-
-                                            </div><!-- end card-price-wrap -->
-                                        </div><!-- end card-content -->
-                                    </div>
-                                @endforeach
-                            </div><!-- end course-carousel -->
-                        </div><!-- end tab-content -->
-                    </div><!-- end col-lg-12 -->
-                </div><!-- end row -->
-            </div><!-- end container -->
-        </div><!-- end course-wrapper -->
-    </section><!-- end courses-area -->
-    @foreach($trading_courses as $t_tooltip)
-        <div class="tooltip_templates">
-            <div id="tooltip_content_{{$t_tooltip->id}}">
-                <div class="card-item">
-                    <div class="card-content">
-                        <p class="card__author">
-                            @translate(By) <a
-                                href="{{route('single.instructor',$t_tooltip->relationBetweenInstructorUser->slug)}}">{{$t_tooltip->relationBetweenInstructorUser->name}}</a>
-                        </p>
-                        <h3 class="card__title">
-                            <a href="{{route('course.single',$t_tooltip->slug)}}">{{\Illuminate\Support\Str::limit($t_tooltip->title,58)}}</a>
-                        </h3>
-                        <p class="card__label">
-                            <span class="mr-1">@translate(in)</span><a
-                                href="{{route('course.category',$t_tooltip->category->slug)}}"
-                                class="mr-1">{{$t_tooltip->category->name}}</a>
-                        </p>
-                        <div class="rating-wrap d-flex mt-2 mb-3">
-
-                                                                    <span class="star-rating-wrap">
-                                                             @translate(Enrolled) <span
-                                                                            class="star__count">{{\App\Model\Enrollment::where('course_id',$t_tooltip->id)->count()}}</span>
-                                                        </span>
-                        </div><!-- end rating-wrap -->
-                        <ul class="list-items mb-3 font-size-14">
-                            <!--todo::need to change-->
-                            {!! $t_tooltip->short_discription !!}
-
-                        </ul>
-                        <div class="card-action">
-                            <ul class="card-duration d-flex justify-content-between align-items-center">
-                                <li><span class="meta__date"><i
-                                            class="la la-play-circle"></i> {{$t_tooltip->classes->count()}} @translate(Classes)</span>
-                                </li>
-                                <li><span class="meta__date">
-                                                                    @php
-                                                                        $total_duration = 0;
-                                                                        foreach ($t_tooltip->classes as $item){
-                                                                            $total_duration +=$item->contents->sum('duration');
-                                                                        }
-                                                                    @endphp
-                                                                    <i class="la la-clock-o"></i>{{duration($total_duration)}}
-                                          </span>
-                                </li>
-                            </ul>
-                        </div><!-- end card-action -->
-                        <div class="btn-box w-100 text-center mb-3">
-                            <a href="{{route('course.single',$t_tooltip->slug)}}"
-                               class="theme-btn d-block">
-                                @translate(Preview this course)</a>
-                        </div>
-                    </div><!-- end card-content -->
-                </div><!-- end card-item -->
-            </div>
-        </div>
-    @endforeach
+   
     <!--======================================
                 END COURSE AREA
         ======================================-->
-    <div class="section-block my-lg-5"></div>
-    <!-- ================================
-           START FUNFACT AREA
-    ================================= -->
-    <section class="funfact-area text-center overflow-hidden padding-top-85px padding-bottom-85px">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 column-td-half">
-                    <div class="counter-item">
-                        <span class="la la-bullhorn count__icon"></span>
-                        <h4 class="count__title text-color-2 count-up" data-from="0" data-to="{{\App\User::where('user_type','Instructor')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(expert instructors)</p>
-                    </div><!-- end counter-item -->
-                </div><!-- end col-lg-3 -->
-                <div class="col-lg-3 column-td-half">
-                    <div class="counter-item">
-                        <span class="la la-globe count__icon"></span>
-                        <h4 class="count__title  count__title text-color-2 count-up1" data-from="0" data-to="{{\App\User::where('user_type','Student')->get()->count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(Students)</p>
-                    </div><!-- end counter-item -->
-                </div><!-- end col-lg-3 -->
-                <div class="col-lg-3 column-td-half">
-                    <div class="counter-item">
-                        <span class="la la-users count__icon"></span>
-                        <h4 class="count__title  count__title text-color-2 count-up2" data-from="0" data-to="{{\App\Model\Enrollment::count()}}" data-time="1000">0</h4>
-                        <p class="count__meta">@translate(Total enrolled)</p>
-                    </div><!-- end counter-item -->
-                </div><!-- end col-lg-3 -->
-                <div class="col-lg-3 column-td-half">
-                    <div class="counter-item">
-                        <span class="la la-certificate count__icon"></span>
-                        <h4 class="count__title count__title text-color-2 count-up3" data-from="0" data-to="{{\App\Model\Course::Published()->count()}}" data-time="1000" >0</h4>
-                        <p class="count__meta">@translate(Total Course)</p>
-                    </div><!-- end counter-item -->
-                </div><!-- end col-lg-3 -->
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </section><!-- end funfact-area -->
-    <!-- ================================
-           START FUNFACT AREA
-    ================================= -->
 
-    <div class="section-block"></div>
 
     <!--======================================
             START PACKAGE AREA
@@ -822,31 +366,30 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h5 class="section__meta">@translate(become an instructor)</h5>
-                        <h2 class="section__title">@translate(Available) {{getSystemSetting('type_name')->value}}
-                            @translate(Packages)</h2>
+                       
+                        <h2 class="section__title">Why Languafina</h2>
                         <span class="section-divider"></span>
                     </div><!-- end section-heading -->
                 </div><!-- end col-md-12 -->
             </div><!-- end row -->
-            <div class="row margin-top-100px">
-                @foreach($packages as $item)
-                    <div class="col-lg-4 column-td-half">
-                        <div class="post-card">
-                            <div class="post-card-content">
-                                <img data-original="{{filePath($item->image)}}" alt="" class="img-fluid"/>
-                                <h2 class="widget-title mt-4 mb-2">
-                                    {{formatPrice($item->price)}}
-                                </h2>
-                                <div>
-                                    @translate(If you buy this package, admin will get)
-                                    <h3 class="text-info"> {{$item->commission}} % </h3>
-                                    @translate(of the course price for each enrollment of that course)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            <div class="row">
+               <p>Languafina specializes in perfecting the art of the English language.
+We, as a firm, provide the necessary means to achieve the desired
+command of the language. Furthermore, enhancement of flow, vocabulary,
+pronunciation, and confidence in making use of English in every possible
+way is what we focus on. We provide lessons in Spoken English which are
+conducted via audio calls. This, hence, allows aspirants the opportunity to
+speak with the trainers even without any access to the internet!
+Moreover, we help in the preparation of various English proficiency tests
+such as IELTS, PTE, and TOEFL.
+</p><p>
+Why Languafina?
+We, at Languafina, appreciate the eagerness to learn. What sets us apart
+from other teaching, institutes is our usage of new methods and advanced
+technology that is available in today’s modern era. We are kicking the
+obsolete routines and procedures to the curb and are adopting the latest
+techniques required to achieve efficiency in order to succeed in today’s fast
+paced world.</p>
             </div><!-- end row -->
             <div class="row">
                 <div class="col-lg-12">

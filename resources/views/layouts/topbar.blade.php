@@ -65,34 +65,6 @@
             </div>
             <div class="infobar">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <div class="languagebar">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" href="#" role="button" id="languagelink"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false"><span class="live-icon">
-                                        {{Str::ucfirst(\Illuminate\Support\Facades\Session::get('locale') ?? env('DEFAULT_LANGUAGE'))}}
-                                    </span><span class="feather icon-chevron-down live-icon"></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languagelink">
-                                    @foreach(\App\Model\Language::all() as $language)
-                                        <a class="dropdown-item" href="{{route('language.change')}}"
-                                           onclick="event.preventDefault();
-                                               document.getElementById('{{$language->name}}').submit()">
-                                            <img width="25" height="auto"
-                                                 src="{{ asset("uploads/lang/". $language->image) }}" alt=""/>
-                                            {{$language->name}}</a>
-                                        <form id="{{$language->name}}" class="d-none"
-                                              action="{{ route('language.change') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="code" value="{{$language->code}}">
-                                        </form>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
                     <!--currency-->
                     <li class="list-inline-item">
                         <div class="languagebar">

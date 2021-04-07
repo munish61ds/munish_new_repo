@@ -204,8 +204,9 @@
                                 </li>
                             @endif
                             {{--Certificate end--}}
-
-
+							
+							
+<!--
 
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                 {{-- Package area --}}
@@ -230,7 +231,7 @@
 
                             @endif
 
-
+-->
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
 
                                 <li><a href="{{route('students.index')}}"
@@ -315,7 +316,7 @@
                             @endif
 
 
-                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                          <!--  @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                 {{-- Admin Earning area --}}
                                 <li><a href="{{route('admin.earning.index')}}"
                                        class="{{request()->is('dashboard/admin*') ?'active':null}}">
@@ -337,16 +338,17 @@
                                         </li>
                                     @endif
                                 @endif
-                            @endif
+                            @endif -->
 
-                            {{-- Support Ticket --}}
+                           <!--   {{-- Support Ticket --}}
                             <li><a href="{{route('tickets.index')}}"
                                    class="{{request()->is('dashboard/ticket*') ?'active':null}}">
                                     <i class="fa fa-envelope-open-o"></i> <span>@translate(Support Ticket)</span>
                                 </a>
+								
                             </li>
 
-
+-->
                             {{-- Settings Area --}}
                             <li class="{{request()->is('dashboard/smtp*')
                                    || request()->is('dashboard/language*')
@@ -388,12 +390,12 @@
                                         <li><a href="{{route('site.setting')}}"
                                                class="{{request()->is('dashboard/site*') ?'active':null}}">@translate(Organization
                                                 Settings)</a></li>
-
+ <!-- 
                                         <li><a href="{{route('other.setting')}}"
                                                class="{{request()->is('dashboard/other*') ?'active':null}}">@translate(Other
                                                 Settings)</a></li>
 
-
+-->
                                     @else
                                         {{-- Instructor Earning area --}}
                                         <li><a href="{{route('account.create')}}"
@@ -404,7 +406,7 @@
                                     @endif
                                 </ul>
                             </li>
-
+ <!-- 
                             @if(env('FORUM_PANEL') == "YES")
                                 {{-- Forum manager --}}
                                 @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")
@@ -572,7 +574,8 @@
                                 @endif
                             @endif
 
-
+-->
+ <!-- 
                             {{-- Activity Log Manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")
                                 <li class="{{request()->is('dashboard/forum*') ? 'active' : null}}">
@@ -588,7 +591,7 @@
                                     </ul>
                                 </li>
                             @endif
-
+-->
 
                         </ul>
                     </div>
