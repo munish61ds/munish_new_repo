@@ -220,6 +220,14 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::post('slider/update', 'Module\SliderController@update')->name('sliders.update')->middleware('demo');
     Route::get('slider/published', 'Module\SliderController@published')->name('sliders.published');
 
+    //faqs
+    Route::get('faqs/index', 'Module\FaqController@index')->name('faqs.index');
+    Route::get('faqs/create', 'Module\FaqController@create')->name('faqs.create');
+    Route::post('faqs/store', 'Module\FaqController@store')->name('faqs.store')->middleware('demo');
+    Route::get('faqs/destroy/{id}', 'Module\FaqController@destroy')->name('faqs.destroy');
+    Route::get('faqs/edit/{id}', 'Module\FaqController@edit')->name('faqs.edit');
+    Route::post('faqs/update', 'Module\FaqController@update')->name('faqs.update')->middleware('demo');
+
     //Earning
     Route::get('admin/earning', 'Module\EarningController@adminEarning')->name('admin.earning.index');
 

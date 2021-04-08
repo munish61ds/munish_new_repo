@@ -126,7 +126,7 @@
                                                 @translate(All Coupons)
                                             </a>
                                         </li>
-                                    
+
                                     </ul>
                                 </li>
                             @endif
@@ -204,8 +204,8 @@
                                 </li>
                             @endif
                             {{--Certificate end--}}
-							
-							
+
+
 <!--
 
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
@@ -345,7 +345,7 @@
                                    class="{{request()->is('dashboard/ticket*') ?'active':null}}">
                                     <i class="fa fa-envelope-open-o"></i> <span>@translate(Support Ticket)</span>
                                 </a>
-								
+
                             </li>
 
 -->
@@ -390,7 +390,10 @@
                                         <li><a href="{{route('site.setting')}}"
                                                class="{{request()->is('dashboard/site*') ?'active':null}}">@translate(Organization
                                                 Settings)</a></li>
- <!-- 
+
+                                        <li><a href="{{route('faqs.index')}}"
+                                               class="{{request()->is('dashboard/faqs*') ?'active':null}}">@translate(FAQs Management)</a></li>
+ <!--
                                         <li><a href="{{route('other.setting')}}"
                                                class="{{request()->is('dashboard/other*') ?'active':null}}">@translate(Other
                                                 Settings)</a></li>
@@ -406,7 +409,7 @@
                                     @endif
                                 </ul>
                             </li>
- <!-- 
+ <!--
                             @if(env('FORUM_PANEL') == "YES")
                                 {{-- Forum manager --}}
                                 @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")
@@ -575,7 +578,7 @@
                             @endif
 
 -->
- <!-- 
+ <!--
                             {{-- Activity Log Manager --}}
                             @if(Auth::user()->user_type === "Admin" || Auth::user()->user_type === "Instructor")
                                 <li class="{{request()->is('dashboard/forum*') ? 'active' : null}}">

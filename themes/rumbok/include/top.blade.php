@@ -1,6 +1,3 @@
-
-
-
 @if (!request()->is('student/*'))
     <div class="header-info">
         <div class="container">

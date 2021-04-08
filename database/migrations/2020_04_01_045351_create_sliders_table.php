@@ -20,6 +20,7 @@ class CreateSlidersTable extends Migration
             $table->string('sub_title')->nullable();
             $table->string('url')->nullable();
             $table->boolean('is_published')->default(false);
+            $table->text('attributes')->nullable();
             $table->timestamps();
         });
     }

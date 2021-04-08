@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 
+use Alert;
 use App\Blog;
+use App\Faq;
 use App\Http\Middleware\Affiliate;
 use App\Model\AdminEarning;
 use App\Model\AffiliateHistory;
@@ -29,31 +31,30 @@ use App\Model\Student;
 use App\Model\StudentAccount;
 use App\Model\VerifyUser;
 use App\Model\Wishlist;
+use App\NotificationUser;
 use App\Notifications\AffiliateCommission;
 use App\Notifications\EnrolmentCourse;
 use App\Notifications\InstructorRegister;
 use App\Notifications\StudentRegister;
 use App\Notifications\VerifyNotifications;
-use App\NotificationUser;
 use App\Page;
 use App\QuizScore;
 use App\Subscription;
 use App\SubscriptionCart;
 use App\SubscriptionEnrollment;
 use App\User;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
+use Hash;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Hash;
-use Alert;
 
 class FrontendController extends Controller
 {
@@ -250,8 +251,11 @@ class FrontendController extends Controller
 
         $subscriptions = Subscription::Published()->get();
 
+        // $faqs = Faq::all();
 
-        return view($this->theme.'.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
+        return view($this->theme.'.homepage.index',
+        	compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count')
+        );
     }
 
 
@@ -460,8 +464,8 @@ class FrontendController extends Controller
                 'user_id' => $user->id,
                 'token' => sha1(time())
             ]);
-            
-            
+
+
 
             // send verify mail
             $user->notify(new VerifyNotifications($user));
@@ -574,7 +578,7 @@ class FrontendController extends Controller
     /*check out*/
     public function enrollCourses()
     {
-        
+
         if (Auth::user()->user_type != "Student") {
             \auth()->logout();
             return response('Your credentials does not match.', 403);
@@ -957,9 +961,9 @@ class FrontendController extends Controller
 
         }
 
-            
-            
-           
+
+
+
 
             $request->session()->forget('payment');
         } else {
@@ -977,7 +981,7 @@ class FrontendController extends Controller
     /*affiliate page view*/
     public function affiliateCreate(){
 
-        
+
         /*here show affiliate history table*/
         $history =null;
         $payment =null;
@@ -1485,5 +1489,10 @@ class FrontendController extends Controller
         $categories = Category::where('is_published', 1)->get();
         $blogs = Blog::where('is_active',1)->where('tags', 'like', '%' . $tag . '%')->paginate(5);
         return view($this->theme . '.blog.posts', compact('blogs', 'categories'));
+    }
+
+    public function viewFaqs() {
+    	$faqs = Faq::all();
+    	return view($this->theme.'.faqs.index', compact('faqs'));
     }
 }

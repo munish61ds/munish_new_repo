@@ -26,13 +26,34 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.css') }}">
-
     <link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/fancybox.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/tooltipster.bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
-    <link href="{{ asset('css/frontend.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/frontend.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
+    <style type="text/css">
+    	/* Home page  */
+    	@if(request()->segment(1) == null)
+    		.fixed-nav .header-menu-area,
+			.fixed-nav .header-menu-fluid,
+			.fixed-nav .header-top,
+			.fixed-nav .header-menu-content {
+				background-color: rgba(8,0,134,0.7) !important;
+			}
+		/* otherwise pages  */
+    	@else
+    		.header-menu-area,
+			.header-menu-fluid,
+			.header-top,
+			.header-menu-content {
+				background-color: rgba(8,0,134,1) !important;
+			}
+    	@endif
+    </style>
+
+    @yield('css')
     <!-- end inject -->
 </head>
 
@@ -99,9 +120,8 @@
 <script src="{{ asset('frontend/js/smooth-scrolling.js') }}"></script>
 <script src="{{ asset('frontend/js/tooltipster.bundle.js') }}"></script>
 <script src="{{ asset('frontend/js/main.js') }}"></script>
-<script src="{{ asset('frontend/js/main.js') }}"></script>
-<script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.js') }}"></script>
-<script src="{{ asset('assets/plugins/datatables/jquery.dataTables.js') }}"></script>
+{{-- <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.js') }}"></script> --}}
+{{-- <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.js') }}"></script> --}}
 <script src="{{ asset('js/jquery.lazyload.min.js') }}"></script>
 <script src="{{ asset('frontend/js/custom.js') }}"></script>
 <script src="{{ asset('js/frontend.js') }}"></script>

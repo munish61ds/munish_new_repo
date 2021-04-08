@@ -1,24 +1,33 @@
 @extends('frontend.app')
 @section('content')
+@section('css')
+	<style type="text/css">
+		.instructor-register input[type="radio"]:checked + div {
+			background-color: #FFF;
+			border: 3px solid rgba(8,0,134,0.5);
+			color: inherit !important;
+		}
+	</style>
+@append
 <!-- ================================
        START SIGN UP AREA
 ================================= -->
-<section class="sign-up section--padding">
+<section class="sign-up section--padding padding-top-30px">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-10 mx-auto">
                 <div class="card-box-shared">
                     <div class="card-box-shared-title text-center">
                         <h3 class="widget-title font-size-35">@translate(Create an Account and) <br> @translate(Start Teaching)!</h3>
                     </div>
-                    <div class="card-box-shared-body mt-5">
+                    <div class="card-box-shared-body">
                         <div class="contact-form-action">
                             <form method="post" action="{{ route('instructor.create') }}">
                                 @csrf
                                 <div class="row">
-                                    {{--Radio button--}} <!-- 
-                                    <label class="label-text">@translate(Select A Package)<span class="primary-color-2 ml-1">*</span></label> -->
-                                   <!--   <div class="row">
+
+                                    <label class="label-text">@translate(Select A Package)<span class="primary-color-2 ml-1">*</span></label>
+                                   	<div class="row">
                                         @foreach($packages as $item)
                                             <div class="col-lg-4 column-td-half instructor-register">
                                                 <label>
@@ -45,7 +54,7 @@
                                             </div>
 
                                         @endforeach
-                                    </div>-->
+                                    </div>
 
                                     <div class="col-lg-12 ">
                                         <div class="input-box">

@@ -18,12 +18,12 @@
             <div class="custom-file">
                 <input class="custom-file-input slider" id="customFile" name="image" type="hidden">
 
-                 <img class="w-50 slider_preview rounded shadow-sm d-none" src="" alt="#Slider">  
+                 <img class="w-50 slider_preview rounded shadow-sm d-none" src="" alt="#Slider">
                     @error('image') <span class="invalid-feedback" role="alert"> <strong>{{ $message }}</strong> </span> @enderror
 
                 <input type="hidden" name="slider_url" class="slider_url" value="">
                 <br>
-                    
+
                 @if (MediaActive())
                 {{-- media --}}
                 <a href="javascript:void()" onclick="openNav('{{ route('media.slide') }}', 'slider')" class="btn btn-primary media-btn mt-2 p-2">Upload From Media <i class="fa fa-cloud-upload ml-2" aria-hidden="true"></i> </a>
@@ -31,13 +31,12 @@
 
             </div>
         </div>
-
+        @include('includes/slider_have_button1', [
+        	'type' => 'create'
+        ])
         <div class="float-right">
             <button class="btn btn-primary float-right" type="submit">@translate(Save)</button>
         </div>
 
     </form>
 </div>
-
-
-
