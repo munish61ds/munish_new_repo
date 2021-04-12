@@ -41,7 +41,7 @@ body {
 	background-size: cover;
 }
 #carouselHomePageSliderIndicators .carousel-caption {
-	bottom: calc(50% - 160px);
+	bottom: calc(50% - 110px);
 	width: 64%;
 	left: 18%;
 	right: initial;
@@ -101,6 +101,11 @@ body {
 	line-height: 35px;
 	text-align: justify;
     text-align-last: center;
+}
+.why-us p {
+    padding: 112px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 .are-you-someone {
 	margin-top: 35px;
