@@ -1,3 +1,10 @@
+<style type="text/css">
+	.vertical-menu-detail .logo {
+		-webkit-filter: drop-shadow(2px 2px 0px #666);
+    	filter: drop-shadow(2px 2px 0px #666);
+	}
+</style>
+
 <div class="leftbar">
     <!-- Start Sidebar -->
     <div class="sidebar">

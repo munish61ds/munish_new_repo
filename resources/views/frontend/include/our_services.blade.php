@@ -2,13 +2,19 @@
 	<style type="text/css">
 		.our_services .card {
 		    cursor: pointer;
-		    margin: 20px;
+		    margin: 5px;
 		    margin-bottom: 30px;
 		    margin-top: 0;
+		    border: 0;
 		}
-		.our_services .card.hover,
-		.our_services .card:hover {
-		    box-shadow: 0 20px 40px rgba(0, 0, 0, .2)
+		.our_services .card-body.hover,
+		.our_services .card-body:hover {
+		    box-shadow: 0 10px 20px rgba(0, 0, 0, .2)
+		}
+		.our_services .card-body {
+			border: 1px solid #EEE;
+			border-radius: 10px;
+			min-height: 350px;
 		}
 		.our_services .card-content {
 			border: none;
@@ -16,8 +22,8 @@
 		}
 		.our_services .img {
 		    margin-bottom: 35px;
-		    -webkit-filter: drop-shadow(5px 5px 1px #999);
-		    filter: drop-shadow(5px 5px 1px #999);
+		    -webkit-filter: drop-shadow(5px 5px 3px #999);
+		    filter: drop-shadow(5px 5px 3px #999);
 		    width: 100px;
 		}
 		.our_services .card-title {
@@ -130,8 +136,8 @@
             </div>
         </div>
     </div>
-    <div class="ft">
+    {{-- <div class="ft">
         <p class="chk"><small class="text-muted">Still not sure?</small></p>
         <a href="#" class="theme-btn line-height-40 text-capitalize">Read All Testimonials</a>
-    </div>
+    </div> --}}
 </div>

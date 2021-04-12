@@ -298,9 +298,9 @@
                                                                     </a>
                                                                 </h4>
 
-                                                                @if (walletActive())
+                                                                {{-- @if (walletActive())
                                                                     <span class="email"><i class="fa fa-money"></i> {{  walletBalance() }}</span>
-                                                                @endif
+                                                                @endif --}}
 
 
                                                             </div>

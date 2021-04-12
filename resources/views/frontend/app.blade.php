@@ -13,7 +13,6 @@
 
     <title>{{getSystemSetting('type_name')->value}}</title>
 
-
     <!-- Favicon -->
     <link rel="icon" sizes="16x16" href="{{ filePath(getSystemSetting('favicon_icon')->value) }}">
     <link href="{{ asset('css/font.css') }}">
@@ -40,7 +39,7 @@
 			.fixed-nav .header-menu-fluid,
 			.fixed-nav .header-top,
 			.fixed-nav .header-menu-content {
-				background-color: rgba(8,0,134,0.7) !important;
+				background-color: rgba(8,0,134,1) !important;
 			}
 		/* otherwise pages  */
     	@else

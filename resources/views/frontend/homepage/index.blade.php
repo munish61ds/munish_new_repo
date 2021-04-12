@@ -277,8 +277,8 @@
 		        <div class="carousel-caption d-none d-md-block">
 		          <h2 class="display-4 main-title">Online english course with the best teachers</h2>
 		          <p class="lead">Lorem ipsum cillum tempor exercitation consequat cillum est non officia cupidatat est et anim mollit dolor ad in labore et nostrud laborum voluptate dolore aute sint in velit non ex dolor dolor ut nisi cupidatat dolor dolore irure velit non aute.</p>
-		          	<a href="{{ route('student.register') }}" class="theme-btn line-height-40 text-capitalize">
-		          		Create your account
+		          	<a href="{{ route('instructor.register') }}" class="theme-btn line-height-40 text-capitalize">
+		          		Create a trainer account
 		          	</a>
 		        </div>
 		      </div>
