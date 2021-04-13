@@ -33,6 +33,25 @@
 	    @endif
 	</div>
 
+	<!--======================================
+					START PACKAGE AREA
+	======================================-->
+	<section class="choose-area section-padding text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="section-heading">
+						<h2 class="section__title">Why Languafina</h2>
+						<span class="section-divider"></span>
+					</div><!-- end section-heading -->
+				</div><!-- end col-md-12 -->
+			</div><!-- end row -->
+			<div class="row why-us">
+				<p>We, at LanguaFina, appreciate the eagerness to learn. What sets us apart from other teaching institutions is our usage of new methods and advanced technology that is available in today’s modern era. We are kicking the obsolete routines and procedures to the curb and are adopting the latest techniques required to achieve efficiency in order to succeed in today’s fast paced world. </p>
+			</div><!-- end row -->
+		</div><!-- end container -->
+	</section><!-- end package-area -->
+
 
     <!--======================================
            START LatestCourse AREA
@@ -265,45 +284,38 @@
     @endif
     <!-- end courses-area -->
 
-
-    @include('frontend.include.our_services')
-
     <div id="carouselHomePageMid1Indicators" class="carousel slide" data-ride="carousel">
     	<ol class="carousel-indicators">
 	      	<li data-target="#carouselHomePageMid1Indicators" data-slide-to="0" class="active"></li>
 	    </ol>
-	    <div class="carousel-inner" role="listbox">
-		      <div class="carousel-item active" style="background-image: url('{{ filePath('best_online_learning.jpg') }}')">
-		        <div class="carousel-caption d-none d-md-block">
-		          <h2 class="display-4 main-title">Online english course with the best teachers</h2>
-		          <p class="lead">Lorem ipsum cillum tempor exercitation consequat cillum est non officia cupidatat est et anim mollit dolor ad in labore et nostrud laborum voluptate dolore aute sint in velit non ex dolor dolor ut nisi cupidatat dolor dolore irure velit non aute.</p>
-		          	<a href="{{ route('instructor.register') }}" class="theme-btn line-height-40 text-capitalize">
-		          		Create a trainer account
-		          	</a>
-		        </div>
-		      </div>
+    	<div class="carousel-inner" role="listbox">
+			<div class="carousel-item active" style="background-image: url('{{ filePath('best_online_learning.jpg') }}')">
+				<div class="carousel-caption d-none d-md-block">
+					<span class="display-4 main-title custom_span_class">Online English Courses<br> With The Best Teachers</span>
+					<p class="lead_style">Languafina teachers have more than 15 years of classroom teaching experience each. All teachers are highly qualified and they are specialists in IELTS and Cambridge English exams preparation.</p>
+					<br>
+					<a href="{{ route('student.register') }}" class="theme-btn line-height-40 text-capitalize butn-margin">
+						Start Learning
+					</a>
+				</div>
+	      </div>
 		</div>
 	</div>
+
 
 
     <!--======================================
             START PACKAGE AREA
     ======================================-->
-    <section class="choose-area section-padding text-center">
+    <section class="choose-area-custom-section text-center">
+		@include('frontend.include.our_services')
+	</section><!-- end package-area -->
+
+	<!--======================================
+        START PACKAGE AREA
+    ======================================-->
+    <section class="choose-area section-padding text-center" style="display:none;">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-heading">
-                        <h2 class="section__title">Why Languafina</h2>
-                        <span class="section-divider"></span>
-                    </div><!-- end section-heading -->
-                </div><!-- end col-md-12 -->
-            </div><!-- end row -->
-            <div class="row why-us">
-               	<p>LanguaFina specializes in perfecting the art of the English language. We, as language experts with a proven track record in imparting skill-based trainings, provide the necessary means to achieve the desired command over the language. Furthermore, enhancement of flow, vocabulary, pronunciation, and confidence in making use of English in every possible way is what we focus on. </p>
-               	<br>
-				<p>We, at LanguaFina, appreciate the eagerness to learn. What sets us apart from other teaching platforms is our usage of new methods and advanced technology that is available in today’s modern era. We are kicking the obsolete routines and procedures to the curb and are adopting the latest techniques required to achieve efficiency in order to succeed in today’s fast paced world. </p>
-            </div><!-- end row -->
             <div class="row are-you-someone">
                 <div class="col-lg-12">
                     <div class="btn-box mt-3 d-flex align-items-center justify-content-center text-left">

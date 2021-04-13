@@ -39,7 +39,8 @@
 			.fixed-nav .header-menu-fluid,
 			.fixed-nav .header-top,
 			.fixed-nav .header-menu-content {
-				background-color: rgba(8,0,134,1) !important;
+				/** background-color: rgba(8,0,134,1) !important; **/
+				background-color: #fd0100 !important;
 			}
 		/* otherwise pages  */
     	@else
@@ -73,7 +74,6 @@
     ======================================-->
 <header class="header-menu-area">
     <div class="header-menu-fluid">
-
         @include('frontend.include.top')
         @include('frontend.include.navbar')
     </div><!-- end header-menu-fluid -->

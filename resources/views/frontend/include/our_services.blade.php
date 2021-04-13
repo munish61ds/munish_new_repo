@@ -59,19 +59,18 @@
 		    padding-bottom: 15px
 		}
 		.our_services .sub-title {
-			margin-bottom: 15px;
+			margin-bottom: 40px;
 		}
 	</style>
 @append
 
 <div class='our_services container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
 	<div class="section-heading">
-        <h2 class="section__title">@translate(Why People Believe in Us)</h2>
+        <h2 class="section__title">@translate(Why People Believe in Us?)</h2>
         <span class="section-divider"></span>
     </div><!-- end section-heading -->
     <p class="text-muted sub-title">
-    	@translate(Always render more and better service than) <br />
-    	@translate(is expected of you, no matter what your ask may be.)</small>
+    	@translate(LanguaFina specializes in perfecting the art of the English language.)</small>
     </p>
     <div class="row" style="justify-content: center">
         <div class="card col-md-3 col-12">
@@ -80,7 +79,7 @@
                     <div class="shadow"></div>
                     <div class="card-title">@translate(One on One Sessions)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted">We spent thousands of hours creating on algorithm that does this for you in seconds. We collect a small fee from the professional after they meet your</small> </p>
+                        <p> <small class="text-muted">Every class is designed specifically for you to overcome fears, build confidence and improve fluency.</small> </p>
                     </div>
                 </div>
             </div>
@@ -90,7 +89,7 @@
                 <div class="card-body"> <img class="img" src="{{ asset('frontend/images/our_services/tests.svg') }}" />
                     <div class="card-title">@translate(Practice Test)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted"> We don't accept ads from anyone. We use actual data to match you who the best person for each job </small> </p>
+                        <p> <small class="text-muted">Track your progress with regular practice tests and feedbacks to ease out the learning process.</small> </p>
                     </div>
                 </div>
             </div>
@@ -100,7 +99,7 @@
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/extra_mat.svg') }}" />
                     <div class="card-title">@translate(Extra Learning Materials)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted">Buying or selling a home is often the largest transaction anyone does in their life. we guide you through the process so that you can be confident in reaching your dream outcome.</small> </p>
+                        <p> <small class="text-muted">Languafina has created quality content for improving English speaking skills. This includes English Grammar lessons and special Spoken English lessons.</small> </p>
                     </div>
                 </div>
             </div>
@@ -110,7 +109,7 @@
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/extra-time.svg') }}" />
                     <div class="card-title">@translate(Flexible Hours)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted">Buying or selling a home is often the largest transaction anyone does in their life. we guide you through the process so that you can be confident in reaching your dream outcome.</small> </p>
+                        <p> <small class="text-muted">With us you can learn English at a time and pace that is as flexible and dynamic as per your schedule.</small> </p>
                     </div>
                 </div>
             </div>
@@ -120,12 +119,12 @@
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/anywhere.svg') }}" />
                     <div class="card-title">@translate(Anytime Anywhere)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted">Buying or selling a home is often the largest transaction anyone does in their life. we guide you through the process so that you can be confident in reaching your dream outcome.</small> </p>
+                        <p> <small class="text-muted">The teaching methods at LANGUAFINA are customizable so you can access your personalized study program where you want, when you can.</small> </p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card col-md-3 col-12">
+        {{-- <div class="card col-md-3 col-12">
             <div class="card-content">
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/testimonials.svg') }}" />
                     <div class="card-title">@translate(Testimonials)</div>
@@ -134,7 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     {{-- <div class="ft">
         <p class="chk"><small class="text-muted">Still not sure?</small></p>

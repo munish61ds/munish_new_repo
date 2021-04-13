@@ -41,7 +41,7 @@ body {
 	background-size: cover;
 }
 #carouselHomePageSliderIndicators .carousel-caption {
-	bottom: calc(50% - 110px);
+	bottom: calc(50% - 167px);
 	width: 64%;
 	left: 18%;
 	right: initial;
@@ -53,14 +53,38 @@ body {
 #carouselHomePageSliderIndicators .carousel-caption .main-title,
 #carouselHomePageSliderIndicators .carousel-caption .lead {
 	text-shadow: 1px 1px 1px #555;
+	text-transform: uppercase;
 }
+
+
+#carouselHomePageSliderIndicators .carousel-caption .custom_span_class {
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+#carouselHomePageSliderIndicators .carousel-caption .butn-margin {
+
+}
+
+
+#carouselHomePageSliderIndicators .carousel-caption .lead_style {
+	text-align: center;
+	width: 60%;
+	margin: auto;
+	margin-top: auto;
+	font-size: 15px;
+	line-height: 1.5;
+	margin-top: 8px;
+}
+
+
 #carouselHomePageSliderIndicators .carousel-caption .lead {
-	color: #fff700;
+	/* color: #fff700; */
+	color: #fd0100;
 	padding-top: 20px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
-
 #carouselHomePageMid1Indicators {
 	margin-top: 70px !important;
 	margin-bottom: 40px !important;
@@ -117,7 +141,7 @@ body {
 	font-size: 150%;
 }
 .choose-area {
-	padding-top: 50px !important;
+	padding-top: 140px !important;
 	padding-bottom: 50px !important;
 }
 .owl-stage-outer .card-item .card-image {
@@ -143,4 +167,9 @@ body {
 .user-action-wrap .userDrop {
     width: 240px !important;
     top: 22px !important;
+}
+.choose-area-custom-section
+{
+	padding-top: 40px !important;
+	padding-bottom: 50px !important;
 }

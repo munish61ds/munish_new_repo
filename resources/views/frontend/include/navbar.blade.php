@@ -77,7 +77,7 @@
                         <!-- end main-menu -->
                         @auth
                             <div class="logo-right-button">
-  <div class="header-right-info d-flex align-items-center">                            @guest()                                <ul class="user-action d-flex align-items-center mr-10">                                    <li><a href="{{ route('login') }}">@translate(Login)</a></li>                                </ul>                            @endguest                        </div>
+  							<div class="header-right-info d-flex align-items-center">@guest()                                <ul class="user-action d-flex align-items-center mr-10">                                    <li><a href="{{ route('login') }}">@translate(Login)</a></li>                                </ul>                            @endguest                        </div>
 
                                 <div class="header-action-button d-flex align-items-center">
 
@@ -588,9 +588,8 @@
                         @guest
                             <div class="logo-right-button">
                                 <ul id="custom_toggle_bar" class="d-flex">
-                                    <li class="pr-2"><a href="{{route('instructor.register')}}"
-                                                        class="theme-btn instructor-btn">Trainer</a></li>
-                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Become Student)</a></li>
+                                    <li class="pr-2"><a href="{{route('instructor.register')}}" class="theme-btn instructor-btn">Trainer</a></li>
+                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Student)</a></li>
                                 </ul>
                                 <div class="side-menu-open">
                                     <i class="la la-bars"></i>
