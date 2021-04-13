@@ -132,10 +132,8 @@
 
     @elseif(false)
 
-
-
     @else
-        <section class="sign-up section--padding">
+        <section class="sign-up margin-top-30px">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7 mx-auto">

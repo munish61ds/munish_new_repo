@@ -2,11 +2,11 @@
 
     <!-- ================================
            Start FOOTER AREA
-  ================================= -->
+  	================================= -->
     <section class="footer-area section-bg-2 padding-top-100px padding-bottom-40px {{ request()->is('student/*') ? 'student-dashboard' : '' }}" style="background-color: #282828;">
         <div class="container">
             <div class="row">
-                <div class="{{ request()->is('student/*') ? 'col-lg-3 offset-md-2' : 'col-lg-4' }} column-td-half">
+                <div class="{{ request()->is('student/*') ? 'col-lg-3 offset-md-2' : 'col-lg-3' }} column-td-half">
                     <div class="footer-widget">
                         <a href="{{route('homepage')}}">
                             <img src="{{ filePath(getSystemSetting('footer_logo')->value) }}"
@@ -36,8 +36,8 @@
                             @endif
                         </ul>
                     </div><!-- end footer-widget -->
-                </div><!-- end col-lg-4 -->
-                <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-4' }} column-td-half">
+                </div><!-- end col-lg-3 -->
+                <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-3' }} column-td-half">
                     <div class="footer-widget">
                         <h3 class="widget-title">@translate(Company)</h3>
                         <span class="section-divider"></span>
@@ -47,8 +47,8 @@
                             @endforeach
                         </ul>
                     </div><!-- end footer-widget -->
-                </div><!-- end col-lg-4 -->
-                <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-4' }} column-td-half">
+                </div><!-- end col-lg-3 -->
+                <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-3' }} column-td-half">
                     <div class="footer-widget">
                         <h3 class="widget-title">@translate(Courses)</h3>
                         <span class="section-divider"></span>
@@ -58,7 +58,16 @@
                             @endforeach
                         </ul>
                     </div><!-- end footer-widget -->
-                </div><!-- end col-lg-4 -->
+                </div><!-- end col-lg-3 -->
+                <div class="{{ request()->is('student/*') ? 'col-lg-3' : 'col-lg-3' }} column-td-half">
+                    <div class="footer-widget">
+                        <h3 class="widget-title">@translate(Useful links)</h3>
+                        <span class="section-divider"></span>
+                        <ul class="list-items">
+                            <li><a href="{{route('faqs.all')}}">FAQs</a></li>
+                        </ul>
+                    </div><!-- end footer-widget -->
+                </div><!-- end col-lg-3 -->
 
             </div><!-- end row -->
             <div class="copyright-content">

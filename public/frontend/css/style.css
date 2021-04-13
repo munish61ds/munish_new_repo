@@ -1447,8 +1447,8 @@ body {
     height: 5px;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
-    border-radius: 30px;
-    background-color: #080086;
+    border-radius: 30px; 
+    background-color: #fd0100;
     width: 90px;
     margin-top: 25px;
     margin-bottom: 25px;
@@ -2646,7 +2646,8 @@ body {
 .theme-btn {
     font-size: 15px;
     text-transform: uppercase;
-    background-color: #080086;
+    /* background-color: #080086; */
+    background-color: #fd0100;
     color: #fff;
     padding: 0 30px 0 30px;
     line-height: 48px;
@@ -2660,13 +2661,13 @@ body {
     -ms-transition: all .3s;
     -o-transition: all .3s;
     transition: all .3s;
-    border: 2px solid #080086;
+    /* border: 2px solid #fd0100; */
     font-weight: 600
 }
 
 .theme-btn:hover {
     background-color: #fff;
-    color: #080086
+    color: #fd0100;
 }
 
 .theme-btn-light {
@@ -13696,7 +13697,7 @@ body {
 }
 
 .course-carousel .owl-nav div:hover {
-    background-color: #080086;
+    background-color: #fd0100;
     color: #fff
 }
 
@@ -16384,7 +16385,7 @@ body {
 
 .instructor-btn{
   background: #fff;
-  color: #080086;
+  color: #fd0100;
   padding: 0 15px;
 }
 
@@ -16393,7 +16394,7 @@ body {
 }
 
 .instructor-btn:hover{
-  background: #080086;
+  background: #fd0100;
   color: #fff;
 }
 

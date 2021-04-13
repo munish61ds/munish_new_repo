@@ -372,7 +372,7 @@
                                                 <ul class="user-cart d-flex align-items-center ">
                                                     <li class="p-50p">
                                                         <a href="{{route('dashboard')}}"
-                                                           class="btn btn-success text-white my-course-btn">@translate(Go To Dashboard)</a>
+                                                           class="btn btn-secondary text-white my-course-btn">@translate(Go To Dashboard)</a>
                                                     </li>
                                                 </ul>
                                             </div>
