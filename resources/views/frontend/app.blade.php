@@ -74,7 +74,7 @@
     ======================================-->
 <header class="header-menu-area">
     <div class="header-menu-fluid">
-        @include('frontend.include.top') 
+        @include('frontend.include.top')
         @include('frontend.include.navbar')
     </div><!-- end header-menu-fluid -->
 </header>

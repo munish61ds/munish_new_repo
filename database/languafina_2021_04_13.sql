@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Apr 06, 2021 at 08:58 AM
--- Server version: 5.6.49-cll-lve
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 12, 2021 at 07:07 PM
+-- Server version: 10.4.10-MariaDB
+-- PHP Version: 7.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lmsnew2`
+-- Database: `languafina`
 --
 
 -- --------------------------------------------------------
@@ -28,16 +28,18 @@ SET time_zone = "+00:00";
 -- Table structure for table `addons`
 --
 
-CREATE TABLE `addons` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `addons`;
+CREATE TABLE IF NOT EXISTS `addons` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `unique_identifier` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `version` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `activated` tinyint(1) NOT NULL DEFAULT '1',
-  `image` longtext COLLATE utf8mb4_unicode_ci,
+  `activated` tinyint(1) NOT NULL DEFAULT 1,
+  `image` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `addons`
@@ -56,21 +58,24 @@ INSERT INTO `addons` (`id`, `name`, `unique_identifier`, `version`, `activated`,
 -- Table structure for table `admin_earnings`
 --
 
-CREATE TABLE `admin_earnings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `admin_earnings`;
+CREATE TABLE IF NOT EXISTS `admin_earnings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `amount` double NOT NULL,
   `purposes` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `admin_earnings`
 --
 
 INSERT INTO `admin_earnings` (`id`, `amount`, `purposes`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 0, 'Sale Package', NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14');
+(1, 0, 'Sale Package', NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14'),
+(2, 0, 'Sale Package', NULL, '2021-04-08 19:06:33', '2021-04-08 19:06:33');
 
 -- --------------------------------------------------------
 
@@ -78,17 +83,19 @@ INSERT INTO `admin_earnings` (`id`, `amount`, `purposes`, `deleted_at`, `created
 -- Table structure for table `affiliates`
 --
 
-CREATE TABLE `affiliates` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `affiliates`;
+CREATE TABLE IF NOT EXISTS `affiliates` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `student_account_id` bigint(20) UNSIGNED NOT NULL,
-  `note` longtext COLLATE utf8mb4_unicode_ci,
+  `note` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `refer_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_confirm` tinyint(1) NOT NULL DEFAULT '0',
-  `is_cancel` tinyint(1) NOT NULL DEFAULT '0',
+  `is_confirm` tinyint(1) NOT NULL DEFAULT 0,
+  `is_cancel` tinyint(1) NOT NULL DEFAULT 0,
   `balance` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -97,14 +104,16 @@ CREATE TABLE `affiliates` (
 -- Table structure for table `affiliate_histories`
 --
 
-CREATE TABLE `affiliate_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `affiliate_histories`;
+CREATE TABLE IF NOT EXISTS `affiliate_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `affiliate_id` bigint(20) UNSIGNED DEFAULT NULL,
   `refer_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `amount` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -113,8 +122,9 @@ CREATE TABLE `affiliate_histories` (
 -- Table structure for table `affiliate_payments`
 --
 
-CREATE TABLE `affiliate_payments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `affiliate_payments`;
+CREATE TABLE IF NOT EXISTS `affiliate_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `amount` double NOT NULL,
   `current_balance` double DEFAULT NULL,
   `process` enum('Bank','Paypal','Stripe') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -126,7 +136,8 @@ CREATE TABLE `affiliate_payments` (
   `affiliate_id` bigint(20) UNSIGNED DEFAULT NULL,
   `confirm_by` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -135,12 +146,15 @@ CREATE TABLE `affiliate_payments` (
 -- Table structure for table `api_password_resets`
 --
 
-CREATE TABLE `api_password_resets` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `api_password_resets`;
+CREATE TABLE IF NOT EXISTS `api_password_resets` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `api_password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -149,16 +163,18 @@ CREATE TABLE `api_password_resets` (
 -- Table structure for table `blogs`
 --
 
-CREATE TABLE `blogs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `blogs`;
+CREATE TABLE IF NOT EXISTS `blogs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `category_id` bigint(20) UNSIGNED NOT NULL,
-  `title` longtext COLLATE utf8mb4_unicode_ci,
+  `title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `img` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `body` longtext COLLATE utf8mb4_unicode_ci,
-  `tags` longtext COLLATE utf8mb4_unicode_ci,
-  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `body` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -167,14 +183,25 @@ CREATE TABLE `blogs` (
 -- Table structure for table `carts`
 --
 
-CREATE TABLE `carts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `carts`;
+CREATE TABLE IF NOT EXISTS `carts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `course_price` double DEFAULT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `carts_user_id_foreign` (`user_id`),
+  KEY `carts_course_id_foreign` (`course_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `course_price`, `course_id`, `created_at`, `updated_at`) VALUES
+(1, 45, 5000, 27, '2021-04-12 20:14:17', '2021-04-12 20:14:17');
 
 -- --------------------------------------------------------
 
@@ -182,31 +209,33 @@ CREATE TABLE `carts` (
 -- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_popular` tinyint(1) NOT NULL DEFAULT '0',
-  `top` tinyint(1) NOT NULL DEFAULT '0',
+  `is_popular` tinyint(1) NOT NULL DEFAULT 0,
+  `top` tinyint(1) NOT NULL DEFAULT 0,
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '1',
-  `parent_category_id` int(11) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT 1,
+  `parent_category_id` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `is_item` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `is_item` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `is_popular`, `top`, `icon`, `is_published`, `parent_category_id`, `created_at`, `updated_at`, `is_item`) VALUES
-(1, 'Language Learning', 'language-learning1', 1, 0, '/uploads/media_manager/10.png', 0, 0, '2020-06-09 09:48:52', '2021-04-05 18:39:57', 0),
+(1, 'Language Learning', 'language-learning1', 1, 0, '/uploads/media_manager/10.png', 0, 0, '2020-06-09 09:48:52', '2021-04-07 16:18:23', 0),
 (2, 'Leadership', 'leadership2', 1, 0, '/uploads/media_manager/14.png', 1, 0, '2020-06-09 10:35:08', '2021-03-29 15:03:45', 0),
 (3, 'Personal Productivity', 'personal-productivity3', 1, 0, '/uploads/media_manager/13.png', 1, 0, '2020-06-10 02:01:03', '2021-03-29 15:02:10', 0),
 (4, 'Personal Transformation', 'personal-transformation4', 1, 1, '/uploads/media_manager/15.png', 1, 0, '2020-06-10 02:01:48', '2021-03-29 15:03:54', 0),
 (5, 'Personal Productivity', 'personal-productivity5', 1, 0, '/uploads/media_manager/12.png', 1, 0, '2020-06-10 02:02:49', '2021-03-29 15:03:15', 0),
-(6, 'Photography', 'photography6', 1, 0, '/uploads/media_manager/17.png', 0, 0, '2020-06-10 02:19:05', '2021-03-29 15:05:28', 0),
+(6, 'Photography', 'photography6', 1, 0, '/uploads/media_manager/17.png', 0, 0, '2020-06-10 02:19:05', '2021-04-07 22:40:39', 0),
 (7, 'Career Development', 'career-development7', 1, 0, '/uploads/media_manager/11.png', 1, 0, '2020-06-10 02:19:58', '2021-03-29 15:04:27', 0),
 (8, 'Parenting & Relationships', 'parenting-relationships8', 1, 0, '/uploads/media_manager/16.png', 1, 0, '2020-12-21 06:30:09', '2021-03-29 15:05:22', 0);
 
@@ -216,19 +245,21 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `is_popular`, `top`, `icon`, `is
 -- Table structure for table `certificates`
 --
 
-CREATE TABLE `certificates` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `template_text` longtext COLLATE utf8mb4_unicode_ci,
-  `top_text` longtext COLLATE utf8mb4_unicode_ci,
-  `header_text` longtext COLLATE utf8mb4_unicode_ci,
-  `footer_text` longtext COLLATE utf8mb4_unicode_ci,
+DROP TABLE IF EXISTS `certificates`;
+CREATE TABLE IF NOT EXISTS `certificates` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `template_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `top_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `header_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `footer_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `permissions` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `badge` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `certificates`
@@ -244,14 +275,16 @@ INSERT INTO `certificates` (`id`, `template_text`, `top_text`, `header_text`, `f
 -- Table structure for table `certificate_stores`
 --
 
-CREATE TABLE `certificate_stores` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `certificate_stores`;
+CREATE TABLE IF NOT EXISTS `certificate_stores` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `uid` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `certificate_stores`
@@ -266,16 +299,19 @@ INSERT INTO `certificate_stores` (`id`, `uid`, `user_id`, `image`, `created_at`,
 -- Table structure for table `classes`
 --
 
-CREATE TABLE `classes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `classes`;
+CREATE TABLE IF NOT EXISTS `classes` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
-  `priority` int(11) NOT NULL DEFAULT '0',
-  `is_published` tinyint(1) NOT NULL DEFAULT '1',
+  `priority` int(11) NOT NULL DEFAULT 0,
+  `is_published` tinyint(1) NOT NULL DEFAULT 1,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `classes_course_id_foreign` (`course_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `classes`
@@ -315,26 +351,29 @@ INSERT INTO `classes` (`id`, `title`, `course_id`, `priority`, `is_published`, `
 -- Table structure for table `class_contents`
 --
 
-CREATE TABLE `class_contents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `class_contents`;
+CREATE TABLE IF NOT EXISTS `class_contents` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content_type` enum('Video','Document','Quiz') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `provider` enum('Youtube','HTML5','Vimeo','File','Live','Quiz') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `video_url` longtext COLLATE utf8mb4_unicode_ci,
+  `video_url` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
   `file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `class_id` bigint(20) UNSIGNED NOT NULL,
-  `priority` int(11) NOT NULL DEFAULT '0',
-  `is_published` tinyint(1) NOT NULL DEFAULT '1',
-  `is_preview` tinyint(1) NOT NULL DEFAULT '0',
+  `priority` int(11) NOT NULL DEFAULT 0,
+  `is_published` tinyint(1) NOT NULL DEFAULT 1,
+  `is_preview` tinyint(1) NOT NULL DEFAULT 0,
   `source_code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `meeting_id` bigint(20) DEFAULT NULL,
-  `quiz_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `quiz_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_contents_class_id_foreign` (`class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `class_contents`
@@ -395,16 +434,19 @@ INSERT INTO `class_contents` (`id`, `title`, `content_type`, `provider`, `video_
 -- Table structure for table `coupons`
 --
 
-CREATE TABLE `coupons` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `coupons`;
+CREATE TABLE IF NOT EXISTS `coupons` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rate` double NOT NULL,
   `start_day` datetime NOT NULL,
   `end_day` datetime NOT NULL,
   `min_value` double DEFAULT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `coupons_code_unique` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -413,34 +455,39 @@ CREATE TABLE `coupons` (
 -- Table structure for table `courses`
 --
 
-CREATE TABLE `courses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `courses`;
+CREATE TABLE IF NOT EXISTS `courses` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `level` enum('Beginner','Advanced','All Levels') COLLATE utf8mb4_unicode_ci NOT NULL,
   `rating` enum('1','2','3','4','5') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
-  `short_description` longtext COLLATE utf8mb4_unicode_ci,
-  `big_description` longtext COLLATE utf8mb4_unicode_ci,
+  `short_description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `big_description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `overview_url` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `provider` enum('Youtube','HTML5','Vimeo') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `requirement` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-  `outcome` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-  `tag` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-  `is_free` tinyint(1) NOT NULL DEFAULT '0',
+  `requirement` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `outcome` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `tag` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `is_free` tinyint(1) NOT NULL DEFAULT 0,
   `price` double DEFAULT NULL,
-  `is_discount` tinyint(1) NOT NULL DEFAULT '0',
+  `is_discount` tinyint(1) NOT NULL DEFAULT 0,
   `discount_price` double DEFAULT NULL,
   `language` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'english',
-  `meta_title` text COLLATE utf8mb4_unicode_ci,
-  `meta_description` longtext COLLATE utf8mb4_unicode_ci,
-  `is_published` tinyint(1) NOT NULL DEFAULT '0',
+  `meta_title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_published` tinyint(1) NOT NULL DEFAULT 0,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `courses_slug_unique` (`slug`),
+  KEY `courses_user_id_foreign` (`user_id`),
+  KEY `courses_category_id_foreign` (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `courses`
@@ -471,15 +518,19 @@ INSERT INTO `courses` (`id`, `title`, `slug`, `level`, `rating`, `short_descript
 -- Table structure for table `course_comments`
 --
 
-CREATE TABLE `course_comments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `course_comments`;
+CREATE TABLE IF NOT EXISTS `course_comments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `rating` double DEFAULT NULL,
   `comment` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `replay` int(11) NOT NULL DEFAULT '0',
+  `replay` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_comments_course_id_foreign` (`course_id`),
+  KEY `course_comments_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -488,13 +539,16 @@ CREATE TABLE `course_comments` (
 -- Table structure for table `course_purchase_histories`
 --
 
-CREATE TABLE `course_purchase_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `course_purchase_histories`;
+CREATE TABLE IF NOT EXISTS `course_purchase_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `amount` double DEFAULT NULL,
   `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `enrollment_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `course_purchase_histories_enrollment_id_foreign` (`enrollment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -503,18 +557,20 @@ CREATE TABLE `course_purchase_histories` (
 -- Table structure for table `currencies`
 --
 
-CREATE TABLE `currencies` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `currencies`;
+CREATE TABLE IF NOT EXISTS `currencies` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `symbol` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `rate` double NOT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '1',
-  `align` tinyint(1) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT 1,
+  `align` tinyint(1) NOT NULL DEFAULT 0,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `currencies`
@@ -529,13 +585,17 @@ INSERT INTO `currencies` (`id`, `name`, `code`, `symbol`, `rate`, `is_published`
 -- Table structure for table `enrollments`
 --
 
-CREATE TABLE `enrollments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `enrollments`;
+CREATE TABLE IF NOT EXISTS `enrollments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `enrollments_course_id_foreign` (`course_id`),
+  KEY `enrollments_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -544,14 +604,71 @@ CREATE TABLE `enrollments` (
 -- Table structure for table `failed_jobs`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `faqs`
+--
+
+DROP TABLE IF EXISTS `faqs`;
+CREATE TABLE IF NOT EXISTS `faqs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `question` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `faqs`
+--
+
+INSERT INTO `faqs` (`id`, `question`, `answer`, `type`, `created_at`, `updated_at`) VALUES
+(1, 'Why should I choose LANGUAFINA?', 'The methods adopted at LANGUAFINA are advanced and well researched which, in turn, helps each student’s individual requirement. Interaction and involvement are key aspects that our organization focuses on; and when these aspects are applied with the greatest of techniques that our trainers specialize in, they help in reaping great results. Our sessions are mainly one on one which provides a better understanding to the students.', 'general', '2021-04-07 20:00:10', '2021-04-07 20:05:20'),
+(2, 'How can I make payment for the courses', 'Payment can be made through different options such as Debit/Credit Cards, E-wallets, Net banking, Cash, or Cheque.', 'general', '2021-04-07 20:06:05', '2021-04-07 20:06:05'),
+(3, 'What is the process if someone wants to give feedback?', 'Feedbacks are always welcome at LANGUAFINA. Students can share their feedback on sessions as well as can give suggestions for tutorials. One can always contact at our enquiry number to give feedback. Moreover, students will be asked to give feedback during their course.', 'general', '2021-04-07 20:08:01', '2021-04-07 20:08:01'),
+(4, 'Do you provide option to make payment in EMIs?', 'Yes, for Spoken English, we do have the option to make payment in three EMIs. However, for IELTS/PTE/ TOEFL, student has to make full payment at once.', 'general', '2021-04-07 20:08:21', '2021-04-07 20:08:21'),
+(5, 'How good are LANGUAFINA trainers?', 'The trainers at LANGUAFINA, are certified and well-trained in their field. The teaching methods adopted by them help students achieving the desired results and help them in succeeding with their own individual efforts as well.', 'general', '2021-04-07 20:08:45', '2021-04-07 20:08:45'),
+(6, 'What will be the batch timings?', 'Batch timings are from 8:00 a.m. – 8:00 p.m. However, if required, the last batch can be extended till 9:00 p.m. as well.', 'general', '2021-04-07 20:09:15', '2021-04-07 20:09:15'),
+(7, 'What should I expect at the end of the course?', 'At the end of the course, you will be well-versed in the English language and will be legible to make use of it as per your requirement and desires. Communicating confidently will become an easy task for you.', 'general', '2021-04-07 20:09:34', '2021-04-07 20:09:34'),
+(8, 'Some institutes offer the same services as you but at less expensive rates; so why should I choose LANGUAFINA?', 'LANGUAFINA may be providing the same services as other institutes at a more expensive rate but that at the same time ensures excellent quality. We, at LANGUAFINA believe that no amount of money is equivalent to good quality education. The combined services provided at LANGUAFINA are higher in quality and value in the current market as compared with other institutions. Hence, choosing LANGUAFINA would be a smarter choice for you considering your individual long-term goals and aspirations.', 'general', '2021-04-07 20:10:40', '2021-04-07 20:10:40'),
+(9, 'What will the class duration be?', 'As of now, every session is of 30 minutes. However, different duration modules are being designed. Hence, the students will be given options for different time durations.', 'spoken_english', '2021-04-07 20:13:42', '2021-04-07 20:13:42'),
+(10, 'Can I ask for demo class before joining the course?', 'Yes, LANGUAFINA provides demo classes to all its potential students before the registration process.', 'spoken_english', '2021-04-07 20:14:30', '2021-04-07 20:14:30'),
+(11, 'Will I be given relevant study material too?', 'Yes, definitely! Not only will a learner be provided with sufficient material at LANGUAFINA  each day for practice, but, he/she will also have unlimited access to practice material available on our website.', 'spoken_english', '2021-04-07 20:16:06', '2021-04-07 20:16:06'),
+(12, 'How can I remove mother tongue influence through this course?', 'Trainers at LANGUAFINA specialise in phonetic training; helping learners get rid of the mother tongue influence that they carry in their speech.', 'spoken_english', '2021-04-07 20:17:07', '2021-04-07 20:17:07'),
+(13, 'How can I measure my progress?', 'Our regular assessments throughout the course and feedback during the sessions will help you measure your progress.', 'spoken_english', '2021-04-07 20:17:33', '2021-04-07 20:17:33'),
+(14, 'Can I improve English speaking on an audio call?', 'Yes, of course! LANGUAFINA’s Spoken English on-call aims to break the psychological barrier with practice, immediate feedback, and personal support.  Practicing with a personal trainer helps develop English speaking skills much faster than any other group classes, audios, apps, or videos. Our telephonic practice sessions are fully personalized and designed for a class size of 1.  At LANGUAFINA, YOU are the focus of all course material and all the trainer’s efforts.', 'spoken_english', '2021-04-07 20:17:59', '2021-04-07 20:17:59'),
+(15, 'The internet connection at my place is not that strong. Can I still learn with weak internet connection?', 'The specialty of this course at LANGUAFINA is that classes are conducted via audio calls. Hence, students can still learn even without any access to the internet.', 'spoken_english', '2021-04-07 20:18:27', '2021-04-07 20:18:27'),
+(16, 'What will be the batch size for Spoken English Course?', 'LANGUAFINA’s Spoken English course on call is designed and structured in a way to give a personalized experience to the learner i.e. with a class size of 1. Yes, you read that right. It’s a personalized class wherein all attention and focus remain on improving YOUR English.', 'spoken_english', '2021-04-07 20:18:53', '2021-04-07 20:18:53'),
+(17, 'How will I figure which course is best for me - Beginner or Advance?', 'The assessments at LANGUAFINA are designed especially for this purpose wherein the learner will be evaluated on his/her current knowledge in Spoken English to categorise him/her into Beginner or Advance course accordingly.', 'spoken_english', '2021-04-07 20:19:25', '2021-04-07 20:19:25'),
+(18, 'I am good in written English but I always hesitate while conversing with my colleagues. Will this course help me?', 'Hesitation is a by-product of a lack of confidence. Our trainers help in building up a student’s confidence; as it is an integral part of spoken English.', 'spoken_english', '2021-04-07 20:19:38', '2021-04-07 21:38:29'),
+(19, 'Is this course for working professionals only?', 'This course is for everyone who aspires to converse in English correctly and confidently. So, it doesn’t matter if you are a working professional or a housewife, if you have the willingness to learn, this course is for YOU!', 'spoken_english', '2021-04-07 20:20:00', '2021-04-07 20:20:00'),
+(20, 'What is the course fee for Spoken English?', 'For queries related to fee, you can call at +91', 'spoken_english', '2021-04-07 20:20:44', '2021-04-07 20:20:44'),
+(21, 'Can I choose evening timings/ Weekend sessions for my class as I have to work till evening?', 'Yes, LANGUAFINA provides flexible working hours to the students enrolled in this course. Thus, evening/weekend slots will be available as per your requirement.', 'spoken_english', '2021-04-07 20:20:57', '2021-04-07 20:20:57'),
+(22, 'I am school drop-out. Can I still enroll for this course?', 'There is no set qualification for learning. Hence, anyone and everyone who is eager and willing to learn can enroll in this course.', 'spoken_english', '2021-04-07 20:21:29', '2021-04-07 20:21:29'),
+(23, 'Is English Learning on phone really effective?', 'English Learning on phone is really effective as it builds your English skills exactly the way great English communicators have built theirs – by PRACTICE. Also, one on one class sessions at LANGUAFINA brings up your specific learning needs and challenges to the front. This enables the trainer to help you remove all that is stopping you from speaking well.', 'spoken_english', '2021-04-07 20:23:08', '2021-04-07 20:23:08'),
+(24, 'Do I need to take notes during the sessions?', 'No. It is a practice session. Focus all your attention on participating in the session and speaking as much in English as you can. LANGUAFINA will provide you all the content, which will help you in the future as well', 'spoken_english', '2021-04-07 20:24:44', '2021-04-07 20:24:44'),
+(25, 'Can I get a Demo class before joining the IELTS/ PTE/ TOEFL training course?', 'Yes, LANGUAFINA provides demo classes to all its potential students before the registration process.', 'ielts_pte_toefl', '2021-04-07 20:25:34', '2021-04-07 20:25:34'),
+(26, 'Are classes conducted live or only recorded are sessions provided for IELTS?', 'At LANGUAFINA, classes will be conducted through live sessions through the online mode.', 'ielts_pte_toefl', '2021-04-07 20:25:49', '2021-04-07 20:25:49'),
+(27, 'Do you provide one on one class or are the classes conducted in batches only?', 'LANGUAFINA, provides both one on one sessions as well as group sessions as per your requirement. However, you can choose any of the options as per requirement.', 'ielts_pte_toefl', '2021-04-07 20:26:13', '2021-04-07 20:26:13'),
+(28, 'Do you only provide training for paper based version of IELTS?', 'LANGUAFINA provides training sessions for both paper-based as well as computerised versions of the exam.', 'ielts_pte_toefl', '2021-04-07 20:26:40', '2021-04-07 20:26:40'),
+(29, 'Will I be given relevant study material too?', 'Yes, definitely! You will be provided with sufficient study material at LANGUAFINA at regular intervals for practice.', 'ielts_pte_toefl', '2021-04-07 20:26:55', '2021-04-07 20:26:55'),
+(30, 'Do you provide evening sessions also? I am a working professional and will only have time in the evening.', 'Yes, LANGUAFINA provides flexible hours to all its students throughout the day as per your convenience and requirement.', 'ielts_pte_toefl', '2021-04-07 20:27:28', '2021-04-07 21:40:45'),
+(31, 'How can I track my progress?', 'Regular mock tests will be taken throughout the course duration to track your improvement.', 'ielts_pte_toefl', '2021-04-07 20:27:52', '2021-04-07 20:27:52'),
+(32, 'Do these mock tests have similar exam pattern?', 'Yes, the mock tests created by LANGUAFINA are real-time tests to give you a test environment.', 'ielts_pte_toefl', '2021-04-07 20:28:11', '2021-04-07 20:28:11');
 
 -- --------------------------------------------------------
 
@@ -559,14 +676,16 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `forums`
 --
 
-CREATE TABLE `forums` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `forums`;
+CREATE TABLE IF NOT EXISTS `forums` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `title` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `discussion` longtext COLLATE utf8mb4_unicode_ci,
+  `discussion` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `category` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -575,13 +694,15 @@ CREATE TABLE `forums` (
 -- Table structure for table `forum_post_views`
 --
 
-CREATE TABLE `forum_post_views` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `forum_post_views`;
+CREATE TABLE IF NOT EXISTS `forum_post_views` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -590,13 +711,15 @@ CREATE TABLE `forum_post_views` (
 -- Table structure for table `helpful_answers`
 --
 
-CREATE TABLE `helpful_answers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `helpful_answers`;
+CREATE TABLE IF NOT EXISTS `helpful_answers` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_reply_id` bigint(20) UNSIGNED NOT NULL,
   `post_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -605,8 +728,9 @@ CREATE TABLE `helpful_answers` (
 -- Table structure for table `instructors`
 --
 
-CREATE TABLE `instructors` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `instructors`;
+CREATE TABLE IF NOT EXISTS `instructors` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -617,25 +741,36 @@ CREATE TABLE `instructors` (
   `fb` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tw` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `skype` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `about` longtext COLLATE utf8mb4_unicode_ci,
-  `package_id` bigint(20) UNSIGNED NOT NULL,
+  `about` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `package_id` bigint(20) UNSIGNED DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `signature` longtext COLLATE utf8mb4_unicode_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `signature` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attributes` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `instructors_email_unique` (`email`),
+  KEY `instructors_package_id_foreign` (`package_id`),
+  KEY `instructors_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`id`, `name`, `email`, `phone`, `address`, `image`, `balance`, `linked`, `fb`, `tw`, `skype`, `about`, `package_id`, `user_id`, `deleted_at`, `created_at`, `updated_at`, `signature`) VALUES
-(3, 'amit', 'amitshrma22@gmail.com', '09888555806', 'H#20, R#20, Address City, Town', 'uploads/instructor/871P0pOWCBD6M27oMG5Y5Sj49FQ1zVlm8oCAWgd5.jpg', 331, 'https://www.linkedin.com/', 'https://www.facebook.com', 'https://www.twitter.com', 'https://www.skypee.com/', 'This is my about us section.', 1, 5, NULL, '2020-06-10 04:08:06', '2021-03-30 18:07:04', NULL),
-(8, 'rumon', 'rumon@mail.com', NULL, NULL, 'uploads/instructor/ZguHDula9P98arVGlSHNKhsp1SMZLaXFSfE6VmKj.jpg', 0, NULL, NULL, NULL, NULL, NULL, 1, 21, NULL, '2020-12-21 06:37:08', '2020-12-21 08:06:24', NULL),
-(9, 'prince', 'prince@mail.com', NULL, NULL, 'uploads/instructor/G1v5q9RkbF9Qz8FbygQZpMoF6vDKWSotKwXvEdZw.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 22, NULL, '2020-12-21 07:12:31', '2020-12-21 07:13:57', NULL),
-(10, 'Azharul Islam Naeem', 'naeem@mail.com', NULL, NULL, 'uploads/instructor/NC77i2wPd5e4s1OhlLBaKr5u95ifOMaeiHuNfOiu.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 23, NULL, '2020-12-21 07:34:31', '2020-12-21 07:35:28', NULL),
-(11, 'puneet', 'design.lukee@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 25, NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14', NULL);
+INSERT INTO `instructors` (`id`, `name`, `email`, `phone`, `address`, `image`, `balance`, `linked`, `fb`, `tw`, `skype`, `about`, `package_id`, `user_id`, `deleted_at`, `created_at`, `updated_at`, `signature`, `attributes`) VALUES
+(3, 'amit', 'amitshrma22@gmail.com', '09888555806', 'H#20, R#20, Address City, Town', 'uploads/instructor/871P0pOWCBD6M27oMG5Y5Sj49FQ1zVlm8oCAWgd5.jpg', 331, 'https://www.linkedin.com/', 'https://www.facebook.com', 'https://www.twitter.com', 'https://www.skypee.com/', 'This is my about us section.', 1, 5, NULL, '2020-06-10 04:08:06', '2021-03-30 18:07:04', NULL, NULL),
+(8, 'rumon', 'rumon@mail.com', NULL, NULL, 'uploads/instructor/ZguHDula9P98arVGlSHNKhsp1SMZLaXFSfE6VmKj.jpg', 0, NULL, NULL, NULL, NULL, NULL, 1, 21, NULL, '2020-12-21 06:37:08', '2020-12-21 08:06:24', NULL, NULL),
+(9, 'prince', 'prince@mail.com', NULL, NULL, 'uploads/instructor/G1v5q9RkbF9Qz8FbygQZpMoF6vDKWSotKwXvEdZw.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 22, NULL, '2020-12-21 07:12:31', '2020-12-21 07:13:57', NULL, NULL),
+(10, 'Azharul Islam Naeem', 'naeem@mail.com', NULL, NULL, 'uploads/instructor/NC77i2wPd5e4s1OhlLBaKr5u95ifOMaeiHuNfOiu.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 1, 23, NULL, '2020-12-21 07:34:31', '2020-12-21 07:35:28', NULL, NULL),
+(11, 'puneet', 'design.lukee@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 25, NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14', NULL, NULL),
+(12, 'Clark Estes', 'hihiq@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 31, NULL, '2021-04-08 18:57:14', '2021-04-08 18:57:14', NULL, NULL),
+(13, 'Malik Lara', 'qimomuwopi@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 32, NULL, '2021-04-08 19:06:32', '2021-04-08 19:06:32', NULL, NULL),
+(14, 'Joshua Mullen', 'hijisasiny@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 33, NULL, '2021-04-12 16:13:45', '2021-04-12 16:13:45', NULL, '{\"saluation\":\"mr\",\"first_name\":\"Joshua\",\"middle_name\":\"Eagan Campos\",\"last_name\":\"Mullen\",\"gender\":\"female\",\"dob\":\"2000-05-17\",\"phone_number\":\"+1 (418) 653-5736\",\"state\":\"Japan\",\"pin_code\":\"Elit ea sed quibusd\",\"city\":\"In deleniti nihil ve\",\"sub_address1\":\"921 Second Street\",\"sub_address2\":\"Deleniti ad adipisic\",\"qualification\":[{\"degree_type\":\"doctoral_degree\",\"year_of_passing\":\"2019-11-21\",\"board\":\"Pariatur Facere ess\",\"percentage\":\"64\"}],\"work_experiance\":[{\"company_name\":\"Buckner Craig Inc\",\"title\":\"Officiis voluptatibu\",\"tenure\":\"1to2\"}],\"agree_ev_test\":\"1\",\"agree_terms_cond\":\"1\"}'),
+(15, 'Nyssa Macias', 'xuvajafu@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 34, NULL, '2021-04-12 16:14:23', '2021-04-12 16:14:23', NULL, '{\"saluation\":\"mr\",\"first_name\":\"Nyssa\",\"middle_name\":\"Zachary Glass\",\"last_name\":\"Macias\",\"gender\":\"male\",\"dob\":\"2021-08-14\",\"phone_number\":\"+1 (418) 653-5736\",\"state\":\"Afghanistan\",\"pin_code\":\"Elit ea sed quibusd\",\"city\":\"In deleniti nihil ve\",\"sub_address1\":\"921 Second Street\",\"sub_address2\":\"Deleniti ad adipisic\",\"qualification\":[{\"degree_type\":\"associate_degree\",\"year_of_passing\":\"1984-01-14\",\"board\":\"Sed minus aut amet\",\"percentage\":\"19\"}],\"work_experiance\":[{\"company_name\":\"Reed Petty Trading\",\"title\":\"Laborum Est non in\",\"tenure\":\"5to10\"}],\"agree_ev_test\":\"1\",\"agree_terms_cond\":\"1\"}'),
+(16, 'Ria House', 'sawed@mailinator.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 35, NULL, '2021-04-12 16:17:31', '2021-04-12 16:17:31', NULL, '{\"saluation\":\"mr\",\"first_name\":\"Ria\",\"middle_name\":\"Finn Howell\",\"last_name\":\"House\",\"gender\":\"male\",\"dob\":\"2020-10-24\",\"phone_number\":\"+1 (599) 673-7211\",\"state\":\"Eritrea\",\"pin_code\":\"Sint vero sit persp\",\"city\":\"Vel nihil accusamus\",\"sub_address1\":\"574 South Rocky First Boulevard\",\"sub_address2\":\"Ut voluptatum sint q\",\"qualification\":[{\"degree_type\":\"bachelor_degree\",\"year_of_passing\":\"1975-02-16\",\"board\":\"Aspernatur modi eos\",\"percentage\":\"30\"}],\"work_experiance\":[{\"company_name\":\"Beard and Bray Inc\",\"title\":\"Totam cumque qui imp\",\"tenure\":\"5to10\"}],\"agree_ev_test\":\"1\",\"agree_terms_cond\":\"1\"}'),
+(17, 'Hector Burks', 'ahmedsk128@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 37, NULL, '2021-04-12 16:20:06', '2021-04-12 16:20:06', NULL, '{\"saluation\":\"ms\",\"first_name\":\"Hector\",\"middle_name\":\"Nicholas Flynn\",\"last_name\":\"Burks\",\"gender\":\"male\",\"dob\":\"1982-08-13\",\"phone_number\":\"+1 (885) 128-1205\",\"state\":\"Georgia\",\"pin_code\":\"Eligendi nobis dicta\",\"city\":\"Perspiciatis eos as\",\"sub_address1\":\"387 Clarendon Avenue\",\"sub_address2\":\"Dolore reprehenderit\",\"qualification\":[{\"degree_type\":\"master_degree\",\"year_of_passing\":\"2000-10-08\",\"board\":\"Nobis praesentium ei\",\"percentage\":\"97\"}],\"work_experiance\":[{\"company_name\":\"Fletcher Roberson Associates\",\"title\":\"Nisi in obcaecati se\",\"tenure\":\"2to5\"}],\"agree_ev_test\":\"1\",\"agree_terms_cond\":\"1\"}');
 
 -- --------------------------------------------------------
 
@@ -643,8 +778,9 @@ INSERT INTO `instructors` (`id`, `name`, `email`, `phone`, `address`, `image`, `
 -- Table structure for table `instructor_accounts`
 --
 
-CREATE TABLE `instructor_accounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `instructor_accounts`;
+CREATE TABLE IF NOT EXISTS `instructor_accounts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `bank` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Bank',
   `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -660,7 +796,9 @@ CREATE TABLE `instructor_accounts` (
   `stripe_card_holder_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stripe_card_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `instructor_accounts_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -669,15 +807,20 @@ CREATE TABLE `instructor_accounts` (
 -- Table structure for table `instructor_earnings`
 --
 
-CREATE TABLE `instructor_earnings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `instructor_earnings`;
+CREATE TABLE IF NOT EXISTS `instructor_earnings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `enrollment_id` bigint(20) UNSIGNED NOT NULL,
   `package_id` bigint(20) UNSIGNED NOT NULL,
   `course_price` double NOT NULL,
   `will_get` double NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `instructor_earnings_enrollment_id_foreign` (`enrollment_id`),
+  KEY `instructor_earnings_package_id_foreign` (`package_id`),
+  KEY `instructor_earnings_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -686,12 +829,14 @@ CREATE TABLE `instructor_earnings` (
 -- Table structure for table `instructor_subscription_earnings`
 --
 
-CREATE TABLE `instructor_subscription_earnings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `instructor_subscription_earnings`;
+CREATE TABLE IF NOT EXISTS `instructor_subscription_earnings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `amount` double NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -700,14 +845,16 @@ CREATE TABLE `instructor_subscription_earnings` (
 -- Table structure for table `instructor_subscription_payments`
 --
 
-CREATE TABLE `instructor_subscription_payments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `instructor_subscription_payments`;
+CREATE TABLE IF NOT EXISTS `instructor_subscription_payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `subscription_duration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -716,14 +863,17 @@ CREATE TABLE `instructor_subscription_payments` (
 -- Table structure for table `jobs`
 --
 
-CREATE TABLE `jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `jobs`;
+CREATE TABLE IF NOT EXISTS `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `queue` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint(3) UNSIGNED NOT NULL,
   `reserved_at` int(10) UNSIGNED DEFAULT NULL,
   `available_at` int(10) UNSIGNED NOT NULL,
-  `created_at` int(10) UNSIGNED NOT NULL
+  `created_at` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -732,17 +882,19 @@ CREATE TABLE `jobs` (
 -- Table structure for table `know_abouts`
 --
 
-CREATE TABLE `know_abouts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `know_abouts`;
+CREATE TABLE IF NOT EXISTS `know_abouts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `desc` longtext COLLATE utf8mb4_unicode_ci,
+  `desc` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `align` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `video` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `know_abouts`
@@ -766,14 +918,16 @@ INSERT INTO `know_abouts` (`id`, `icon`, `title`, `desc`, `align`, `video`, `ima
 -- Table structure for table `languages`
 --
 
-CREATE TABLE `languages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `languages`;
+CREATE TABLE IF NOT EXISTS `languages` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `languages`
@@ -788,21 +942,23 @@ INSERT INTO `languages` (`id`, `code`, `name`, `image`, `created_at`, `updated_a
 -- Table structure for table `laravel_logger_activity`
 --
 
-CREATE TABLE `laravel_logger_activity` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `laravel_logger_activity`;
+CREATE TABLE IF NOT EXISTS `laravel_logger_activity` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `userType` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(11) DEFAULT NULL,
-  `route` longtext COLLATE utf8mb4_unicode_ci,
+  `route` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ipAddress` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `userAgent` text COLLATE utf8mb4_unicode_ci,
+  `userAgent` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `locale` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `referer` longtext COLLATE utf8mb4_unicode_ci,
+  `referer` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `methodType` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7279 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `laravel_logger_activity`
@@ -2670,7 +2826,1157 @@ INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`
 (6134, 'Viewed /', 'Guest', NULL, 'https://languafina.com', '49.36.230.244', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36', 'en-US,en;q=0.9', 'https://languafina.com/login', 'GET', '2021-04-07 00:59:16', '2021-04-07 00:59:16', NULL),
 (6135, 'Viewed /', 'Guest', NULL, 'https://languafina.com', '49.36.230.244', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36', 'en-US,en;q=0.9', 'https://languafina.com/login', 'GET', '2021-04-07 00:59:27', '2021-04-07 00:59:27', NULL),
 (6136, 'Viewed /', 'Guest', NULL, 'https://languafina.com', '49.36.230.244', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36', 'en-US,en;q=0.9', 'https://languafina.com/login', 'GET', '2021-04-07 01:00:37', '2021-04-07 01:00:37', NULL),
-(6137, 'Viewed /', 'Guest', NULL, 'https://languafina.com', '168.151.115.22', 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Mobile/15E148 Safari/604.1', 'en-US', NULL, 'GET', '2021-04-07 02:12:36', '2021-04-07 02:12:36', NULL);
+(6137, 'Viewed /', 'Guest', NULL, 'https://languafina.com', '168.151.115.22', 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.2 Mobile/15E148 Safari/604.1', 'en-US', NULL, 'GET', '2021-04-07 02:12:36', '2021-04-07 02:12:36', NULL),
+(6138, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:43:19', '2021-04-07 10:43:19', NULL),
+(6139, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:43:31', '2021-04-07 10:43:31', NULL),
+(6140, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:44:13', '2021-04-07 10:44:13', NULL),
+(6141, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:44:34', '2021-04-07 10:44:34', NULL),
+(6142, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:46:16', '2021-04-07 10:46:16', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6143, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:47:07', '2021-04-07 10:47:07', NULL),
+(6144, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 10:47:48', '2021-04-07 10:47:48', NULL),
+(6145, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:27:50', '2021-04-07 11:27:50', NULL),
+(6146, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:30:05', '2021-04-07 11:30:05', NULL),
+(6147, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:33:56', '2021-04-07 11:33:56', NULL),
+(6148, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:34:41', '2021-04-07 11:34:41', NULL),
+(6149, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:34:58', '2021-04-07 11:34:58', NULL),
+(6150, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:35:09', '2021-04-07 11:35:09', NULL),
+(6151, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:35:26', '2021-04-07 11:35:26', NULL),
+(6152, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:35:40', '2021-04-07 11:35:40', NULL),
+(6153, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:41:52', '2021-04-07 11:41:52', NULL),
+(6154, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:42:16', '2021-04-07 11:42:16', NULL),
+(6155, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:42:57', '2021-04-07 11:42:57', NULL),
+(6156, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:43:43', '2021-04-07 11:43:43', NULL),
+(6157, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:44:27', '2021-04-07 11:44:27', NULL),
+(6158, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 11:45:29', '2021-04-07 11:45:29', NULL),
+(6159, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 12:09:49', '2021-04-07 12:09:49', NULL),
+(6160, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 12:33:39', '2021-04-07 12:33:39', NULL),
+(6161, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 12:41:42', '2021-04-07 12:41:42', NULL),
+(6162, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 12:43:01', '2021-04-07 12:43:01', NULL),
+(6163, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:41:52', '2021-04-07 14:41:52', NULL),
+(6164, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:45:22', '2021-04-07 14:45:22', NULL),
+(6165, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:46:20', '2021-04-07 14:46:20', NULL),
+(6166, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:53:50', '2021-04-07 14:53:50', NULL),
+(6167, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:54:19', '2021-04-07 14:54:19', NULL),
+(6168, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:55:08', '2021-04-07 14:55:08', NULL),
+(6169, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:55:20', '2021-04-07 14:55:20', NULL),
+(6170, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:56:32', '2021-04-07 14:56:32', NULL),
+(6171, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 14:59:42', '2021-04-07 14:59:42', NULL),
+(6172, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:00:58', '2021-04-07 15:00:58', NULL),
+(6173, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:04:06', '2021-04-07 15:04:06', NULL),
+(6174, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:04:53', '2021-04-07 15:04:53', NULL),
+(6175, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:05:55', '2021-04-07 15:05:55', NULL),
+(6176, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:06:07', '2021-04-07 15:06:07', NULL),
+(6177, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:10:35', '2021-04-07 15:10:35', NULL),
+(6178, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-07 15:14:47', '2021-04-07 15:14:47', NULL),
+(6179, 'Logged In', 'Registered', 24, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-07 15:15:29', '2021-04-07 15:15:29', NULL),
+(6180, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-07 15:15:29', '2021-04-07 15:15:29', NULL),
+(6181, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:15:36', '2021-04-07 15:15:36', NULL),
+(6182, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-07 15:16:35', '2021-04-07 15:16:35', NULL),
+(6183, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-07 15:16:40', '2021-04-07 15:16:40', NULL),
+(6184, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 15:16:42', '2021-04-07 15:16:42', NULL),
+(6185, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:32:29', '2021-04-07 15:32:29', NULL),
+(6186, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:32:32', '2021-04-07 15:32:32', NULL),
+(6187, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:32:42', '2021-04-07 15:32:42', NULL),
+(6188, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:35:22', '2021-04-07 15:35:22', NULL),
+(6189, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:35:26', '2021-04-07 15:35:26', NULL),
+(6190, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:35:49', '2021-04-07 15:35:49', NULL),
+(6191, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:35:51', '2021-04-07 15:35:51', NULL),
+(6192, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:35:52', '2021-04-07 15:35:52', NULL),
+(6193, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:36:11', '2021-04-07 15:36:11', NULL),
+(6194, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:36:39', '2021-04-07 15:36:39', NULL),
+(6195, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:38:26', '2021-04-07 15:38:26', NULL),
+(6196, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:38:28', '2021-04-07 15:38:28', NULL),
+(6197, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:38:30', '2021-04-07 15:38:30', NULL),
+(6198, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:38:59', '2021-04-07 15:38:59', NULL),
+(6199, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:39:01', '2021-04-07 15:39:01', NULL),
+(6200, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:39:03', '2021-04-07 15:39:03', NULL),
+(6201, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:39:33', '2021-04-07 15:39:33', NULL),
+(6202, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:39:35', '2021-04-07 15:39:35', NULL),
+(6203, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:39:37', '2021-04-07 15:39:37', NULL),
+(6204, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:40:50', '2021-04-07 15:40:50', NULL),
+(6205, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:40:52', '2021-04-07 15:40:52', NULL),
+(6206, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:40:53', '2021-04-07 15:40:53', NULL),
+(6207, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:41:22', '2021-04-07 15:41:22', NULL),
+(6208, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:41:24', '2021-04-07 15:41:24', NULL),
+(6209, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:41:29', '2021-04-07 15:41:29', NULL),
+(6210, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:44:11', '2021-04-07 15:44:11', NULL),
+(6211, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:44:15', '2021-04-07 15:44:15', NULL),
+(6212, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:44:16', '2021-04-07 15:44:16', NULL),
+(6213, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:45:18', '2021-04-07 15:45:18', NULL),
+(6214, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:45:22', '2021-04-07 15:45:22', NULL),
+(6215, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:45:24', '2021-04-07 15:45:24', NULL),
+(6216, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:48:44', '2021-04-07 15:48:44', NULL),
+(6217, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:48:48', '2021-04-07 15:48:48', NULL),
+(6218, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:48:56', '2021-04-07 15:48:56', NULL),
+(6219, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:50:10', '2021-04-07 15:50:10', NULL),
+(6220, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:50:14', '2021-04-07 15:50:14', NULL),
+(6221, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:50:23', '2021-04-07 15:50:23', NULL),
+(6222, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', NULL, 'GET', '2021-04-07 15:50:49', '2021-04-07 15:50:49', NULL),
+(6223, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'GET', '2021-04-07 15:51:02', '2021-04-07 15:51:02', NULL),
+(6224, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:54:13', '2021-04-07 15:54:13', NULL),
+(6225, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:54:17', '2021-04-07 15:54:17', NULL),
+(6226, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:54:25', '2021-04-07 15:54:25', NULL),
+(6227, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:54:53', '2021-04-07 15:54:53', NULL),
+(6228, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:54:57', '2021-04-07 15:54:57', NULL),
+(6229, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:55:01', '2021-04-07 15:55:01', NULL),
+(6230, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:55:09', '2021-04-07 15:55:09', NULL),
+(6231, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:55:13', '2021-04-07 15:55:13', NULL),
+(6232, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:55:17', '2021-04-07 15:55:17', NULL),
+(6233, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-07 15:55:54', '2021-04-07 15:55:54', NULL),
+(6234, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:55:59', '2021-04-07 15:55:59', NULL),
+(6235, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:56:02', '2021-04-07 15:56:02', NULL),
+(6236, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:56:27', '2021-04-07 15:56:27', NULL),
+(6237, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:56:28', '2021-04-07 15:56:28', NULL),
+(6238, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:56:32', '2021-04-07 15:56:32', NULL),
+(6239, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:57:02', '2021-04-07 15:57:02', NULL),
+(6240, 'Created dashboard/slider/store', 'Registered', 24, 'http://languafina.local/dashboard/slider/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:57:16', '2021-04-07 15:57:16', NULL),
+(6241, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:57:16', '2021-04-07 15:57:16', NULL),
+(6242, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:57:20', '2021-04-07 15:57:20', NULL),
+(6243, 'Viewed dashboard/media/manager', 'Registered', 24, 'http://languafina.local/dashboard/media/manager', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:57:29', '2021-04-07 15:57:29', NULL),
+(6244, 'Created dashboard/media/index', 'Registered', 24, 'http://languafina.local/dashboard/media/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'POST', '2021-04-07 15:57:32', '2021-04-07 15:57:32', NULL),
+(6245, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'POST', '2021-04-07 15:57:32', '2021-04-07 15:57:32', NULL),
+(6246, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'GET', '2021-04-07 15:57:40', '2021-04-07 15:57:40', NULL),
+(6247, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:57:44', '2021-04-07 15:57:44', NULL),
+(6248, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:57:45', '2021-04-07 15:57:45', NULL),
+(6249, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:58:08', '2021-04-07 15:58:08', NULL),
+(6250, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:58:12', '2021-04-07 15:58:12', NULL),
+(6251, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:58:13', '2021-04-07 15:58:13', NULL),
+(6252, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:58:17', '2021-04-07 15:58:17', NULL),
+(6253, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:58:57', '2021-04-07 15:58:57', NULL),
+(6254, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:59:29', '2021-04-07 15:59:29', NULL),
+(6255, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 15:59:29', '2021-04-07 15:59:29', NULL),
+(6256, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 15:59:34', '2021-04-07 15:59:34', NULL),
+(6257, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:05:43', '2021-04-07 16:05:43', NULL),
+(6258, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:05:47', '2021-04-07 16:05:47', NULL),
+(6259, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:05:50', '2021-04-07 16:05:50', NULL),
+(6260, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:02', '2021-04-07 16:06:02', NULL),
+(6261, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:06:06', '2021-04-07 16:06:06', NULL),
+(6262, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:09', '2021-04-07 16:06:09', NULL),
+(6263, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:06:15', '2021-04-07 16:06:15', NULL),
+(6264, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:15', '2021-04-07 16:06:15', NULL),
+(6265, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:06:19', '2021-04-07 16:06:19', NULL),
+(6266, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:22', '2021-04-07 16:06:22', NULL),
+(6267, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:46', '2021-04-07 16:06:46', NULL),
+(6268, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:06:50', '2021-04-07 16:06:50', NULL),
+(6269, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:06:52', '2021-04-07 16:06:52', NULL),
+(6270, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:07:12', '2021-04-07 16:07:12', NULL),
+(6271, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:07:13', '2021-04-07 16:07:13', NULL),
+(6272, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:07:18', '2021-04-07 16:07:18', NULL),
+(6273, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:08:55', '2021-04-07 16:08:55', NULL),
+(6274, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:09:14', '2021-04-07 16:09:14', NULL),
+(6275, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:09:17', '2021-04-07 16:09:17', NULL),
+(6276, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:09:17', '2021-04-07 16:09:17', NULL),
+(6277, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:09:23', '2021-04-07 16:09:23', NULL),
+(6278, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:09:49', '2021-04-07 16:09:49', NULL),
+(6279, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:09:52', '2021-04-07 16:09:52', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6280, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:09:52', '2021-04-07 16:09:52', NULL),
+(6281, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 16:09:57', '2021-04-07 16:09:57', NULL),
+(6282, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:09:58', '2021-04-07 16:09:58', NULL),
+(6283, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:10:13', '2021-04-07 16:10:13', NULL),
+(6284, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:10:28', '2021-04-07 16:10:28', NULL),
+(6285, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:10:37', '2021-04-07 16:10:37', NULL),
+(6286, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:11:29', '2021-04-07 16:11:29', NULL),
+(6287, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:12:04', '2021-04-07 16:12:04', NULL),
+(6288, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:13:28', '2021-04-07 16:13:28', NULL),
+(6289, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:13:33', '2021-04-07 16:13:33', NULL),
+(6290, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:13:55', '2021-04-07 16:13:55', NULL),
+(6291, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:14:36', '2021-04-07 16:14:36', NULL),
+(6292, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:14:47', '2021-04-07 16:14:47', NULL),
+(6293, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:16:12', '2021-04-07 16:16:12', NULL),
+(6294, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:16:47', '2021-04-07 16:16:47', NULL),
+(6295, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:16:55', '2021-04-07 16:16:55', NULL),
+(6296, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-07 16:17:06', '2021-04-07 16:17:06', NULL),
+(6297, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 16:18:16', '2021-04-07 16:18:16', NULL),
+(6298, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 16:18:18', '2021-04-07 16:18:18', NULL),
+(6299, 'Viewed dashboard/category/popular', 'Registered', 24, 'http://languafina.local/dashboard/category/popular?id=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 16:18:23', '2021-04-07 16:18:23', NULL),
+(6300, 'Viewed dashboard/category/popular', 'Registered', 24, 'http://languafina.local/dashboard/category/popular?id=1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 16:18:23', '2021-04-07 16:18:23', NULL),
+(6301, 'Viewed courses', 'Registered', 24, 'http://languafina.local/courses', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-07 16:32:19', '2021-04-07 16:32:19', NULL),
+(6302, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:32:37', '2021-04-07 16:32:37', NULL),
+(6303, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:33:25', '2021-04-07 16:33:25', NULL),
+(6304, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:37:35', '2021-04-07 16:37:35', NULL),
+(6305, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:38:33', '2021-04-07 16:38:33', NULL),
+(6306, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:38:43', '2021-04-07 16:38:43', NULL),
+(6307, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:40:18', '2021-04-07 16:40:18', NULL),
+(6308, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:42:28', '2021-04-07 16:42:28', NULL),
+(6309, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:43:24', '2021-04-07 16:43:24', NULL),
+(6310, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:43:30', '2021-04-07 16:43:30', NULL),
+(6311, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:44:33', '2021-04-07 16:44:33', NULL),
+(6312, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:44:44', '2021-04-07 16:44:44', NULL),
+(6313, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:45:10', '2021-04-07 16:45:10', NULL),
+(6314, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:47:58', '2021-04-07 16:47:58', NULL),
+(6315, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:48:16', '2021-04-07 16:48:16', NULL),
+(6316, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:48:24', '2021-04-07 16:48:24', NULL),
+(6317, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:49:06', '2021-04-07 16:49:06', NULL),
+(6318, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:49:43', '2021-04-07 16:49:43', NULL),
+(6319, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses', 'GET', '2021-04-07 16:50:05', '2021-04-07 16:50:05', NULL),
+(6320, 'Viewed signup', 'Registered', 24, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-07 16:52:42', '2021-04-07 16:52:42', NULL),
+(6321, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 16:52:48', '2021-04-07 16:52:48', NULL),
+(6322, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 16:56:11', '2021-04-07 16:56:11', NULL),
+(6323, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:07:35', '2021-04-07 17:07:35', NULL),
+(6324, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:07:52', '2021-04-07 17:07:52', NULL),
+(6325, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:08:28', '2021-04-07 17:08:28', NULL),
+(6326, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:09:34', '2021-04-07 17:09:34', NULL),
+(6327, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:11:24', '2021-04-07 17:11:24', NULL),
+(6328, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:11:41', '2021-04-07 17:11:41', NULL),
+(6329, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:11:57', '2021-04-07 17:11:57', NULL),
+(6330, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:12:47', '2021-04-07 17:12:47', NULL),
+(6331, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:13:11', '2021-04-07 17:13:11', NULL),
+(6332, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:13:39', '2021-04-07 17:13:39', NULL),
+(6333, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:13:52', '2021-04-07 17:13:52', NULL),
+(6334, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:14:11', '2021-04-07 17:14:11', NULL),
+(6335, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:14:23', '2021-04-07 17:14:23', NULL),
+(6336, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:14:36', '2021-04-07 17:14:36', NULL),
+(6337, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:14:49', '2021-04-07 17:14:49', NULL),
+(6338, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:15:01', '2021-04-07 17:15:01', NULL),
+(6339, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:15:10', '2021-04-07 17:15:10', NULL),
+(6340, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:15:37', '2021-04-07 17:15:37', NULL),
+(6341, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:15:52', '2021-04-07 17:15:52', NULL),
+(6342, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:16:44', '2021-04-07 17:16:44', NULL),
+(6343, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:17:01', '2021-04-07 17:17:01', NULL),
+(6344, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:18:26', '2021-04-07 17:18:26', NULL),
+(6345, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:18:55', '2021-04-07 17:18:55', NULL),
+(6346, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:19:48', '2021-04-07 17:19:48', NULL),
+(6347, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:20:31', '2021-04-07 17:20:31', NULL),
+(6348, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:20:58', '2021-04-07 17:20:58', NULL),
+(6349, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:21:06', '2021-04-07 17:21:06', NULL),
+(6350, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:21:25', '2021-04-07 17:21:25', NULL),
+(6351, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:22:11', '2021-04-07 17:22:11', NULL),
+(6352, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:22:35', '2021-04-07 17:22:35', NULL),
+(6353, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:22:55', '2021-04-07 17:22:55', NULL),
+(6354, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:24:44', '2021-04-07 17:24:44', NULL),
+(6355, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:27:02', '2021-04-07 17:27:02', NULL),
+(6356, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:27:24', '2021-04-07 17:27:24', NULL),
+(6357, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:29:55', '2021-04-07 17:29:55', NULL),
+(6358, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:37:20', '2021-04-07 17:37:20', NULL),
+(6359, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:38:57', '2021-04-07 17:38:57', NULL),
+(6360, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:39:36', '2021-04-07 17:39:36', NULL),
+(6361, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:39:49', '2021-04-07 17:39:49', NULL),
+(6362, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:47:25', '2021-04-07 17:47:25', NULL),
+(6363, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:47:43', '2021-04-07 17:47:43', NULL),
+(6364, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:48:23', '2021-04-07 17:48:23', NULL),
+(6365, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:48:49', '2021-04-07 17:48:49', NULL),
+(6366, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 17:49:12', '2021-04-07 17:49:12', NULL),
+(6367, 'Viewed signup', 'Registered', 24, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-07 18:39:50', '2021-04-07 18:39:50', NULL),
+(6368, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 18:42:27', '2021-04-07 18:42:27', NULL),
+(6369, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 18:42:50', '2021-04-07 18:42:50', NULL),
+(6370, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 18:42:52', '2021-04-07 18:42:52', NULL),
+(6371, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 18:42:58', '2021-04-07 18:42:58', NULL),
+(6372, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 18:43:13', '2021-04-07 18:43:13', NULL),
+(6373, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 18:43:13', '2021-04-07 18:43:13', NULL),
+(6374, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 18:43:15', '2021-04-07 18:43:15', NULL),
+(6375, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 18:43:16', '2021-04-07 18:43:16', NULL),
+(6376, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 18:43:24', '2021-04-07 18:43:24', NULL),
+(6377, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 18:43:27', '2021-04-07 18:43:27', NULL),
+(6378, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 18:43:27', '2021-04-07 18:43:27', NULL),
+(6379, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 18:43:30', '2021-04-07 18:43:30', NULL),
+(6380, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 18:43:31', '2021-04-07 18:43:31', NULL),
+(6381, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 18:44:35', '2021-04-07 18:44:35', NULL),
+(6382, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:34:56', '2021-04-07 19:34:56', NULL),
+(6383, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:36:54', '2021-04-07 19:36:54', NULL),
+(6384, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:37:15', '2021-04-07 19:37:15', NULL),
+(6385, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:37:16', '2021-04-07 19:37:16', NULL),
+(6386, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:37:53', '2021-04-07 19:37:53', NULL),
+(6387, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:37:55', '2021-04-07 19:37:55', NULL),
+(6388, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:45:35', '2021-04-07 19:45:35', NULL),
+(6389, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:45:38', '2021-04-07 19:45:38', NULL),
+(6390, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:45:39', '2021-04-07 19:45:39', NULL),
+(6391, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:46:17', '2021-04-07 19:46:17', NULL),
+(6392, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:46:18', '2021-04-07 19:46:18', NULL),
+(6393, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:46:21', '2021-04-07 19:46:21', NULL),
+(6394, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:47:29', '2021-04-07 19:47:29', NULL),
+(6395, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 19:47:31', '2021-04-07 19:47:31', NULL),
+(6396, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:47:32', '2021-04-07 19:47:32', NULL),
+(6397, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 19:47:52', '2021-04-07 19:47:52', NULL),
+(6398, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:47:54', '2021-04-07 19:47:54', NULL),
+(6399, 'Viewed dashboard/pages/index', 'Registered', 24, 'http://languafina.local/dashboard/pages/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 19:48:07', '2021-04-07 19:48:07', NULL),
+(6400, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'POST', '2021-04-07 19:48:08', '2021-04-07 19:48:08', NULL),
+(6401, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:48:11', '2021-04-07 19:48:11', NULL),
+(6402, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:48:13', '2021-04-07 19:48:13', NULL),
+(6403, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:49:16', '2021-04-07 19:49:16', NULL),
+(6404, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:49:17', '2021-04-07 19:49:17', NULL),
+(6405, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:49:34', '2021-04-07 19:49:34', NULL),
+(6406, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:49:36', '2021-04-07 19:49:36', NULL),
+(6407, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:49:52', '2021-04-07 19:49:52', NULL),
+(6408, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:49:56', '2021-04-07 19:49:56', NULL),
+(6409, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:51:42', '2021-04-07 19:51:42', NULL),
+(6410, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:51:44', '2021-04-07 19:51:44', NULL),
+(6411, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 19:51:46', '2021-04-07 19:51:46', NULL),
+(6412, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:53:32', '2021-04-07 19:53:32', NULL),
+(6413, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:53:34', '2021-04-07 19:53:34', NULL),
+(6414, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 19:53:36', '2021-04-07 19:53:36', NULL),
+(6415, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/pages/index', 'GET', '2021-04-07 19:59:31', '2021-04-07 19:59:31', NULL),
+(6416, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 19:59:33', '2021-04-07 19:59:33', NULL),
+(6417, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 19:59:34', '2021-04-07 19:59:34', NULL),
+(6418, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 19:59:46', '2021-04-07 19:59:46', NULL),
+(6419, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:00:10', '2021-04-07 20:00:10', NULL),
+(6420, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:00:11', '2021-04-07 20:00:11', NULL),
+(6421, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:00:12', '2021-04-07 20:00:12', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6422, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:03:43', '2021-04-07 20:03:43', NULL),
+(6423, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:03:46', '2021-04-07 20:03:46', NULL),
+(6424, 'Viewed dashboard/faqs/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:03:48', '2021-04-07 20:03:48', NULL),
+(6425, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:04:21', '2021-04-07 20:04:21', NULL),
+(6426, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:04:22', '2021-04-07 20:04:22', NULL),
+(6427, 'Viewed dashboard/faqs/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:04:25', '2021-04-07 20:04:25', NULL),
+(6428, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:04:38', '2021-04-07 20:04:38', NULL),
+(6429, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:04:42', '2021-04-07 20:04:42', NULL),
+(6430, 'Viewed dashboard/faqs/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:04:48', '2021-04-07 20:04:48', NULL),
+(6431, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:00', '2021-04-07 20:05:00', NULL),
+(6432, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:04', '2021-04-07 20:05:04', NULL),
+(6433, 'Viewed dashboard/faqs/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:05', '2021-04-07 20:05:05', NULL),
+(6434, 'Created dashboard/faqs/update', 'Registered', 24, 'http://languafina.local/dashboard/faqs/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:12', '2021-04-07 20:05:12', NULL),
+(6435, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:12', '2021-04-07 20:05:12', NULL),
+(6436, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:14', '2021-04-07 20:05:14', NULL),
+(6437, 'Viewed dashboard/faqs/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:17', '2021-04-07 20:05:17', NULL),
+(6438, 'Created dashboard/faqs/update', 'Registered', 24, 'http://languafina.local/dashboard/faqs/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:20', '2021-04-07 20:05:20', NULL),
+(6439, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:20', '2021-04-07 20:05:20', NULL),
+(6440, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:22', '2021-04-07 20:05:22', NULL),
+(6441, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:38', '2021-04-07 20:05:38', NULL),
+(6442, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:05:39', '2021-04-07 20:05:39', NULL),
+(6443, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:05:41', '2021-04-07 20:05:41', NULL),
+(6444, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:06:05', '2021-04-07 20:06:05', NULL),
+(6445, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:06:06', '2021-04-07 20:06:06', NULL),
+(6446, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:06:07', '2021-04-07 20:06:07', NULL),
+(6447, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:06:18', '2021-04-07 20:06:18', NULL),
+(6448, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:06:36', '2021-04-07 20:06:36', NULL),
+(6449, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:06:38', '2021-04-07 20:06:38', NULL),
+(6450, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:06:44', '2021-04-07 20:06:44', NULL),
+(6451, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:06:46', '2021-04-07 20:06:46', NULL),
+(6452, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:06:52', '2021-04-07 20:06:52', NULL),
+(6453, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:01', '2021-04-07 20:08:01', NULL),
+(6454, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:01', '2021-04-07 20:08:01', NULL),
+(6455, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:03', '2021-04-07 20:08:03', NULL),
+(6456, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:04', '2021-04-07 20:08:04', NULL),
+(6457, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:20', '2021-04-07 20:08:20', NULL),
+(6458, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:21', '2021-04-07 20:08:21', NULL),
+(6459, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:23', '2021-04-07 20:08:23', NULL),
+(6460, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:28', '2021-04-07 20:08:28', NULL),
+(6461, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:45', '2021-04-07 20:08:45', NULL),
+(6462, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:46', '2021-04-07 20:08:46', NULL),
+(6463, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:08:47', '2021-04-07 20:08:47', NULL),
+(6464, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:08:53', '2021-04-07 20:08:53', NULL),
+(6465, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:09:15', '2021-04-07 20:09:15', NULL),
+(6466, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:09:16', '2021-04-07 20:09:16', NULL),
+(6467, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:09:17', '2021-04-07 20:09:17', NULL),
+(6468, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:09:21', '2021-04-07 20:09:21', NULL),
+(6469, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:09:34', '2021-04-07 20:09:34', NULL),
+(6470, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:09:35', '2021-04-07 20:09:35', NULL),
+(6471, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:09:37', '2021-04-07 20:09:37', NULL),
+(6472, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:09:38', '2021-04-07 20:09:38', NULL),
+(6473, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:09:54', '2021-04-07 20:09:54', NULL),
+(6474, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:10:40', '2021-04-07 20:10:40', NULL),
+(6475, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:10:41', '2021-04-07 20:10:41', NULL),
+(6476, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:10:42', '2021-04-07 20:10:42', NULL),
+(6477, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:13:24', '2021-04-07 20:13:24', NULL),
+(6478, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:13:42', '2021-04-07 20:13:42', NULL),
+(6479, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:13:43', '2021-04-07 20:13:43', NULL),
+(6480, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:13:44', '2021-04-07 20:13:44', NULL),
+(6481, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:13:56', '2021-04-07 20:13:56', NULL),
+(6482, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:14:30', '2021-04-07 20:14:30', NULL),
+(6483, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:14:31', '2021-04-07 20:14:31', NULL),
+(6484, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:14:33', '2021-04-07 20:14:33', NULL),
+(6485, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:15:02', '2021-04-07 20:15:02', NULL),
+(6486, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:15:04', '2021-04-07 20:15:04', NULL),
+(6487, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:15:50', '2021-04-07 20:15:50', NULL),
+(6488, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:16:06', '2021-04-07 20:16:06', NULL),
+(6489, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:16:07', '2021-04-07 20:16:07', NULL),
+(6490, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:16:09', '2021-04-07 20:16:09', NULL),
+(6491, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:16:32', '2021-04-07 20:16:32', NULL),
+(6492, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:16:33', '2021-04-07 20:16:33', NULL),
+(6493, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:16:48', '2021-04-07 20:16:48', NULL),
+(6494, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:17:07', '2021-04-07 20:17:07', NULL),
+(6495, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:17:08', '2021-04-07 20:17:08', NULL),
+(6496, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:17:10', '2021-04-07 20:17:10', NULL),
+(6497, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:17:16', '2021-04-07 20:17:16', NULL),
+(6498, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:17:33', '2021-04-07 20:17:33', NULL),
+(6499, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:17:34', '2021-04-07 20:17:34', NULL),
+(6500, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:17:35', '2021-04-07 20:17:35', NULL),
+(6501, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:17:38', '2021-04-07 20:17:38', NULL),
+(6502, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:17:59', '2021-04-07 20:17:59', NULL),
+(6503, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:18:00', '2021-04-07 20:18:00', NULL),
+(6504, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:18:02', '2021-04-07 20:18:02', NULL),
+(6505, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:18:05', '2021-04-07 20:18:05', NULL),
+(6506, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:18:27', '2021-04-07 20:18:27', NULL),
+(6507, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:18:28', '2021-04-07 20:18:28', NULL),
+(6508, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:18:30', '2021-04-07 20:18:30', NULL),
+(6509, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:18:33', '2021-04-07 20:18:33', NULL),
+(6510, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:18:53', '2021-04-07 20:18:53', NULL),
+(6511, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:18:53', '2021-04-07 20:18:53', NULL),
+(6512, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:18:56', '2021-04-07 20:18:56', NULL),
+(6513, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:19:03', '2021-04-07 20:19:03', NULL),
+(6514, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:19:25', '2021-04-07 20:19:25', NULL),
+(6515, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:19:25', '2021-04-07 20:19:25', NULL),
+(6516, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:19:27', '2021-04-07 20:19:27', NULL),
+(6517, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:19:28', '2021-04-07 20:19:28', NULL),
+(6518, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:19:38', '2021-04-07 20:19:38', NULL),
+(6519, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:19:39', '2021-04-07 20:19:39', NULL),
+(6520, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:19:40', '2021-04-07 20:19:40', NULL),
+(6521, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:19:42', '2021-04-07 20:19:42', NULL),
+(6522, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:20:00', '2021-04-07 20:20:00', NULL),
+(6523, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:20:01', '2021-04-07 20:20:01', NULL),
+(6524, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:20:03', '2021-04-07 20:20:03', NULL),
+(6525, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:20:05', '2021-04-07 20:20:05', NULL),
+(6526, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:20:44', '2021-04-07 20:20:44', NULL),
+(6527, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:20:44', '2021-04-07 20:20:44', NULL),
+(6528, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:20:46', '2021-04-07 20:20:46', NULL),
+(6529, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:20:47', '2021-04-07 20:20:47', NULL),
+(6530, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:20:57', '2021-04-07 20:20:57', NULL),
+(6531, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:20:58', '2021-04-07 20:20:58', NULL),
+(6532, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:21:00', '2021-04-07 20:21:00', NULL),
+(6533, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:21:05', '2021-04-07 20:21:05', NULL),
+(6534, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:21:29', '2021-04-07 20:21:29', NULL),
+(6535, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:21:30', '2021-04-07 20:21:30', NULL),
+(6536, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:21:32', '2021-04-07 20:21:32', NULL),
+(6537, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:22:50', '2021-04-07 20:22:50', NULL),
+(6538, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:23:08', '2021-04-07 20:23:08', NULL),
+(6539, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:23:08', '2021-04-07 20:23:08', NULL),
+(6540, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:23:10', '2021-04-07 20:23:10', NULL),
+(6541, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:23:54', '2021-04-07 20:23:54', NULL),
+(6542, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:23:55', '2021-04-07 20:23:55', NULL),
+(6543, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:24:01', '2021-04-07 20:24:01', NULL),
+(6544, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:24:02', '2021-04-07 20:24:02', NULL),
+(6545, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:24:28', '2021-04-07 20:24:28', NULL),
+(6546, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:24:44', '2021-04-07 20:24:44', NULL),
+(6547, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:24:44', '2021-04-07 20:24:44', NULL),
+(6548, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:24:47', '2021-04-07 20:24:47', NULL),
+(6549, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:02', '2021-04-07 20:25:02', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6550, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:04', '2021-04-07 20:25:04', NULL),
+(6551, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:12', '2021-04-07 20:25:12', NULL),
+(6552, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:14', '2021-04-07 20:25:14', NULL),
+(6553, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:19', '2021-04-07 20:25:19', NULL),
+(6554, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:34', '2021-04-07 20:25:34', NULL),
+(6555, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:35', '2021-04-07 20:25:35', NULL),
+(6556, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:37', '2021-04-07 20:25:37', NULL),
+(6557, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:39', '2021-04-07 20:25:39', NULL),
+(6558, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:49', '2021-04-07 20:25:49', NULL),
+(6559, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:49', '2021-04-07 20:25:49', NULL),
+(6560, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:25:52', '2021-04-07 20:25:52', NULL),
+(6561, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:25:54', '2021-04-07 20:25:54', NULL),
+(6562, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:13', '2021-04-07 20:26:13', NULL),
+(6563, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:26:14', '2021-04-07 20:26:14', NULL),
+(6564, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:16', '2021-04-07 20:26:16', NULL),
+(6565, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:26:17', '2021-04-07 20:26:17', NULL),
+(6566, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:40', '2021-04-07 20:26:40', NULL),
+(6567, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:26:40', '2021-04-07 20:26:40', NULL),
+(6568, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:43', '2021-04-07 20:26:43', NULL),
+(6569, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:26:44', '2021-04-07 20:26:44', NULL),
+(6570, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:55', '2021-04-07 20:26:55', NULL),
+(6571, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:26:55', '2021-04-07 20:26:55', NULL),
+(6572, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:26:58', '2021-04-07 20:26:58', NULL),
+(6573, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:27:06', '2021-04-07 20:27:06', NULL),
+(6574, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:27:28', '2021-04-07 20:27:28', NULL),
+(6575, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:27:29', '2021-04-07 20:27:29', NULL),
+(6576, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:27:31', '2021-04-07 20:27:31', NULL),
+(6577, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:27:42', '2021-04-07 20:27:42', NULL),
+(6578, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:27:52', '2021-04-07 20:27:52', NULL),
+(6579, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:27:53', '2021-04-07 20:27:53', NULL),
+(6580, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:27:55', '2021-04-07 20:27:55', NULL),
+(6581, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:27:57', '2021-04-07 20:27:57', NULL),
+(6582, 'Created dashboard/faqs/store', 'Registered', 24, 'http://languafina.local/dashboard/faqs/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:28:11', '2021-04-07 20:28:11', NULL),
+(6583, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 20:28:12', '2021-04-07 20:28:12', NULL),
+(6584, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 20:28:15', '2021-04-07 20:28:15', NULL),
+(6585, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 20:28:34', '2021-04-07 20:28:34', NULL),
+(6586, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 20:56:30', '2021-04-07 20:56:30', NULL),
+(6587, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 20:57:38', '2021-04-07 20:57:38', NULL),
+(6588, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:07:50', '2021-04-07 21:07:50', NULL),
+(6589, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:09:04', '2021-04-07 21:09:04', NULL),
+(6590, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:09:23', '2021-04-07 21:09:23', NULL),
+(6591, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:09:59', '2021-04-07 21:09:59', NULL),
+(6592, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:15:19', '2021-04-07 21:15:19', NULL),
+(6593, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:16:04', '2021-04-07 21:16:04', NULL),
+(6594, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:18:26', '2021-04-07 21:18:26', NULL),
+(6595, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:18:43', '2021-04-07 21:18:43', NULL),
+(6596, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:19:57', '2021-04-07 21:19:57', NULL),
+(6597, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:20:26', '2021-04-07 21:20:26', NULL),
+(6598, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:21:56', '2021-04-07 21:21:56', NULL),
+(6599, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:22:50', '2021-04-07 21:22:50', NULL),
+(6600, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:23:36', '2021-04-07 21:23:36', NULL),
+(6601, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:24:31', '2021-04-07 21:24:31', NULL),
+(6602, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:24:50', '2021-04-07 21:24:50', NULL),
+(6603, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:25:42', '2021-04-07 21:25:42', NULL),
+(6604, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:26:08', '2021-04-07 21:26:08', NULL),
+(6605, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:27:25', '2021-04-07 21:27:25', NULL),
+(6606, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:28:23', '2021-04-07 21:28:23', NULL),
+(6607, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:29:56', '2021-04-07 21:29:56', NULL),
+(6608, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:30:09', '2021-04-07 21:30:09', NULL),
+(6609, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:30:22', '2021-04-07 21:30:22', NULL),
+(6610, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:32:47', '2021-04-07 21:32:47', NULL),
+(6611, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:33:06', '2021-04-07 21:33:06', NULL),
+(6612, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:33:16', '2021-04-07 21:33:16', NULL),
+(6613, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:33:49', '2021-04-07 21:33:49', NULL),
+(6614, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:33:58', '2021-04-07 21:33:58', NULL),
+(6615, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:35:03', '2021-04-07 21:35:03', NULL),
+(6616, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:36:46', '2021-04-07 21:36:46', NULL),
+(6617, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:37:22', '2021-04-07 21:37:22', NULL),
+(6618, 'Viewed dashboard/faqs/edit/18', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/18', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:38:14', '2021-04-07 21:38:14', NULL),
+(6619, 'Viewed dashboard/faqs/edit/18', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/18', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:38:24', '2021-04-07 21:38:24', NULL),
+(6620, 'Created dashboard/faqs/update', 'Registered', 24, 'http://languafina.local/dashboard/faqs/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 21:38:29', '2021-04-07 21:38:29', NULL),
+(6621, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:38:29', '2021-04-07 21:38:29', NULL),
+(6622, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 21:38:32', '2021-04-07 21:38:32', NULL),
+(6623, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:38:33', '2021-04-07 21:38:33', NULL),
+(6624, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:39:33', '2021-04-07 21:39:33', NULL),
+(6625, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:39:50', '2021-04-07 21:39:50', NULL),
+(6626, 'Viewed dashboard/faqs/edit/30', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/30', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:40:13', '2021-04-07 21:40:13', NULL),
+(6627, 'Created dashboard/faqs/update', 'Registered', 24, 'http://languafina.local/dashboard/faqs/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 21:40:45', '2021-04-07 21:40:45', NULL),
+(6628, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:40:46', '2021-04-07 21:40:46', NULL),
+(6629, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 21:40:48', '2021-04-07 21:40:48', NULL),
+(6630, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:40:50', '2021-04-07 21:40:50', NULL),
+(6631, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:40:52', '2021-04-07 21:40:52', NULL),
+(6632, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-07 21:40:53', '2021-04-07 21:40:53', NULL),
+(6633, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 21:40:53', '2021-04-07 21:40:53', NULL),
+(6634, 'Viewed dashboard/faqs/edit/26', 'Registered', 24, 'http://languafina.local/dashboard/faqs/edit/26', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:40:57', '2021-04-07 21:40:57', NULL),
+(6635, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-07 21:41:42', '2021-04-07 21:41:42', NULL),
+(6636, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 21:41:44', '2021-04-07 21:41:44', NULL),
+(6637, 'Viewed dashboard/category/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/category/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 21:41:52', '2021-04-07 21:41:52', NULL),
+(6638, 'Viewed dashboard/category/create', 'Registered', 24, 'http://languafina.local/dashboard/category/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:38:32', '2021-04-07 22:38:32', NULL),
+(6639, 'Viewed dashboard/media/manager', 'Registered', 24, 'http://languafina.local/dashboard/media/manager', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:38:41', '2021-04-07 22:38:41', NULL),
+(6640, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'POST', '2021-04-07 22:38:44', '2021-04-07 22:38:44', NULL),
+(6641, 'Created dashboard/media/index', 'Registered', 24, 'http://languafina.local/dashboard/media/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'POST', '2021-04-07 22:38:44', '2021-04-07 22:38:44', NULL),
+(6642, 'Created dashboard/media/manager/filter/all', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/filter/all', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'POST', '2021-04-07 22:38:49', '2021-04-07 22:38:49', NULL),
+(6643, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/media/manager', 'GET', '2021-04-07 22:39:02', '2021-04-07 22:39:02', NULL),
+(6644, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 22:39:04', '2021-04-07 22:39:04', NULL),
+(6645, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-07 22:39:15', '2021-04-07 22:39:15', NULL),
+(6646, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-07 22:39:17', '2021-04-07 22:39:17', NULL),
+(6647, 'Viewed dashboard/course/index', 'Registered', 24, 'http://languafina.local/dashboard/course/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-07 22:39:38', '2021-04-07 22:39:38', NULL),
+(6648, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/course/index', 'POST', '2021-04-07 22:39:40', '2021-04-07 22:39:40', NULL),
+(6649, 'Viewed dashboard/language/index', 'Registered', 24, 'http://languafina.local/dashboard/language/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/course/index', 'GET', '2021-04-07 22:39:51', '2021-04-07 22:39:51', NULL),
+(6650, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/language/index', 'POST', '2021-04-07 22:39:53', '2021-04-07 22:39:53', NULL),
+(6651, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/language/index', 'GET', '2021-04-07 22:40:10', '2021-04-07 22:40:10', NULL),
+(6652, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 22:40:12', '2021-04-07 22:40:12', NULL),
+(6653, 'Viewed dashboard/category/popular', 'Registered', 24, 'http://languafina.local/dashboard/category/popular?id=6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:40:37', '2021-04-07 22:40:37', NULL),
+(6654, 'Viewed dashboard/category/popular', 'Registered', 24, 'http://languafina.local/dashboard/category/popular?id=6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:40:38', '2021-04-07 22:40:38', NULL),
+(6655, 'Viewed dashboard/category/top', 'Registered', 24, 'http://languafina.local/dashboard/category/top?id=6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:40:38', '2021-04-07 22:40:38', NULL),
+(6656, 'Viewed dashboard/category/top', 'Registered', 24, 'http://languafina.local/dashboard/category/top?id=6', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:40:39', '2021-04-07 22:40:39', NULL),
+(6657, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/language/index', 'GET', '2021-04-07 22:41:40', '2021-04-07 22:41:40', NULL),
+(6658, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 22:41:41', '2021-04-07 22:41:41', NULL),
+(6659, 'Viewed dashboard/category/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/category/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:41:46', '2021-04-07 22:41:46', NULL),
+(6660, 'Viewed dashboard/media/manager/create', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:41:58', '2021-04-07 22:41:58', NULL),
+(6661, 'Viewed dashboard/media/manager/create', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:42:01', '2021-04-07 22:42:01', NULL),
+(6662, 'Viewed courses/personal-productivity3', 'Registered', 24, 'http://languafina.local/courses/personal-productivity3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-07 22:52:40', '2021-04-07 22:52:40', NULL),
+(6663, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 22:55:42', '2021-04-07 22:55:42', NULL),
+(6664, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/language/index', 'GET', '2021-04-07 22:55:44', '2021-04-07 22:55:44', NULL),
+(6665, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 22:55:54', '2021-04-07 22:55:54', NULL),
+(6666, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/language/index', 'GET', '2021-04-07 22:55:55', '2021-04-07 22:55:55', NULL),
+(6667, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 22:55:59', '2021-04-07 22:55:59', NULL),
+(6668, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 22:56:09', '2021-04-07 22:56:09', NULL),
+(6669, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-07 22:56:11', '2021-04-07 22:56:11', NULL),
+(6670, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'POST', '2021-04-07 22:56:14', '2021-04-07 22:56:14', NULL),
+(6671, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'POST', '2021-04-07 22:56:40', '2021-04-07 22:56:40', NULL),
+(6672, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'POST', '2021-04-07 22:56:44', '2021-04-07 22:56:44', NULL),
+(6673, 'Viewed dashboard/student/index', 'Registered', 24, 'http://languafina.local/dashboard/student/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'GET', '2021-04-07 22:56:48', '2021-04-07 22:56:48', NULL),
+(6674, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/student/index', 'POST', '2021-04-07 22:56:49', '2021-04-07 22:56:49', NULL),
+(6675, 'Viewed dashboard/instructor/index', 'Registered', 24, 'http://languafina.local/dashboard/instructor/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/student/index', 'GET', '2021-04-07 22:56:56', '2021-04-07 22:56:56', NULL),
+(6676, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/instructor/index', 'POST', '2021-04-07 22:56:58', '2021-04-07 22:56:58', NULL),
+(6677, 'Viewed dashboard/instructor/show/25', 'Registered', 24, 'http://languafina.local/dashboard/instructor/show/25', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/instructor/index', 'GET', '2021-04-07 22:57:02', '2021-04-07 22:57:02', NULL),
+(6678, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/instructor/show/25', 'POST', '2021-04-07 22:57:04', '2021-04-07 22:57:04', NULL),
+(6679, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'POST', '2021-04-07 22:57:13', '2021-04-07 22:57:13', NULL),
+(6680, 'Viewed dashboard/affiliate/payment/request', 'Registered', 24, 'http://languafina.local/dashboard/affiliate/payment/request', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/certificate/setup', 'GET', '2021-04-07 22:57:30', '2021-04-07 22:57:30', NULL),
+(6681, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/payment/request', 'POST', '2021-04-07 22:57:32', '2021-04-07 22:57:32', NULL),
+(6682, 'Viewed dashboard/category/index', 'Registered', 24, 'http://languafina.local/dashboard/category/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/payment/request', 'GET', '2021-04-07 22:57:38', '2021-04-07 22:57:38', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6683, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'POST', '2021-04-07 22:57:40', '2021-04-07 22:57:40', NULL),
+(6684, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 23:01:48', '2021-04-07 23:01:48', NULL),
+(6685, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/category/index', 'GET', '2021-04-07 23:02:27', '2021-04-07 23:02:27', NULL),
+(6686, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:02:29', '2021-04-07 23:02:29', NULL),
+(6687, 'Created dashboard/site/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/site/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:03:05', '2021-04-07 23:03:05', NULL),
+(6688, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-07 23:03:06', '2021-04-07 23:03:06', NULL),
+(6689, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:03:08', '2021-04-07 23:03:08', NULL),
+(6690, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 23:03:09', '2021-04-07 23:03:09', NULL),
+(6691, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-07 23:05:17', '2021-04-07 23:05:17', NULL),
+(6692, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 23:05:19', '2021-04-07 23:05:19', NULL),
+(6693, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 23:05:22', '2021-04-07 23:05:22', NULL),
+(6694, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 23:06:02', '2021-04-07 23:06:02', NULL),
+(6695, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 23:06:02', '2021-04-07 23:06:02', NULL),
+(6696, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-07 23:06:05', '2021-04-07 23:06:05', NULL),
+(6697, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 23:06:07', '2021-04-07 23:06:07', NULL),
+(6698, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-07 23:10:28', '2021-04-07 23:10:28', NULL),
+(6699, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:10:31', '2021-04-07 23:10:31', NULL),
+(6700, 'Created dashboard/site/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/site/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:10:44', '2021-04-07 23:10:44', NULL),
+(6701, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-07 23:10:44', '2021-04-07 23:10:44', NULL),
+(6702, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:10:48', '2021-04-07 23:10:48', NULL),
+(6703, 'Created dashboard/site/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/site/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:10:58', '2021-04-07 23:10:58', NULL),
+(6704, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-07 23:10:59', '2021-04-07 23:10:59', NULL),
+(6705, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-07 23:11:01', '2021-04-07 23:11:01', NULL),
+(6706, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-07 23:11:03', '2021-04-07 23:11:03', NULL),
+(6707, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:41:04', '2021-04-08 10:41:04', NULL),
+(6708, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:46:21', '2021-04-08 10:46:21', NULL),
+(6709, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:46:42', '2021-04-08 10:46:42', NULL),
+(6710, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:47:23', '2021-04-08 10:47:23', NULL),
+(6711, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:47:48', '2021-04-08 10:47:48', NULL),
+(6712, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:50:22', '2021-04-08 10:50:22', NULL),
+(6713, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:50:33', '2021-04-08 10:50:33', NULL),
+(6714, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:50:53', '2021-04-08 10:50:53', NULL),
+(6715, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 10:52:08', '2021-04-08 10:52:08', NULL),
+(6716, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 10:52:30', '2021-04-08 10:52:30', NULL),
+(6717, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 10:53:24', '2021-04-08 10:53:24', NULL),
+(6718, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 11:10:50', '2021-04-08 11:10:50', NULL),
+(6719, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-08 11:11:29', '2021-04-08 11:11:29', NULL),
+(6720, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 11:11:34', '2021-04-08 11:11:34', NULL),
+(6721, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 11:12:02', '2021-04-08 11:12:02', NULL),
+(6722, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 11:12:36', '2021-04-08 11:12:36', NULL),
+(6723, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 11:13:17', '2021-04-08 11:13:17', NULL),
+(6724, 'Created student/create', 'Guest', NULL, 'http://languafina.local/student/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'POST', '2021-04-08 11:13:35', '2021-04-08 11:13:35', NULL),
+(6725, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 11:13:36', '2021-04-08 11:13:36', NULL),
+(6726, 'Created student/create', 'Guest', NULL, 'http://languafina.local/student/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'POST', '2021-04-08 11:14:59', '2021-04-08 11:14:59', NULL),
+(6727, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 11:15:00', '2021-04-08 11:15:00', NULL),
+(6728, 'Created student/create', 'Guest', NULL, 'http://languafina.local/student/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'POST', '2021-04-08 11:15:09', '2021-04-08 11:15:09', NULL),
+(6729, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 11:15:10', '2021-04-08 11:15:10', NULL),
+(6730, 'Created student/create', 'Guest', NULL, 'http://languafina.local/student/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'POST', '2021-04-08 11:15:19', '2021-04-08 11:15:19', NULL),
+(6731, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:23:00', '2021-04-08 11:23:00', NULL),
+(6732, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:25:29', '2021-04-08 11:25:29', NULL),
+(6733, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:28:56', '2021-04-08 11:28:56', NULL),
+(6734, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:30:12', '2021-04-08 11:30:12', NULL),
+(6735, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:30:22', '2021-04-08 11:30:22', NULL),
+(6736, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:31:28', '2021-04-08 11:31:28', NULL),
+(6737, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:32:04', '2021-04-08 11:32:04', NULL),
+(6738, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:34:27', '2021-04-08 11:34:27', NULL),
+(6739, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:36:49', '2021-04-08 11:36:49', NULL),
+(6740, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:41:29', '2021-04-08 11:41:29', NULL),
+(6741, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:44:49', '2021-04-08 11:44:49', NULL),
+(6742, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:45:07', '2021-04-08 11:45:07', NULL),
+(6743, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:46:16', '2021-04-08 11:46:16', NULL),
+(6744, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:47:27', '2021-04-08 11:47:27', NULL),
+(6745, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:53:45', '2021-04-08 11:53:45', NULL),
+(6746, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:55:11', '2021-04-08 11:55:11', NULL),
+(6747, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:56:31', '2021-04-08 11:56:31', NULL),
+(6748, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:56:48', '2021-04-08 11:56:48', NULL),
+(6749, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:57:02', '2021-04-08 11:57:02', NULL),
+(6750, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:57:23', '2021-04-08 11:57:23', NULL),
+(6751, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:57:50', '2021-04-08 11:57:50', NULL),
+(6752, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:58:06', '2021-04-08 11:58:06', NULL),
+(6753, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:58:19', '2021-04-08 11:58:19', NULL),
+(6754, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:58:43', '2021-04-08 11:58:43', NULL),
+(6755, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 11:58:58', '2021-04-08 11:58:58', NULL),
+(6756, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 12:04:11', '2021-04-08 12:04:11', NULL),
+(6757, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 12:06:04', '2021-04-08 12:06:04', NULL),
+(6758, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 12:06:45', '2021-04-08 12:06:45', NULL),
+(6759, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 12:09:00', '2021-04-08 12:09:00', NULL),
+(6760, 'Logged In', 'Registered', 24, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 12:09:10', '2021-04-08 12:09:10', NULL),
+(6761, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-08 12:09:10', '2021-04-08 12:09:10', NULL),
+(6762, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-08 12:09:16', '2021-04-08 12:09:16', NULL),
+(6763, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-08 12:09:23', '2021-04-08 12:09:23', NULL),
+(6764, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-08 12:09:26', '2021-04-08 12:09:26', NULL),
+(6765, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 12:12:11', '2021-04-08 12:12:11', NULL),
+(6766, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 12:12:28', '2021-04-08 12:12:28', NULL),
+(6767, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 12:16:35', '2021-04-08 12:16:35', NULL),
+(6768, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 12:16:38', '2021-04-08 12:16:38', NULL),
+(6769, 'Created dashboard/site/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/site/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 12:17:00', '2021-04-08 12:17:00', NULL),
+(6770, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-08 12:17:01', '2021-04-08 12:17:01', NULL),
+(6771, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 12:17:04', '2021-04-08 12:17:04', NULL),
+(6772, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 12:17:07', '2021-04-08 12:17:07', NULL),
+(6773, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 12:18:11', '2021-04-08 12:18:11', NULL),
+(6774, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-08 12:19:29', '2021-04-08 12:19:29', NULL),
+(6775, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-08 12:19:32', '2021-04-08 12:19:32', NULL),
+(6776, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-08 12:19:45', '2021-04-08 12:19:45', NULL),
+(6777, 'Viewed dashboard/faqs/create', 'Registered', 24, 'http://languafina.local/dashboard/faqs/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-08 12:20:29', '2021-04-08 12:20:29', NULL),
+(6778, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:21:32', '2021-04-08 12:21:32', NULL),
+(6779, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:46:30', '2021-04-08 12:46:30', NULL),
+(6780, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:47:14', '2021-04-08 12:47:14', NULL),
+(6781, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:56:47', '2021-04-08 12:56:47', NULL),
+(6782, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:57:53', '2021-04-08 12:57:53', NULL),
+(6783, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:58:58', '2021-04-08 12:58:58', NULL),
+(6784, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:59:22', '2021-04-08 12:59:22', NULL),
+(6785, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 12:59:43', '2021-04-08 12:59:43', NULL),
+(6786, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:00:02', '2021-04-08 13:00:02', NULL),
+(6787, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:00:25', '2021-04-08 13:00:25', NULL),
+(6788, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:01:03', '2021-04-08 13:01:03', NULL),
+(6789, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'GET', '2021-04-08 13:02:39', '2021-04-08 13:02:39', NULL),
+(6790, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 13:02:41', '2021-04-08 13:02:41', NULL),
+(6791, 'Created dashboard/site/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/site/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 13:02:57', '2021-04-08 13:02:57', NULL),
+(6792, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-08 13:02:58', '2021-04-08 13:02:58', NULL),
+(6793, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-08 13:03:00', '2021-04-08 13:03:00', NULL),
+(6794, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:03:04', '2021-04-08 13:03:04', NULL),
+(6795, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:03:25', '2021-04-08 13:03:25', NULL),
+(6796, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:03:34', '2021-04-08 13:03:34', NULL),
+(6797, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:04:03', '2021-04-08 13:04:03', NULL),
+(6798, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 13:05:35', '2021-04-08 13:05:35', NULL),
+(6799, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:07:15', '2021-04-08 13:07:15', NULL),
+(6800, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:08:16', '2021-04-08 13:08:16', NULL),
+(6801, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:08:23', '2021-04-08 13:08:23', NULL),
+(6802, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:08:32', '2021-04-08 13:08:32', NULL),
+(6803, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:12:08', '2021-04-08 13:12:08', NULL),
+(6804, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:12:18', '2021-04-08 13:12:18', NULL),
+(6805, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:12:49', '2021-04-08 13:12:49', NULL),
+(6806, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:13:28', '2021-04-08 13:13:28', NULL),
+(6807, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:14:11', '2021-04-08 13:14:11', NULL),
+(6808, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:14:27', '2021-04-08 13:14:27', NULL),
+(6809, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:15:03', '2021-04-08 13:15:03', NULL),
+(6810, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:15:15', '2021-04-08 13:15:15', NULL),
+(6811, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:15:33', '2021-04-08 13:15:33', NULL),
+(6812, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:20:35', '2021-04-08 13:20:35', NULL),
+(6813, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:21:51', '2021-04-08 13:21:51', NULL),
+(6814, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:22:31', '2021-04-08 13:22:31', NULL),
+(6815, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:23:24', '2021-04-08 13:23:24', NULL),
+(6816, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:24:29', '2021-04-08 13:24:29', NULL),
+(6817, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:26:08', '2021-04-08 13:26:08', NULL),
+(6818, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:28:59', '2021-04-08 13:28:59', NULL),
+(6819, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:30:40', '2021-04-08 13:30:40', NULL),
+(6820, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:39:54', '2021-04-08 13:39:54', NULL),
+(6821, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:41:28', '2021-04-08 13:41:28', NULL),
+(6822, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:41:37', '2021-04-08 13:41:37', NULL),
+(6823, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:43:00', '2021-04-08 13:43:00', NULL),
+(6824, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:44:04', '2021-04-08 13:44:04', NULL),
+(6825, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:44:31', '2021-04-08 13:44:31', NULL),
+(6826, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:45:37', '2021-04-08 13:45:37', NULL),
+(6827, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:47:00', '2021-04-08 13:47:00', NULL),
+(6828, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:48:00', '2021-04-08 13:48:00', NULL),
+(6829, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:51:11', '2021-04-08 13:51:11', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6830, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:51:16', '2021-04-08 13:51:16', NULL),
+(6831, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:53:06', '2021-04-08 13:53:06', NULL),
+(6832, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:53:38', '2021-04-08 13:53:38', NULL),
+(6833, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:53:51', '2021-04-08 13:53:51', NULL),
+(6834, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/faqs/index', 'POST', '2021-04-08 13:53:53', '2021-04-08 13:53:53', NULL),
+(6835, 'Viewed dashboard/faqs/index', 'Registered', 24, 'http://languafina.local/dashboard/faqs/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:54:16', '2021-04-08 13:54:16', NULL),
+(6836, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:54:23', '2021-04-08 13:54:23', NULL),
+(6837, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:54:29', '2021-04-08 13:54:29', NULL),
+(6838, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:55:31', '2021-04-08 13:55:31', NULL),
+(6839, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:55:42', '2021-04-08 13:55:42', NULL),
+(6840, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:55:56', '2021-04-08 13:55:56', NULL),
+(6841, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 13:56:14', '2021-04-08 13:56:14', NULL),
+(6842, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:57:08', '2021-04-08 13:57:08', NULL),
+(6843, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:57:43', '2021-04-08 13:57:43', NULL),
+(6844, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 13:57:52', '2021-04-08 13:57:52', NULL),
+(6845, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:59:11', '2021-04-08 13:59:11', NULL),
+(6846, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:59:18', '2021-04-08 13:59:18', NULL),
+(6847, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 13:59:22', '2021-04-08 13:59:22', NULL),
+(6848, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 13:59:54', '2021-04-08 13:59:54', NULL),
+(6849, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 13:59:55', '2021-04-08 13:59:55', NULL),
+(6850, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:00:13', '2021-04-08 14:00:13', NULL),
+(6851, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:01:16', '2021-04-08 14:01:16', NULL),
+(6852, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:09:06', '2021-04-08 14:09:06', NULL),
+(6853, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:11:20', '2021-04-08 14:11:20', NULL),
+(6854, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:12:24', '2021-04-08 14:12:24', NULL),
+(6855, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:13:00', '2021-04-08 14:13:00', NULL),
+(6856, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:15:05', '2021-04-08 14:15:05', NULL),
+(6857, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 14:16:48', '2021-04-08 14:16:48', NULL),
+(6858, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 14:17:34', '2021-04-08 14:17:34', NULL),
+(6859, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:19:05', '2021-04-08 14:19:05', NULL),
+(6860, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:41:31', '2021-04-08 14:41:31', NULL),
+(6861, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:42:44', '2021-04-08 14:42:44', NULL),
+(6862, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 14:43:05', '2021-04-08 14:43:05', NULL),
+(6863, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:43:17', '2021-04-08 14:43:17', NULL),
+(6864, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:44:00', '2021-04-08 14:44:00', NULL),
+(6865, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:44:24', '2021-04-08 14:44:24', NULL),
+(6866, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:44:35', '2021-04-08 14:44:35', NULL),
+(6867, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:44:47', '2021-04-08 14:44:47', NULL),
+(6868, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:45:07', '2021-04-08 14:45:07', NULL),
+(6869, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:52:20', '2021-04-08 14:52:20', NULL),
+(6870, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:54:06', '2021-04-08 14:54:06', NULL),
+(6871, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:54:22', '2021-04-08 14:54:22', NULL),
+(6872, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:55:18', '2021-04-08 14:55:18', NULL),
+(6873, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:56:10', '2021-04-08 14:56:10', NULL),
+(6874, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:56:50', '2021-04-08 14:56:50', NULL),
+(6875, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:57:06', '2021-04-08 14:57:06', NULL),
+(6876, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:57:23', '2021-04-08 14:57:23', NULL),
+(6877, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:57:43', '2021-04-08 14:57:43', NULL),
+(6878, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:58:13', '2021-04-08 14:58:13', NULL),
+(6879, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 14:59:28', '2021-04-08 14:59:28', NULL),
+(6880, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:00:11', '2021-04-08 15:00:11', NULL),
+(6881, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:00:28', '2021-04-08 15:00:28', NULL),
+(6882, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:00:35', '2021-04-08 15:00:35', NULL),
+(6883, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:00:50', '2021-04-08 15:00:50', NULL),
+(6884, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:01:10', '2021-04-08 15:01:10', NULL),
+(6885, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:01:24', '2021-04-08 15:01:24', NULL),
+(6886, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:01:39', '2021-04-08 15:01:39', NULL),
+(6887, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:12:45', '2021-04-08 15:12:45', NULL),
+(6888, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 15:19:48', '2021-04-08 15:19:48', NULL),
+(6889, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 18:26:40', '2021-04-08 18:26:40', NULL),
+(6890, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 18:27:05', '2021-04-08 18:27:05', NULL),
+(6891, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 18:28:42', '2021-04-08 18:28:42', NULL),
+(6892, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 18:28:59', '2021-04-08 18:28:59', NULL),
+(6893, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-08 18:30:20', '2021-04-08 18:30:20', NULL),
+(6894, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:31:20', '2021-04-08 18:31:20', NULL),
+(6895, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:33:32', '2021-04-08 18:33:32', NULL),
+(6896, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:34:41', '2021-04-08 18:34:41', NULL),
+(6897, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:47:24', '2021-04-08 18:47:24', NULL),
+(6898, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:50:07', '2021-04-08 18:50:07', NULL),
+(6899, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:54:34', '2021-04-08 18:54:34', NULL),
+(6900, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:55:06', '2021-04-08 18:55:06', NULL),
+(6901, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-08 18:56:05', '2021-04-08 18:56:05', NULL),
+(6902, 'Viewed search', 'Guest', NULL, 'http://languafina.local/search?key=', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-08 18:57:09', '2021-04-08 18:57:09', NULL),
+(6903, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-08 18:57:14', '2021-04-08 18:57:14', NULL),
+(6904, 'Viewed instructor/payment/clark-estes', 'Guest', NULL, 'http://languafina.local/instructor/payment/clark-estes', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-08 18:57:15', '2021-04-08 18:57:15', NULL),
+(6905, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-08 19:06:32', '2021-04-08 19:06:32', NULL),
+(6906, 'Viewed courses/personal-productivity5', 'Guest', NULL, 'http://languafina.local/courses/personal-productivity5', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-08 19:07:51', '2021-04-08 19:07:51', NULL),
+(6907, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/courses/personal-productivity5', 'GET', '2021-04-08 19:08:00', '2021-04-08 19:08:00', NULL),
+(6908, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 19:47:58', '2021-04-08 19:47:58', NULL),
+(6909, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 19:50:47', '2021-04-08 19:50:47', NULL),
+(6910, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 19:50:56', '2021-04-08 19:50:56', NULL),
+(6911, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 19:51:38', '2021-04-08 19:51:38', NULL),
+(6912, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 19:51:47', '2021-04-08 19:51:47', NULL),
+(6913, 'Logged In', 'Registered', 24, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-08 19:51:54', '2021-04-08 19:51:54', NULL),
+(6914, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-08 19:51:55', '2021-04-08 19:51:55', NULL),
+(6915, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-08 19:52:01', '2021-04-08 19:52:01', NULL),
+(6916, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-08 19:52:06', '2021-04-08 19:52:06', NULL),
+(6917, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-08 19:52:10', '2021-04-08 19:52:10', NULL),
+(6918, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 19:52:11', '2021-04-08 19:52:11', NULL),
+(6919, 'Created dashboard/slider/update', 'Registered', 24, 'http://languafina.local/dashboard/slider/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-08 19:52:21', '2021-04-08 19:52:21', NULL),
+(6920, 'Viewed dashboard/slider/index', 'Registered', 24, 'http://languafina.local/dashboard/slider/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 19:52:21', '2021-04-08 19:52:21', NULL),
+(6921, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'POST', '2021-04-08 19:52:24', '2021-04-08 19:52:24', NULL),
+(6922, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 19:52:24', '2021-04-08 19:52:24', NULL),
+(6923, 'Viewed dashboard/slider/create', 'Registered', 24, 'http://languafina.local/dashboard/slider/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 19:53:24', '2021-04-08 19:53:24', NULL),
+(6924, 'Viewed dashboard/slider/edit/1', 'Registered', 24, 'http://languafina.local/dashboard/slider/edit/1', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/slider/index', 'GET', '2021-04-08 19:54:29', '2021-04-08 19:54:29', NULL),
+(6925, 'Viewed signup', 'Registered', 24, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 19:56:29', '2021-04-08 19:56:29', NULL),
+(6926, 'Viewed faqs', 'Registered', 24, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-08 19:57:24', '2021-04-08 19:57:24', NULL),
+(6927, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-08 19:57:57', '2021-04-08 19:57:57', NULL),
+(6928, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 22:59:19', '2021-04-08 22:59:19', NULL),
+(6929, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-08 23:07:16', '2021-04-08 23:07:16', NULL),
+(6930, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:45:37', '2021-04-09 12:45:37', NULL),
+(6931, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:49:50', '2021-04-09 12:49:50', NULL),
+(6932, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:50:33', '2021-04-09 12:50:33', NULL),
+(6933, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:50:46', '2021-04-09 12:50:46', NULL),
+(6934, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:51:03', '2021-04-09 12:51:03', NULL),
+(6935, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:53:00', '2021-04-09 12:53:00', NULL),
+(6936, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:54:47', '2021-04-09 12:54:47', NULL),
+(6937, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:55:38', '2021-04-09 12:55:38', NULL),
+(6938, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:55:59', '2021-04-09 12:55:59', NULL),
+(6939, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-09 12:56:47', '2021-04-09 12:56:47', NULL),
+(6940, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:57:24', '2021-04-09 12:57:24', NULL),
+(6941, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 12:58:21', '2021-04-09 12:58:21', NULL),
+(6942, 'Viewed faqs', 'Guest', NULL, 'http://languafina.local/faqs', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-09 12:58:42', '2021-04-09 12:58:42', NULL),
+(6943, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-09 13:01:54', '2021-04-09 13:01:54', NULL),
+(6944, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-09 13:06:01', '2021-04-09 13:06:01', NULL),
+(6945, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/faqs', 'GET', '2021-04-09 13:06:09', '2021-04-09 13:06:09', NULL),
+(6946, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-09 13:44:36', '2021-04-09 13:44:36', NULL),
+(6947, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-09 13:44:42', '2021-04-09 13:44:42', NULL),
+(6948, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-09 13:45:17', '2021-04-09 13:45:17', NULL),
+(6949, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-09 13:46:41', '2021-04-09 13:46:41', NULL),
+(6950, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-09 22:41:13', '2021-04-09 22:41:13', NULL),
+(6951, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 01:05:39', '2021-04-10 01:05:39', NULL),
+(6952, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 10:21:16', '2021-04-10 10:21:16', NULL),
+(6953, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 11:06:22', '2021-04-10 11:06:22', NULL),
+(6954, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 12:09:28', '2021-04-10 12:09:28', NULL),
+(6955, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 14:32:00', '2021-04-10 14:32:00', NULL),
+(6956, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:32:06', '2021-04-10 14:32:06', NULL),
+(6957, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:43:45', '2021-04-10 14:43:45', NULL),
+(6958, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:45:08', '2021-04-10 14:45:08', NULL),
+(6959, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:46:59', '2021-04-10 14:46:59', NULL),
+(6960, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:47:24', '2021-04-10 14:47:24', NULL),
+(6961, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:47:33', '2021-04-10 14:47:33', NULL),
+(6962, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:50:43', '2021-04-10 14:50:43', NULL),
+(6963, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:51:08', '2021-04-10 14:51:08', NULL),
+(6964, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:51:44', '2021-04-10 14:51:44', NULL),
+(6965, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:53:52', '2021-04-10 14:53:52', NULL),
+(6966, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:54:40', '2021-04-10 14:54:40', NULL),
+(6967, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:56:34', '2021-04-10 14:56:34', NULL),
+(6968, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:56:50', '2021-04-10 14:56:50', NULL),
+(6969, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:57:18', '2021-04-10 14:57:18', NULL),
+(6970, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 14:57:45', '2021-04-10 14:57:45', NULL),
+(6971, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:00:42', '2021-04-10 15:00:42', NULL),
+(6972, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:01:26', '2021-04-10 15:01:26', NULL),
+(6973, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:02:05', '2021-04-10 15:02:05', NULL),
+(6974, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:03:00', '2021-04-10 15:03:00', NULL),
+(6975, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:03:41', '2021-04-10 15:03:41', NULL),
+(6976, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:04:01', '2021-04-10 15:04:01', NULL),
+(6977, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:04:14', '2021-04-10 15:04:14', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(6978, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:04:49', '2021-04-10 15:04:49', NULL),
+(6979, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:05:26', '2021-04-10 15:05:26', NULL),
+(6980, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:05:37', '2021-04-10 15:05:37', NULL),
+(6981, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:06:07', '2021-04-10 15:06:07', NULL),
+(6982, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:06:31', '2021-04-10 15:06:31', NULL),
+(6983, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:06:48', '2021-04-10 15:06:48', NULL),
+(6984, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:09:20', '2021-04-10 15:09:20', NULL),
+(6985, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:11:27', '2021-04-10 15:11:27', NULL),
+(6986, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:13:55', '2021-04-10 15:13:55', NULL),
+(6987, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:17:12', '2021-04-10 15:17:12', NULL),
+(6988, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:17:33', '2021-04-10 15:17:33', NULL),
+(6989, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:18:21', '2021-04-10 15:18:21', NULL),
+(6990, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:19:34', '2021-04-10 15:19:34', NULL),
+(6991, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:19:53', '2021-04-10 15:19:53', NULL),
+(6992, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:20:07', '2021-04-10 15:20:07', NULL),
+(6993, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 15:27:04', '2021-04-10 15:27:04', NULL),
+(6994, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-10 15:36:12', '2021-04-10 15:36:12', NULL),
+(6995, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:28:18', '2021-04-10 16:28:18', NULL),
+(6996, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:28:31', '2021-04-10 16:28:31', NULL),
+(6997, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:29:33', '2021-04-10 16:29:33', NULL),
+(6998, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:31:30', '2021-04-10 16:31:30', NULL),
+(6999, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:31:45', '2021-04-10 16:31:45', NULL),
+(7000, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:31:54', '2021-04-10 16:31:54', NULL),
+(7001, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:32:14', '2021-04-10 16:32:14', NULL),
+(7002, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:32:48', '2021-04-10 16:32:48', NULL),
+(7003, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:33:52', '2021-04-10 16:33:52', NULL),
+(7004, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:34:16', '2021-04-10 16:34:16', NULL),
+(7005, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:34:38', '2021-04-10 16:34:38', NULL),
+(7006, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:35:08', '2021-04-10 16:35:08', NULL),
+(7007, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:35:17', '2021-04-10 16:35:17', NULL),
+(7008, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:35:53', '2021-04-10 16:35:53', NULL),
+(7009, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:36:02', '2021-04-10 16:36:02', NULL),
+(7010, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:36:12', '2021-04-10 16:36:12', NULL),
+(7011, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:36:42', '2021-04-10 16:36:42', NULL),
+(7012, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:37:13', '2021-04-10 16:37:13', NULL),
+(7013, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:37:55', '2021-04-10 16:37:55', NULL),
+(7014, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:38:21', '2021-04-10 16:38:21', NULL),
+(7015, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:41:33', '2021-04-10 16:41:33', NULL),
+(7016, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:43:10', '2021-04-10 16:43:10', NULL),
+(7017, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:45:25', '2021-04-10 16:45:25', NULL),
+(7018, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:45:46', '2021-04-10 16:45:46', NULL),
+(7019, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:46:30', '2021-04-10 16:46:30', NULL),
+(7020, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:48:29', '2021-04-10 16:48:29', NULL),
+(7021, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:49:20', '2021-04-10 16:49:20', NULL),
+(7022, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:50:06', '2021-04-10 16:50:06', NULL),
+(7023, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:50:20', '2021-04-10 16:50:20', NULL),
+(7024, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:50:51', '2021-04-10 16:50:51', NULL),
+(7025, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:54:26', '2021-04-10 16:54:26', NULL),
+(7026, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:55:27', '2021-04-10 16:55:27', NULL),
+(7027, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:56:51', '2021-04-10 16:56:51', NULL),
+(7028, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 16:57:20', '2021-04-10 16:57:20', NULL),
+(7029, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:39:22', '2021-04-10 19:39:22', NULL),
+(7030, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:42:04', '2021-04-10 19:42:04', NULL),
+(7031, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:42:35', '2021-04-10 19:42:35', NULL),
+(7032, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:43:57', '2021-04-10 19:43:57', NULL),
+(7033, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:44:25', '2021-04-10 19:44:25', NULL),
+(7034, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:46:20', '2021-04-10 19:46:20', NULL),
+(7035, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:47:27', '2021-04-10 19:47:27', NULL),
+(7036, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:48:56', '2021-04-10 19:48:56', NULL),
+(7037, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:49:18', '2021-04-10 19:49:18', NULL),
+(7038, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:50:14', '2021-04-10 19:50:14', NULL),
+(7039, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:50:57', '2021-04-10 19:50:57', NULL),
+(7040, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:51:24', '2021-04-10 19:51:24', NULL),
+(7041, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:52:02', '2021-04-10 19:52:02', NULL),
+(7042, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:52:30', '2021-04-10 19:52:30', NULL),
+(7043, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:53:04', '2021-04-10 19:53:04', NULL),
+(7044, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:53:27', '2021-04-10 19:53:27', NULL),
+(7045, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:53:42', '2021-04-10 19:53:42', NULL),
+(7046, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:56:42', '2021-04-10 19:56:42', NULL),
+(7047, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:57:48', '2021-04-10 19:57:48', NULL),
+(7048, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:58:09', '2021-04-10 19:58:09', NULL),
+(7049, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 19:59:28', '2021-04-10 19:59:28', NULL),
+(7050, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:01:26', '2021-04-10 20:01:26', NULL),
+(7051, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:01:43', '2021-04-10 20:01:43', NULL),
+(7052, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:02:34', '2021-04-10 20:02:34', NULL),
+(7053, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:04:10', '2021-04-10 20:04:10', NULL),
+(7054, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:04:47', '2021-04-10 20:04:47', NULL),
+(7055, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:11:26', '2021-04-10 20:11:26', NULL),
+(7056, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:16:59', '2021-04-10 20:16:59', NULL),
+(7057, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 20:48:03', '2021-04-10 20:48:03', NULL),
+(7058, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:05:28', '2021-04-10 21:05:28', NULL),
+(7059, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:07:21', '2021-04-10 21:07:21', NULL),
+(7060, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:08:07', '2021-04-10 21:08:07', NULL),
+(7061, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:08:20', '2021-04-10 21:08:20', NULL),
+(7062, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:09:17', '2021-04-10 21:09:17', NULL),
+(7063, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:10:45', '2021-04-10 21:10:45', NULL),
+(7064, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:11:17', '2021-04-10 21:11:17', NULL),
+(7065, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:11:44', '2021-04-10 21:11:44', NULL),
+(7066, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:13:36', '2021-04-10 21:13:36', NULL),
+(7067, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:16:22', '2021-04-10 21:16:22', NULL),
+(7068, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:17:16', '2021-04-10 21:17:16', NULL),
+(7069, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:19:11', '2021-04-10 21:19:11', NULL),
+(7070, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:22:57', '2021-04-10 21:22:57', NULL),
+(7071, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:24:22', '2021-04-10 21:24:22', NULL),
+(7072, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:25:11', '2021-04-10 21:25:11', NULL),
+(7073, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:25:35', '2021-04-10 21:25:35', NULL),
+(7074, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:27:19', '2021-04-10 21:27:19', NULL),
+(7075, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:27:33', '2021-04-10 21:27:33', NULL),
+(7076, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:28:14', '2021-04-10 21:28:14', NULL),
+(7077, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:28:45', '2021-04-10 21:28:45', NULL),
+(7078, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:29:43', '2021-04-10 21:29:43', NULL),
+(7079, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:36:34', '2021-04-10 21:36:34', NULL),
+(7080, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:42:11', '2021-04-10 21:42:11', NULL),
+(7081, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:42:53', '2021-04-10 21:42:53', NULL),
+(7082, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:44:01', '2021-04-10 21:44:01', NULL),
+(7083, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:44:59', '2021-04-10 21:44:59', NULL),
+(7084, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:45:25', '2021-04-10 21:45:25', NULL),
+(7085, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:45:34', '2021-04-10 21:45:34', NULL),
+(7086, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-10 21:50:00', '2021-04-10 21:50:00', NULL),
+(7087, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-11 15:19:47', '2021-04-11 15:19:47', NULL),
+(7088, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-11 15:19:57', '2021-04-11 15:19:57', NULL),
+(7089, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 12:46:04', '2021-04-12 12:46:04', NULL),
+(7090, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 12:46:19', '2021-04-12 12:46:19', NULL),
+(7091, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:13:30', '2021-04-12 13:13:30', NULL),
+(7092, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:13:51', '2021-04-12 13:13:51', NULL),
+(7093, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:16:28', '2021-04-12 13:16:28', NULL),
+(7094, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:17:09', '2021-04-12 13:17:09', NULL),
+(7095, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:18:00', '2021-04-12 13:18:00', NULL),
+(7096, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:18:14', '2021-04-12 13:18:14', NULL),
+(7097, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:18:50', '2021-04-12 13:18:50', NULL),
+(7098, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:19:03', '2021-04-12 13:19:03', NULL),
+(7099, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:20:12', '2021-04-12 13:20:12', NULL),
+(7100, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:21:14', '2021-04-12 13:21:14', NULL),
+(7101, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:21:29', '2021-04-12 13:21:29', NULL),
+(7102, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:22:12', '2021-04-12 13:22:12', NULL),
+(7103, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:22:42', '2021-04-12 13:22:42', NULL),
+(7104, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:22:58', '2021-04-12 13:22:58', NULL),
+(7105, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:23:15', '2021-04-12 13:23:15', NULL),
+(7106, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:25:02', '2021-04-12 13:25:02', NULL),
+(7107, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 13:25:16', '2021-04-12 13:25:16', NULL),
+(7108, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:37:26', '2021-04-12 14:37:26', NULL),
+(7109, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:37:38', '2021-04-12 14:37:38', NULL),
+(7110, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:39:53', '2021-04-12 14:39:53', NULL),
+(7111, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:40:01', '2021-04-12 14:40:01', NULL),
+(7112, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:45:31', '2021-04-12 14:45:31', NULL),
+(7113, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:47:05', '2021-04-12 14:47:05', NULL),
+(7114, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:47:19', '2021-04-12 14:47:19', NULL),
+(7115, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:47:33', '2021-04-12 14:47:33', NULL),
+(7116, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:51:16', '2021-04-12 14:51:16', NULL),
+(7117, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:51:52', '2021-04-12 14:51:52', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7118, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:54:52', '2021-04-12 14:54:52', NULL),
+(7119, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:55:55', '2021-04-12 14:55:55', NULL),
+(7120, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:57:27', '2021-04-12 14:57:27', NULL),
+(7121, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 14:57:53', '2021-04-12 14:57:53', NULL),
+(7122, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:00:30', '2021-04-12 15:00:30', NULL),
+(7123, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-12 15:04:58', '2021-04-12 15:04:58', NULL),
+(7124, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:05:19', '2021-04-12 15:05:19', NULL),
+(7125, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:06:41', '2021-04-12 15:06:41', NULL),
+(7126, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:06:53', '2021-04-12 15:06:53', NULL),
+(7127, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:07:14', '2021-04-12 15:07:14', NULL),
+(7128, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:07:44', '2021-04-12 15:07:44', NULL),
+(7129, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:09:38', '2021-04-12 15:09:38', NULL),
+(7130, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:10:54', '2021-04-12 15:10:54', NULL),
+(7131, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:12:59', '2021-04-12 15:12:59', NULL),
+(7132, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:13:26', '2021-04-12 15:13:26', NULL),
+(7133, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:14:09', '2021-04-12 15:14:09', NULL),
+(7134, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:14:28', '2021-04-12 15:14:28', NULL),
+(7135, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:15:39', '2021-04-12 15:15:39', NULL),
+(7136, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:16:07', '2021-04-12 15:16:07', NULL),
+(7137, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:16:22', '2021-04-12 15:16:22', NULL),
+(7138, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:16:34', '2021-04-12 15:16:34', NULL),
+(7139, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:17:55', '2021-04-12 15:17:55', NULL),
+(7140, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:18:03', '2021-04-12 15:18:03', NULL),
+(7141, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:19:54', '2021-04-12 15:19:54', NULL),
+(7142, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 15:21:00', '2021-04-12 15:21:00', NULL),
+(7143, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:24:17', '2021-04-12 15:24:17', NULL),
+(7144, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:24:21', '2021-04-12 15:24:21', NULL),
+(7145, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:24:39', '2021-04-12 15:24:39', NULL),
+(7146, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 15:25:02', '2021-04-12 15:25:02', NULL),
+(7147, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:26:08', '2021-04-12 15:26:08', NULL),
+(7148, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:26:18', '2021-04-12 15:26:18', NULL),
+(7149, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:26:58', '2021-04-12 15:26:58', NULL),
+(7150, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:27:54', '2021-04-12 15:27:54', NULL),
+(7151, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 15:28:15', '2021-04-12 15:28:15', NULL),
+(7152, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 15:28:48', '2021-04-12 15:28:48', NULL),
+(7153, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 15:29:19', '2021-04-12 15:29:19', NULL),
+(7154, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 16:11:58', '2021-04-12 16:11:58', NULL),
+(7155, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:12:27', '2021-04-12 16:12:27', NULL),
+(7156, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:13:32', '2021-04-12 16:13:32', NULL),
+(7157, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:13:45', '2021-04-12 16:13:45', NULL),
+(7158, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:14:04', '2021-04-12 16:14:04', NULL),
+(7159, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-12 16:14:05', '2021-04-12 16:14:05', NULL),
+(7160, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:14:23', '2021-04-12 16:14:23', NULL),
+(7161, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 16:17:11', '2021-04-12 16:17:11', NULL),
+(7162, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/signup', 'GET', '2021-04-12 16:17:17', '2021-04-12 16:17:17', NULL),
+(7163, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:17:31', '2021-04-12 16:17:31', NULL),
+(7164, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 16:17:56', '2021-04-12 16:17:56', NULL),
+(7165, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:18:26', '2021-04-12 16:18:26', NULL),
+(7166, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-12 16:18:27', '2021-04-12 16:18:27', NULL),
+(7167, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'GET', '2021-04-12 16:19:16', '2021-04-12 16:19:16', NULL),
+(7168, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:19:36', '2021-04-12 16:19:36', NULL),
+(7169, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:20:06', '2021-04-12 16:20:06', NULL),
+(7170, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 16:21:27', '2021-04-12 16:21:27', NULL),
+(7171, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:21:47', '2021-04-12 16:21:47', NULL),
+(7172, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:22:07', '2021-04-12 16:22:07', NULL),
+(7173, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:28:12', '2021-04-12 16:28:12', NULL),
+(7174, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:28:39', '2021-04-12 16:28:39', NULL),
+(7175, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:30:04', '2021-04-12 16:30:04', NULL),
+(7176, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:31:41', '2021-04-12 16:31:41', NULL),
+(7177, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:32:31', '2021-04-12 16:32:31', NULL),
+(7178, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:32:51', '2021-04-12 16:32:51', NULL),
+(7179, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:33:29', '2021-04-12 16:33:29', NULL),
+(7180, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:33:41', '2021-04-12 16:33:41', NULL),
+(7181, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:35:43', '2021-04-12 16:35:43', NULL),
+(7182, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:38:39', '2021-04-12 16:38:39', NULL),
+(7183, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 16:39:46', '2021-04-12 16:39:46', NULL),
+(7184, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:35:29', '2021-04-12 17:35:29', NULL),
+(7185, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:36:00', '2021-04-12 17:36:00', NULL),
+(7186, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:36:19', '2021-04-12 17:36:19', NULL),
+(7187, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:36:50', '2021-04-12 17:36:50', NULL),
+(7188, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:37:10', '2021-04-12 17:37:10', NULL),
+(7189, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:37:49', '2021-04-12 17:37:49', NULL),
+(7190, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 17:37:54', '2021-04-12 17:37:54', NULL),
+(7191, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:38:46', '2021-04-12 17:38:46', NULL),
+(7192, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:40:32', '2021-04-12 17:40:32', NULL),
+(7193, 'Viewed instructor/register', 'Guest', NULL, 'http://languafina.local/instructor/register', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:41:41', '2021-04-12 17:41:41', NULL),
+(7194, 'Created instructor/create', 'Guest', NULL, 'http://languafina.local/instructor/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/register', 'POST', '2021-04-12 17:42:10', '2021-04-12 17:42:10', NULL),
+(7195, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:47:33', '2021-04-12 17:47:33', NULL),
+(7196, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:51:05', '2021-04-12 17:51:05', NULL),
+(7197, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:51:11', '2021-04-12 17:51:11', NULL),
+(7198, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:51:25', '2021-04-12 17:51:25', NULL),
+(7199, 'Logged In', 'Registered', 24, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-12 17:51:57', '2021-04-12 17:51:57', NULL),
+(7200, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 17:51:57', '2021-04-12 17:51:57', NULL),
+(7201, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-12 17:52:02', '2021-04-12 17:52:02', NULL),
+(7202, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-12 17:52:04', '2021-04-12 17:52:04', NULL),
+(7203, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 17:52:04', '2021-04-12 17:52:04', NULL),
+(7204, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-12 17:52:17', '2021-04-12 17:52:17', NULL),
+(7205, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 17:52:18', '2021-04-12 17:52:18', NULL),
+(7206, 'Created dashboard/app/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/app/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:22:54', '2021-04-12 19:22:54', NULL),
+(7207, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-12 19:22:54', '2021-04-12 19:22:54', NULL),
+(7208, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:22:56', '2021-04-12 19:22:56', NULL),
+(7209, 'Viewed course/ielts-level-3', 'Registered', 24, 'http://languafina.local/course/ielts-level-3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 19:23:09', '2021-04-12 19:23:09', NULL),
+(7210, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 19:23:18', '2021-04-12 19:23:18', NULL),
+(7211, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-12 19:23:21', '2021-04-12 19:23:21', NULL),
+(7212, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-12 19:23:25', '2021-04-12 19:23:25', NULL),
+(7213, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-12 19:23:27', '2021-04-12 19:23:27', NULL),
+(7214, 'Viewed /', 'Registered', 24, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-12 19:23:29', '2021-04-12 19:23:29', NULL),
+(7215, 'Created dashboard/app/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/app/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:23:46', '2021-04-12 19:23:46', NULL),
+(7216, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-12 19:23:47', '2021-04-12 19:23:47', NULL),
+(7217, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:23:49', '2021-04-12 19:23:49', NULL),
+(7218, 'Logged Out', 'Registered', 24, 'http://languafina.local/logout', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'POST', '2021-04-12 19:23:51', '2021-04-12 19:23:51', NULL),
+(7219, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/', 'GET', '2021-04-12 19:23:52', '2021-04-12 19:23:52', NULL),
+(7220, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-12 19:24:54', '2021-04-12 19:24:54', NULL),
+(7221, 'Logged In', 'Registered', 31, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-12 19:26:46', '2021-04-12 19:26:46', NULL),
+(7222, 'Logged Out', 'Registered', 31, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-12 19:26:46', '2021-04-12 19:26:46', NULL),
+(7223, 'Viewed instructor/payment/clark-estes', 'Guest', NULL, 'http://languafina.local/instructor/payment/clark-estes', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 19:26:47', '2021-04-12 19:26:47', NULL),
+(7224, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/instructor/payment/clark-estes', 'GET', '2021-04-12 19:27:26', '2021-04-12 19:27:26', NULL),
+(7225, 'Logged In', 'Registered', 24, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'POST', '2021-04-12 19:34:32', '2021-04-12 19:34:32', NULL),
+(7226, 'Viewed dashboard/site/setting', 'Registered', 24, 'http://languafina.local/dashboard/site/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/login', 'GET', '2021-04-12 19:34:32', '2021-04-12 19:34:32', NULL),
+(7227, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'POST', '2021-04-12 19:34:35', '2021-04-12 19:34:35', NULL),
+(7228, 'Viewed dashboard/smtp/create', 'Registered', 24, 'http://languafina.local/dashboard/smtp/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/site/setting', 'GET', '2021-04-12 19:34:44', '2021-04-12 19:34:44', NULL),
+(7229, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/smtp/create', 'POST', '2021-04-12 19:34:46', '2021-04-12 19:34:46', NULL),
+(7230, 'Created dashboard/smtp/store', 'Registered', 24, 'http://languafina.local/dashboard/smtp/store', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/smtp/create', 'POST', '2021-04-12 19:35:06', '2021-04-12 19:35:06', NULL),
+(7231, 'Viewed dashboard/smtp/create', 'Registered', 24, 'http://languafina.local/dashboard/smtp/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/smtp/create', 'GET', '2021-04-12 19:35:06', '2021-04-12 19:35:06', NULL),
+(7232, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/smtp/create', 'POST', '2021-04-12 19:35:08', '2021-04-12 19:35:08', NULL),
+(7233, 'Viewed dashboard/currency/index', 'Registered', 24, 'http://languafina.local/dashboard/currency/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/smtp/create', 'GET', '2021-04-12 19:35:24', '2021-04-12 19:35:24', NULL),
+(7234, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/currency/index', 'POST', '2021-04-12 19:35:26', '2021-04-12 19:35:26', NULL),
+(7235, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/currency/index', 'GET', '2021-04-12 19:35:26', '2021-04-12 19:35:26', NULL),
+(7236, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:35:28', '2021-04-12 19:35:28', NULL),
+(7237, 'Viewed dashboard/affiliate/setting', 'Registered', 24, 'http://languafina.local/dashboard/affiliate/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-12 19:35:33', '2021-04-12 19:35:33', NULL),
+(7238, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/setting', 'POST', '2021-04-12 19:35:35', '2021-04-12 19:35:35', NULL),
+(7239, 'Viewed dashboard/affiliate/payment/request', 'Registered', 24, 'http://languafina.local/dashboard/affiliate/payment/request', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/setting', 'GET', '2021-04-12 19:35:36', '2021-04-12 19:35:36', NULL),
+(7240, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/payment/request', 'POST', '2021-04-12 19:35:38', '2021-04-12 19:35:38', NULL),
+(7241, 'Viewed dashboard/affiliate/index', 'Registered', 24, 'http://languafina.local/dashboard/affiliate/index', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/payment/request', 'GET', '2021-04-12 19:35:40', '2021-04-12 19:35:40', NULL),
+(7242, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/index', 'POST', '2021-04-12 19:35:42', '2021-04-12 19:35:42', NULL),
+(7243, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/index', 'POST', '2021-04-12 19:35:45', '2021-04-12 19:35:45', NULL),
+(7244, 'Viewed dashboard/home', 'Registered', 24, 'http://languafina.local/dashboard/home', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/affiliate/index', 'GET', '2021-04-12 19:35:53', '2021-04-12 19:35:53', NULL),
+(7245, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'POST', '2021-04-12 19:35:56', '2021-04-12 19:35:56', NULL),
+(7246, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/home', 'GET', '2021-04-12 19:36:31', '2021-04-12 19:36:31', NULL),
+(7247, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:36:33', '2021-04-12 19:36:33', NULL),
+(7248, 'Created dashboard/app/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/app/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:38:31', '2021-04-12 19:38:31', NULL),
+(7249, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-12 19:38:32', '2021-04-12 19:38:32', NULL),
+(7250, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:38:34', '2021-04-12 19:38:34', NULL),
+(7251, 'Created dashboard/app/setting/update', 'Registered', 24, 'http://languafina.local/dashboard/app/setting/update', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:42:30', '2021-04-12 19:42:30', NULL),
+(7252, 'Viewed dashboard/app/setting', 'Registered', 24, 'http://languafina.local/dashboard/app/setting', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'GET', '2021-04-12 19:42:31', '2021-04-12 19:42:31', NULL);
+INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`, `route`, `ipAddress`, `userAgent`, `locale`, `referer`, `methodType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7253, 'Created dashboard/media/manager/slide', 'Registered', 24, 'http://languafina.local/dashboard/media/manager/slide', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', 'http://languafina.local/dashboard/app/setting', 'POST', '2021-04-12 19:42:33', '2021-04-12 19:42:33', NULL),
+(7254, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', NULL, 'GET', '2021-04-12 20:02:02', '2021-04-12 20:02:02', NULL),
+(7255, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:02:35', '2021-04-12 20:02:35', NULL),
+(7256, 'Failed Login Attempt', 'Guest', NULL, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:02:50', '2021-04-12 20:02:50', NULL),
+(7257, 'Logged In', 'Registered', 27, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:03:25', '2021-04-12 20:03:25', NULL),
+(7258, 'Logged Out', 'Registered', 27, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:03:25', '2021-04-12 20:03:25', NULL),
+(7259, 'Logged In', 'Registered', 28, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:04:27', '2021-04-12 20:04:27', NULL),
+(7260, 'Logged Out', 'Registered', 28, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:04:27', '2021-04-12 20:04:27', NULL),
+(7261, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'GET', '2021-04-12 20:04:34', '2021-04-12 20:04:34', NULL),
+(7262, 'Viewed signup', 'Guest', NULL, 'http://languafina.local/signup', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'GET', '2021-04-12 20:04:53', '2021-04-12 20:04:53', NULL),
+(7263, 'Created student/create', 'Guest', NULL, 'http://languafina.local/student/create', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/signup', 'POST', '2021-04-12 20:05:10', '2021-04-12 20:05:10', NULL),
+(7264, 'Logged In', 'Registered', 45, 'http://languafina.local/login', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'POST', '2021-04-12 20:14:02', '2021-04-12 20:14:02', NULL),
+(7265, 'Viewed /', 'Registered', 45, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/login', 'GET', '2021-04-12 20:14:03', '2021-04-12 20:14:03', NULL),
+(7266, 'Viewed wish/list', 'Registered', 45, 'http://languafina.local/wish/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/', 'GET', '2021-04-12 20:14:05', '2021-04-12 20:14:05', NULL),
+(7267, 'Viewed enroll/courses', 'Registered', 45, 'http://languafina.local/enroll/courses', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/', 'GET', '2021-04-12 20:14:05', '2021-04-12 20:14:05', NULL),
+(7268, 'Viewed cart/list', 'Registered', 45, 'http://languafina.local/cart/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/', 'GET', '2021-04-12 20:14:05', '2021-04-12 20:14:05', NULL),
+(7269, 'Viewed course/ielts-level-3', 'Registered', 45, 'http://languafina.local/course/ielts-level-3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/', 'GET', '2021-04-12 20:14:11', '2021-04-12 20:14:11', NULL),
+(7270, 'Viewed cart/list', 'Registered', 45, 'http://languafina.local/cart/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:13', '2021-04-12 20:14:13', NULL),
+(7271, 'Viewed enroll/courses', 'Registered', 45, 'http://languafina.local/enroll/courses', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:13', '2021-04-12 20:14:13', NULL),
+(7272, 'Viewed wish/list', 'Registered', 45, 'http://languafina.local/wish/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:13', '2021-04-12 20:14:13', NULL),
+(7273, 'Viewed add/to/cart', 'Registered', 45, 'http://languafina.local/add/to/cart?cart=27', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:17', '2021-04-12 20:14:17', NULL),
+(7274, 'Viewed wish/list', 'Registered', 45, 'http://languafina.local/wish/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:18', '2021-04-12 20:14:18', NULL),
+(7275, 'Viewed cart/list', 'Registered', 45, 'http://languafina.local/cart/list', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:18', '2021-04-12 20:14:18', NULL),
+(7276, 'Viewed shopping/cart', 'Registered', 45, 'http://languafina.local/shopping/cart', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:23', '2021-04-12 20:14:23', NULL),
+(7277, 'Viewed shopping/cart', 'Registered', 45, 'http://languafina.local/shopping/cart?courses=ok', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9', 'http://languafina.local/course/ielts-level-3', 'GET', '2021-04-12 20:14:23', '2021-04-12 20:14:23', NULL),
+(7278, 'Viewed /', 'Guest', NULL, 'http://languafina.local', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36', 'ar-EG,ar;q=0.9,en-US;q=0.8,en;q=0.7', NULL, 'GET', '2021-04-12 23:00:42', '2021-04-12 23:00:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -2678,13 +3984,17 @@ INSERT INTO `laravel_logger_activity` (`id`, `description`, `userType`, `userId`
 -- Table structure for table `massages`
 --
 
-CREATE TABLE `massages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `massages`;
+CREATE TABLE IF NOT EXISTS `massages` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `enroll_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `massages_enroll_id_foreign` (`enroll_id`),
+  KEY `massages_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2693,18 +4003,20 @@ CREATE TABLE `massages` (
 -- Table structure for table `media_managers`
 --
 
-CREATE TABLE `media_managers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `media_managers`;
+CREATE TABLE IF NOT EXISTS `media_managers` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` longtext COLLATE utf8mb4_unicode_ci,
+  `title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` longtext COLLATE utf8mb4_unicode_ci,
-  `alt` longtext COLLATE utf8mb4_unicode_ci,
-  `resolution` longtext COLLATE utf8mb4_unicode_ci,
-  `size` longtext COLLATE utf8mb4_unicode_ci,
+  `image` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alt` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `resolution` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `media_managers`
@@ -2750,20 +4062,22 @@ INSERT INTO `media_managers` (`id`, `user_id`, `title`, `type`, `image`, `alt`, 
 -- Table structure for table `meetings`
 --
 
-CREATE TABLE `meetings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `meetings`;
+CREATE TABLE IF NOT EXISTS `meetings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `meeting_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `owner_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `meeting_title` longtext COLLATE utf8mb4_unicode_ci,
+  `meeting_title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `start_time` datetime NOT NULL,
   `zoom_url` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `link_by` longtext COLLATE utf8mb4_unicode_ci,
-  `type` longtext COLLATE utf8mb4_unicode_ci,
-  `agenda` longtext COLLATE utf8mb4_unicode_ci,
+  `link_by` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agenda` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2772,11 +4086,13 @@ CREATE TABLE `meetings` (
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -2854,7 +4170,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (69, '2019_11_18_105615_create_uploads_table', 7),
 (70, '2020_04_18_064412_create_page_translations_table', 7),
 (71, '2020_04_18_065546_create_settings_table', 7),
-(73, '2020_12_10_152024_create_blogs_table', 8);
+(73, '2020_12_10_152024_create_blogs_table', 8),
+(75, '2021_04_07_213042_create_faqs_table', 9);
 
 -- --------------------------------------------------------
 
@@ -2862,14 +4179,17 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `notification_users`
 --
 
-CREATE TABLE `notification_users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `notification_users`;
+CREATE TABLE IF NOT EXISTS `notification_users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT '0',
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `notification_users_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `notification_users`
@@ -2892,16 +4212,19 @@ INSERT INTO `notification_users` (`id`, `user_id`, `is_read`, `data`, `created_a
 -- Table structure for table `oauth_access_tokens`
 --
 
-CREATE TABLE `oauth_access_tokens` (
+DROP TABLE IF EXISTS `oauth_access_tokens`;
+CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `expires_at` datetime DEFAULT NULL
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2910,13 +4233,16 @@ CREATE TABLE `oauth_access_tokens` (
 -- Table structure for table `oauth_auth_codes`
 --
 
-CREATE TABLE `oauth_auth_codes` (
+DROP TABLE IF EXISTS `oauth_auth_codes`;
+CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
-  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_auth_codes_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2925,8 +4251,9 @@ CREATE TABLE `oauth_auth_codes` (
 -- Table structure for table `oauth_clients`
 --
 
-CREATE TABLE `oauth_clients` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `oauth_clients`;
+CREATE TABLE IF NOT EXISTS `oauth_clients` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2936,7 +4263,9 @@ CREATE TABLE `oauth_clients` (
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_clients_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2945,11 +4274,13 @@ CREATE TABLE `oauth_clients` (
 -- Table structure for table `oauth_personal_access_clients`
 --
 
-CREATE TABLE `oauth_personal_access_clients` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `oauth_personal_access_clients`;
+CREATE TABLE IF NOT EXISTS `oauth_personal_access_clients` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `client_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2958,11 +4289,13 @@ CREATE TABLE `oauth_personal_access_clients` (
 -- Table structure for table `oauth_refresh_tokens`
 --
 
-CREATE TABLE `oauth_refresh_tokens` (
+DROP TABLE IF EXISTS `oauth_refresh_tokens`;
+CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2971,16 +4304,18 @@ CREATE TABLE `oauth_refresh_tokens` (
 -- Table structure for table `packages`
 --
 
-CREATE TABLE `packages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `packages`;
+CREATE TABLE IF NOT EXISTS `packages` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double NOT NULL,
   `commission` double NOT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '1',
+  `is_published` tinyint(1) NOT NULL DEFAULT 1,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `packages`
@@ -2997,16 +4332,20 @@ INSERT INTO `packages` (`id`, `image`, `price`, `commission`, `is_published`, `d
 -- Table structure for table `package_purchase_histories`
 --
 
-CREATE TABLE `package_purchase_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `package_purchase_histories`;
+CREATE TABLE IF NOT EXISTS `package_purchase_histories` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `amount` double DEFAULT NULL,
   `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `package_id` bigint(20) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `package_purchase_histories_user_id_foreign` (`user_id`),
+  KEY `package_purchase_histories_package_id_foreign` (`package_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `package_purchase_histories`
@@ -3017,7 +4356,8 @@ INSERT INTO `package_purchase_histories` (`id`, `amount`, `payment_method`, `use
 (2, 0, NULL, 21, 1, NULL, '2020-12-21 06:37:08', '2020-12-21 06:37:08'),
 (3, 0, NULL, 22, 1, NULL, '2020-12-21 07:12:31', '2020-12-21 07:12:31'),
 (4, 0, NULL, 23, 1, NULL, '2020-12-21 07:34:31', '2020-12-21 07:34:31'),
-(5, 0, NULL, 25, 1, NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14');
+(5, 0, NULL, 25, 1, NULL, '2021-03-30 18:10:14', '2021-03-30 18:10:14'),
+(6, 0, NULL, 32, 1, NULL, '2021-04-08 19:06:32', '2021-04-08 19:06:32');
 
 -- --------------------------------------------------------
 
@@ -3025,13 +4365,15 @@ INSERT INTO `package_purchase_histories` (`id`, `amount`, `payment_method`, `use
 -- Table structure for table `pages`
 --
 
-CREATE TABLE `pages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `title` longtext COLLATE utf8mb4_unicode_ci,
-  `slug` longtext COLLATE utf8mb4_unicode_ci,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+DROP TABLE IF EXISTS `pages`;
+CREATE TABLE IF NOT EXISTS `pages` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3040,14 +4382,17 @@ CREATE TABLE `pages` (
 -- Table structure for table `page_contents`
 --
 
-CREATE TABLE `page_contents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `page_contents`;
+CREATE TABLE IF NOT EXISTS `page_contents` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_id` bigint(20) UNSIGNED NOT NULL,
   `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `page_contents_page_id_foreign` (`page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3056,10 +4401,12 @@ CREATE TABLE `page_contents` (
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE `password_resets` (
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -3075,8 +4422,9 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 -- Table structure for table `payments`
 --
 
-CREATE TABLE `payments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `amount` double NOT NULL,
   `current_balance` double DEFAULT NULL,
   `process` enum('Bank','Paypal','Stripe') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -3086,7 +4434,10 @@ CREATE TABLE `payments` (
   `status_change_date` datetime DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payments_account_id_foreign` (`account_id`),
+  KEY `payments_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3095,17 +4446,78 @@ CREATE TABLE `payments` (
 -- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `tokenable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `point_transactions`
+--
+
+DROP TABLE IF EXISTS `point_transactions`;
+CREATE TABLE IF NOT EXISTS `point_transactions` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pointable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pointable_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` bigint(20) NOT NULL,
+  `current` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `point_transactions_pointable_type_pointable_id_index` (`pointable_type`,`pointable_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `point_transactions`
+--
+
+INSERT INTO `point_transactions` (`id`, `message`, `pointable_type`, `pointable_id`, `amount`, `current`, `created_at`, `updated_at`) VALUES
+(1, 'New user registration point', 'App\\User', 25, 500, 500, '2021-03-01 05:09:16', '2021-03-01 05:09:16'),
+(2, 'Free Course Enrollment Point', 'App\\User', 25, 50, 50, '2021-03-01 06:00:24', '2021-03-01 06:00:24'),
+(3, 'Free Course Enrollment Point', 'App\\User', 25, 50, 600, '2021-03-01 06:03:59', '2021-03-01 06:03:59'),
+(4, 'Paid Course Enroll point', 'App\\User', 25, 100, 700, '2021-03-01 06:20:18', '2021-03-01 06:20:18'),
+(5, 'Course Complete point', 'App\\User', 25, 200, 900, '2021-03-01 07:05:18', '2021-03-01 07:05:18'),
+(6, 'Course Complete point', 'App\\User', 25, 200, 1100, '2021-03-01 07:07:22', '2021-03-01 07:07:22'),
+(7, 'New User Registration Point', 'App\\User', 31, 500, 500, '2021-03-01 10:20:10', '2021-03-01 10:20:10'),
+(8, 'New User Registration Point', 'App\\User', 32, 500, 500, '2021-03-01 10:26:27', '2021-03-01 10:26:27'),
+(9, 'Free Course Enrollment Point', 'App\\User', 32, 50, 550, '2021-03-01 10:28:18', '2021-03-01 10:28:18'),
+(10, 'Paid Course Enroll point', 'App\\User', 32, 100, 650, '2021-03-01 10:28:27', '2021-03-01 10:28:27'),
+(11, 'Paid Course Enroll point', 'App\\User', 32, 100, 750, '2021-03-01 10:32:02', '2021-03-01 10:32:02'),
+(12, 'Course Complete point', 'App\\User', 32, 200, 950, '2021-03-01 10:34:05', '2021-03-01 10:34:05'),
+(13, 'Free Course Enrollment Point', 'App\\User', 31, 50, 550, '2021-03-01 10:46:50', '2021-03-01 10:46:50'),
+(14, 'Paid Course Enroll point', 'App\\User', 31, 100, 650, '2021-03-01 10:46:59', '2021-03-01 10:46:59'),
+(15, 'Paid Course Enroll point', 'App\\User', 31, 100, 750, '2021-03-01 10:49:22', '2021-03-01 10:49:22'),
+(16, 'Free Course Enrollment Point', 'App\\User', 19, 50, 50, '2021-03-04 06:41:14', '2021-03-04 06:41:14'),
+(17, 'Paid Course Enroll point', 'App\\User', 19, 100, 15000, '2021-03-04 06:41:28', '2021-03-04 06:41:28'),
+(18, 'New Course Purchased', 'App\\User', 19, 10000, 15000, '2021-03-04 07:24:31', '2021-03-04 07:24:31'),
+(19, 'New Course Purchased', 'App\\User', 19, 10000, 5000, '2021-03-04 07:25:20', '2021-03-04 07:25:20'),
+(20, 'Paid Course Enroll point', 'App\\User', 19, 100, 5000, '2021-03-04 07:25:28', '2021-03-04 07:25:28'),
+(21, 'New Course Purchased', 'App\\User', 19, 5000, 0, '2021-03-04 07:47:03', '2021-03-04 07:47:03'),
+(22, 'New Course Purchased', 'App\\User', 31, 250, 500, '2021-03-04 07:59:33', '2021-03-04 07:59:33'),
+(23, 'Purchased through Stripe', 'App\\User', 19, 20, 20, '2021-03-06 06:13:37', '2021-03-06 06:13:37'),
+(24, 'Purchased through Stripe', 'App\\User', 19, 50, 70, '2021-03-06 06:14:14', '2021-03-06 06:14:14'),
+(25, 'Purchased through Stripe', 'App\\User', 19, 100, 170, '2021-03-06 06:15:45', '2021-03-06 06:15:45'),
+(26, 'Purchased through Stripe', 'App\\User', 19, 50, 220, '2021-03-06 07:03:50', '2021-03-06 07:03:50'),
+(27, 'Purchased through Stripe', 'App\\User', 19, 10, 230, '2021-03-06 07:04:06', '2021-03-06 07:04:06'),
+(28, 'Purchased through Stripe', 'App\\User', 19, 20, 250, '2021-03-06 08:15:09', '2021-03-06 08:15:09'),
+(29, 'Purchased through Stripe', 'App\\User', 19, 20, 270, '2021-03-06 09:42:37', '2021-03-06 09:42:37'),
+(30, 'New Course Purchased', 'App\\User', 19, 200, 70, '2021-03-06 10:19:47', '2021-03-06 10:19:47'),
+(31, 'Purchased through Stripe', 'App\\User', 19, 10, 80, '2021-03-06 11:15:55', '2021-03-06 11:15:55');
 
 -- --------------------------------------------------------
 
@@ -3113,13 +4525,15 @@ CREATE TABLE `personal_access_tokens` (
 -- Table structure for table `post_replies`
 --
 
-CREATE TABLE `post_replies` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `post_replies`;
+CREATE TABLE IF NOT EXISTS `post_replies` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `reply` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3128,17 +4542,19 @@ CREATE TABLE `post_replies` (
 -- Table structure for table `questions`
 --
 
-CREATE TABLE `questions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `questions`;
+CREATE TABLE IF NOT EXISTS `questions` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `quiz_id` bigint(20) UNSIGNED NOT NULL,
   `question` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `grade` double(8,2) NOT NULL,
   `options` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `questions`
@@ -3153,8 +4569,9 @@ INSERT INTO `questions` (`id`, `user_id`, `quiz_id`, `question`, `grade`, `optio
 -- Table structure for table `quizzes`
 --
 
-CREATE TABLE `quizzes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `quizzes`;
+CREATE TABLE IF NOT EXISTS `quizzes` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
@@ -3163,8 +4580,9 @@ CREATE TABLE `quizzes` (
   `status` tinyint(1) NOT NULL,
   `number_of_attempts` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `quizzes`
@@ -3180,8 +4598,9 @@ INSERT INTO `quizzes` (`id`, `name`, `user_id`, `course_id`, `quiz_time`, `pass_
 -- Table structure for table `quiz_scores`
 --
 
-CREATE TABLE `quiz_scores` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `quiz_scores`;
+CREATE TABLE IF NOT EXISTS `quiz_scores` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `quiz_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `content_id` bigint(20) UNSIGNED NOT NULL,
@@ -3192,8 +4611,32 @@ CREATE TABLE `quiz_scores` (
   `right` double(8,2) NOT NULL,
   `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `redeem_course_points`
+--
+
+DROP TABLE IF EXISTS `redeem_course_points`;
+CREATE TABLE IF NOT EXISTS `redeem_course_points` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `redeem_course_points`
+--
+
+INSERT INTO `redeem_course_points` (`id`, `course_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 9, 31, '2021-03-01 10:34:05', '2021-03-01 10:34:05');
 
 -- --------------------------------------------------------
 
@@ -3201,15 +4644,22 @@ CREATE TABLE `quiz_scores` (
 -- Table structure for table `seen_contents`
 --
 
-CREATE TABLE `seen_contents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `seen_contents`;
+CREATE TABLE IF NOT EXISTS `seen_contents` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `enroll_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `class_id` bigint(20) UNSIGNED NOT NULL,
   `content_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `seen_contents_enroll_id_foreign` (`enroll_id`),
+  KEY `seen_contents_course_id_foreign` (`course_id`),
+  KEY `seen_contents_class_id_foreign` (`class_id`),
+  KEY `seen_contents_content_id_foreign` (`content_id`),
+  KEY `seen_contents_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3218,23 +4668,26 @@ CREATE TABLE `seen_contents` (
 -- Table structure for table `sliders`
 --
 
-CREATE TABLE `sliders` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `sliders`;
+CREATE TABLE IF NOT EXISTS `sliders` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sub_title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT 0,
+  `attributes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sliders`
 --
 
-INSERT INTO `sliders` (`id`, `image`, `title`, `sub_title`, `url`, `is_published`, `created_at`, `updated_at`) VALUES
-(1, '/uploads/media_manager/26.jpg', 'Learn things for a better & more open tomorrow', '10+ languages with top 1% teachers', 'http://thehappyindianstore.com/', 1, NULL, '2021-03-29 15:42:29');
+INSERT INTO `sliders` (`id`, `image`, `title`, `sub_title`, `url`, `is_published`, `attributes`, `created_at`, `updated_at`) VALUES
+(1, '/uploads/media_manager/26.jpg', 'Learn things for a better & more open tomorrow', '10+ languages with top 1% teachers', 'http://thehappyindianstore.com/', 1, '{\"have_button\":{\"status\":0,\"content\":\"Create your account now\",\"link\":\"\\/signup\"}}', NULL, '2021-04-08 19:52:21');
 
 -- --------------------------------------------------------
 
@@ -3242,13 +4695,14 @@ INSERT INTO `sliders` (`id`, `image`, `title`, `sub_title`, `url`, `is_published
 -- Table structure for table `students`
 --
 
-CREATE TABLE `students` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `students`;
+CREATE TABLE IF NOT EXISTS `students` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `about` longtext COLLATE utf8mb4_unicode_ci,
+  `about` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fb` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tw` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3256,8 +4710,11 @@ CREATE TABLE `students` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `students_email_unique` (`email`),
+  KEY `students_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `students`
@@ -3267,7 +4724,9 @@ INSERT INTO `students` (`id`, `name`, `email`, `phone`, `address`, `about`, `ima
 (1, 'student', 'student@mail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 19, NULL, '2020-12-09 03:52:33', '2020-12-09 03:52:33'),
 (2, 'Deepika', 'deepikaranalive@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 27, NULL, '2021-04-05 19:49:03', '2021-04-05 19:49:03'),
 (3, 'Mehak Talwar', 'mehaktalwar.mt@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 28, NULL, '2021-04-05 19:58:36', '2021-04-05 19:58:36'),
-(4, 'Ashish Rana', 'aroradeepi05@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 29, NULL, '2021-04-05 20:29:29', '2021-04-05 20:29:29');
+(4, 'Ashish Rana', 'aroradeepi05@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 29, NULL, '2021-04-05 20:29:29', '2021-04-05 20:29:29'),
+(5, 'Ahmed', 'ahmedsk128@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 30, NULL, '2021-04-08 11:15:19', '2021-04-08 11:15:19'),
+(6, 'student1', 'student1@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 45, NULL, '2021-04-12 20:05:10', '2021-04-12 20:05:10');
 
 -- --------------------------------------------------------
 
@@ -3275,8 +4734,9 @@ INSERT INTO `students` (`id`, `name`, `email`, `phone`, `address`, `about`, `ima
 -- Table structure for table `student_accounts`
 --
 
-CREATE TABLE `student_accounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `student_accounts`;
+CREATE TABLE IF NOT EXISTS `student_accounts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `bank` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Bank',
   `bank_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3292,7 +4752,8 @@ CREATE TABLE `student_accounts` (
   `stripe_card_holder_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stripe_card_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3301,18 +4762,20 @@ CREATE TABLE `student_accounts` (
 -- Table structure for table `subscriptions`
 --
 
-CREATE TABLE `subscriptions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscriptions`;
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double DEFAULT NULL,
-  `instructor_payment` double DEFAULT '0',
+  `instructor_payment` double DEFAULT 0,
   `duration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `popular` tinyint(1) NOT NULL DEFAULT '0',
-  `deactive` tinyint(1) NOT NULL DEFAULT '0',
+  `popular` tinyint(1) NOT NULL DEFAULT 0,
+  `deactive` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `subscriptions`
@@ -3329,15 +4792,17 @@ INSERT INTO `subscriptions` (`id`, `name`, `description`, `price`, `instructor_p
 -- Table structure for table `subscription_carts`
 --
 
-CREATE TABLE `subscription_carts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscription_carts`;
+CREATE TABLE IF NOT EXISTS `subscription_carts` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `subscription_package` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subscription_price` double NOT NULL,
   `start_at` datetime NOT NULL,
   `end_at` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3346,15 +4811,17 @@ CREATE TABLE `subscription_carts` (
 -- Table structure for table `subscription_courses`
 --
 
-CREATE TABLE `subscription_courses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscription_courses`;
+CREATE TABLE IF NOT EXISTS `subscription_courses` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subscription_duration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `is_published` tinyint(1) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `subscription_courses`
@@ -3370,15 +4837,17 @@ INSERT INTO `subscription_courses` (`id`, `subscription_duration`, `course_id`, 
 -- Table structure for table `subscription_course_requests`
 --
 
-CREATE TABLE `subscription_course_requests` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscription_course_requests`;
+CREATE TABLE IF NOT EXISTS `subscription_course_requests` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `subscription_duration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `subscription_course_requests`
@@ -3398,8 +4867,9 @@ INSERT INTO `subscription_course_requests` (`id`, `course_id`, `user_id`, `subsc
 -- Table structure for table `subscription_enrollments`
 --
 
-CREATE TABLE `subscription_enrollments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscription_enrollments`;
+CREATE TABLE IF NOT EXISTS `subscription_enrollments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subscription_package` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `subscription_price` double NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -3407,8 +4877,9 @@ CREATE TABLE `subscription_enrollments` (
   `end_at` datetime NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `subscription_enrollments`
@@ -3423,13 +4894,15 @@ INSERT INTO `subscription_enrollments` (`id`, `subscription_package`, `subscript
 -- Table structure for table `subscription_settings`
 --
 
-CREATE TABLE `subscription_settings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `subscription_settings`;
+CREATE TABLE IF NOT EXISTS `subscription_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `subscription_settings`
@@ -3447,14 +4920,17 @@ INSERT INTO `subscription_settings` (`id`, `type`, `value`, `created_at`, `updat
 -- Table structure for table `support_tickets`
 --
 
-CREATE TABLE `support_tickets` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `support_tickets`;
+CREATE TABLE IF NOT EXISTS `support_tickets` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `subject` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `replay_count` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `support_tickets_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3463,13 +4939,17 @@ CREATE TABLE `support_tickets` (
 -- Table structure for table `support_ticket_replays`
 --
 
-CREATE TABLE `support_ticket_replays` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `support_ticket_replays`;
+CREATE TABLE IF NOT EXISTS `support_ticket_replays` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `ticket_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `support_ticket_replays_ticket_id_foreign` (`ticket_id`),
+  KEY `support_ticket_replays_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3478,13 +4958,15 @@ CREATE TABLE `support_ticket_replays` (
 -- Table structure for table `system_settings`
 --
 
-CREATE TABLE `system_settings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `system_settings`;
+CREATE TABLE IF NOT EXISTS `system_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `system_settings`
@@ -3492,7 +4974,7 @@ CREATE TABLE `system_settings` (
 
 INSERT INTO `system_settings` (`id`, `type`, `value`, `created_at`, `updated_at`) VALUES
 (1, 'default_currencies', '1', NULL, NULL),
-(2, 'type_logo', 'uploads/site/EL1ckCmK6hO20i0nIyySfChx4WB0yFuwIE65F8p5.png', NULL, '2021-03-30 18:25:32'),
+(2, 'type_logo', 'uploads/site/bvRwHz9Bd0Jhpm0ySJaUDtOYudNpzFNPnXsfsSKU.png', NULL, '2021-04-08 13:02:57'),
 (3, 'type_name', 'Languafina', NULL, '2021-03-29 14:46:12'),
 (4, 'type_footer', 'Languafina', NULL, '2021-03-29 15:10:23'),
 (5, 'type_mail', 'info@languafina.com', NULL, '2021-03-29 14:46:12'),
@@ -3502,7 +4984,7 @@ INSERT INTO `system_settings` (`id`, `type`, `value`, `created_at`, `updated_at`
 (9, 'type_number', '+91 9779787700', NULL, '2021-04-01 22:10:58'),
 (10, 'type_google', 'https://www.instagram.com/languafina/', NULL, '2021-04-01 22:10:58'),
 (11, 'footer_logo', 'uploads/site/4Canjr4Uw7vqdcKEi0B3LiUVWNlhsK1oGRsMidPJ.png', NULL, '2021-03-30 18:32:16'),
-(12, 'favicon_icon', 'uploads/site/PnriqpU3BcmW4WHY3xIEPZdRYAFEzHCTERJ6hCd4.png', NULL, '2021-03-30 18:32:16'),
+(12, 'favicon_icon', 'uploads/site/X2vRgoJGI0kecwS5IBlkNuWPXX7ubYYHinH8tSMl.png', NULL, '2021-04-08 13:02:57'),
 (13, 'default_currencies', '1', NULL, NULL),
 (14, 'type_logo', '', NULL, NULL),
 (15, 'type_name', '', NULL, NULL),
@@ -3526,16 +5008,18 @@ INSERT INTO `system_settings` (`id`, `type`, `value`, `created_at`, `updated_at`
 -- Table structure for table `themes`
 --
 
-CREATE TABLE `themes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `themes`;
+CREATE TABLE IF NOT EXISTS `themes` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `version` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `activated` tinyint(1) NOT NULL DEFAULT '1',
-  `image` longtext COLLATE utf8mb4_unicode_ci,
+  `activated` tinyint(1) NOT NULL DEFAULT 1,
+  `image` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `themes`
@@ -3550,41 +5034,52 @@ INSERT INTO `themes` (`id`, `name`, `slug`, `version`, `activated`, `image`, `cr
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_type` enum('Student','Instructor','Admin') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `verified` tinyint(1) NOT NULL DEFAULT 0,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `banned` tinyint(1) NOT NULL DEFAULT 0,
   `provider_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'uploads/user/user.png',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `zoom_email` longtext COLLATE utf8mb4_unicode_ci,
-  `jwt_token` longtext COLLATE utf8mb4_unicode_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `zoom_email` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jwt_token` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `attributes` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `slug`, `email`, `user_type`, `email_verified_at`, `verified`, `password`, `banned`, `provider_id`, `image`, `remember_token`, `created_at`, `updated_at`, `zoom_email`, `jwt_token`) VALUES
-(5, 'amit', 'amit1', 'amitshrma22@gmail.com', 'Instructor', NULL, 1, '$2y$10$FCz2E7MX6dUHTfuY6Ti9ueO31RQNOLdy8WTsye0IoJHYT7cWPg97S', 0, NULL, 'uploads/instructor/871P0pOWCBD6M27oMG5Y5Sj49FQ1zVlm8oCAWgd5.jpg', 'uw6VWa0uTOgau9UDQpuCXUNqlvacLlOBikzTlRnHwKsH5NdJB2RFSpEVw3De', '2020-06-10 04:08:06', '2021-03-30 18:07:04', NULL, NULL),
-(19, 'STUDENT', 'student', 'student@mail.com', 'Student', NULL, 1, '$2y$10$Y7fwyZA3C/8LV2/6SfHbieNiojqBjZK4UTLkmjcnrejgvy0dJ4Au.', 0, NULL, 'uploads/user/user.png', NULL, '2020-12-09 03:52:33', '2020-12-09 03:52:33', NULL, NULL),
-(21, 'Rumon', 'rumon', 'rumon@mail.com', 'Instructor', NULL, 1, '$2y$10$9HW9tP5Z.jPMX5m6rDGcgORWCAtLVcQaszr9MtxuhgKWS8o5EzRaS', 0, NULL, 'uploads/instructor/ZguHDula9P98arVGlSHNKhsp1SMZLaXFSfE6VmKj.jpg', NULL, '2020-12-21 06:37:08', '2021-04-05 19:14:51', NULL, NULL),
-(22, 'Prince', 'prince', 'prince@mail.com', 'Instructor', NULL, 1, '$2y$10$fRFX3/gPCa23MjiyRoLTnOipA1YkKaAHKreLm.bLbKoKnReHrVupm', 0, NULL, 'uploads/instructor/G1v5q9RkbF9Qz8FbygQZpMoF6vDKWSotKwXvEdZw.jpg', NULL, '2020-12-21 07:12:31', '2020-12-21 07:13:57', NULL, NULL),
-(23, 'Azharul Islam Naeem', 'azharul-islam-naeem', 'naeem@mail.com', 'Instructor', NULL, 1, '$2y$10$KbYqaGH11Qje5MwJ6ajQlOJRGwYFdULHMSu7H/gGzk/J.bwOXOmiu', 1, NULL, 'uploads/instructor/NC77i2wPd5e4s1OhlLBaKr5u95ifOMaeiHuNfOiu.jpg', NULL, '2020-12-21 07:34:31', '2021-03-30 18:16:12', NULL, NULL),
-(24, 'admin', 'admin', 'admin@gmail.com', 'Admin', NULL, 1, '$2y$10$IbideAKIUBIzES0x71Oabuj6dimBJIsFqlLvd.fdyAsfLESh2BQyW', 0, NULL, 'uploads/user/user.png', 'tk1gFz91EIFOZpBUpGBz8hlm92UfdFd3UsUewzkhnYGP08yr4KPqE54ougQe', '2021-03-28 13:38:06', '2021-03-28 13:38:06', NULL, NULL),
-(25, 'puneet', 'puneet', 'design.lukee@gmail.com', 'Instructor', NULL, 0, '$2y$10$KudHo2cGWxZ2MFLtq0yXQ.n3068pcqXpnQefhTcUPLLuHtWBWmFbO', 0, NULL, 'uploads/user/user.png', 'ShTKKHvyYHMv5OWDvMQVhEkk9c832aLJwpNvxWhJYR6NEZvblOR8AbDneZsA', '2021-03-30 18:10:14', '2021-03-30 18:10:14', NULL, NULL),
-(26, 'Puneet Chaudhary', 'puneet-chaudhary', 'pcadmin@gmail.com', 'Admin', NULL, 0, '$2y$10$kjHXqnNI3FVb7Tad0GKZp.ciWy9J2ZKe6NMFkcknb73.ZZKn2/uN6', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:13:22', '2021-04-05 19:13:22', NULL, NULL),
-(27, 'Deepika', 'deepika', 'deepikaranalive@yahoo.com', 'Student', NULL, 0, '$2y$10$yRuotOvVy/f95wHDdxTktOby.r0scWx5jTMrGg8/7NjFF.CT1Dusq', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:49:03', '2021-04-05 19:49:03', NULL, NULL),
-(28, 'Mehak Talwar', 'mehak-talwar', 'mehaktalwar.mt@gmail.com', 'Student', NULL, 0, '$2y$10$/5yqOTcNzOtmm8cHEQYfOu7zlEYjZu7eJLaHfFUIddoIau6GU19iq', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:58:36', '2021-04-05 19:58:36', NULL, NULL),
-(29, 'Ashish Rana', 'ashish-rana', 'aroradeepi05@gmail.com', 'Student', NULL, 0, '$2y$10$hoHGNPqDP3V7b3awGL5LQ.NPqaIHu5EFw6lwa3SnSy/2OxX8.drfe', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 20:29:29', '2021-04-05 20:29:29', NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `slug`, `email`, `user_type`, `email_verified_at`, `verified`, `password`, `banned`, `provider_id`, `image`, `remember_token`, `created_at`, `updated_at`, `zoom_email`, `jwt_token`, `attributes`) VALUES
+(5, 'amit', 'amit1', 'amitshrma22@gmail.com', 'Instructor', NULL, 1, '$2y$10$FCz2E7MX6dUHTfuY6Ti9ueO31RQNOLdy8WTsye0IoJHYT7cWPg97S', 0, NULL, 'uploads/instructor/871P0pOWCBD6M27oMG5Y5Sj49FQ1zVlm8oCAWgd5.jpg', 'uw6VWa0uTOgau9UDQpuCXUNqlvacLlOBikzTlRnHwKsH5NdJB2RFSpEVw3De', '2020-06-10 04:08:06', '2021-03-30 18:07:04', NULL, NULL, NULL),
+(19, 'STUDENT', 'student', 'student@mail.com', 'Student', NULL, 1, '$2y$10$Y7fwyZA3C/8LV2/6SfHbieNiojqBjZK4UTLkmjcnrejgvy0dJ4Au.', 0, NULL, 'uploads/user/user.png', NULL, '2020-12-09 03:52:33', '2020-12-09 03:52:33', NULL, NULL, NULL),
+(21, 'Rumon', 'rumon', 'rumon@mail.com', 'Instructor', NULL, 1, '$2y$10$9HW9tP5Z.jPMX5m6rDGcgORWCAtLVcQaszr9MtxuhgKWS8o5EzRaS', 0, NULL, 'uploads/instructor/ZguHDula9P98arVGlSHNKhsp1SMZLaXFSfE6VmKj.jpg', NULL, '2020-12-21 06:37:08', '2021-04-05 19:14:51', NULL, NULL, NULL),
+(22, 'Prince', 'prince', 'prince@mail.com', 'Instructor', NULL, 1, '$2y$10$fRFX3/gPCa23MjiyRoLTnOipA1YkKaAHKreLm.bLbKoKnReHrVupm', 0, NULL, 'uploads/instructor/G1v5q9RkbF9Qz8FbygQZpMoF6vDKWSotKwXvEdZw.jpg', NULL, '2020-12-21 07:12:31', '2020-12-21 07:13:57', NULL, NULL, NULL),
+(23, 'Azharul Islam Naeem', 'azharul-islam-naeem', 'naeem@mail.com', 'Instructor', NULL, 1, '$2y$10$KbYqaGH11Qje5MwJ6ajQlOJRGwYFdULHMSu7H/gGzk/J.bwOXOmiu', 1, NULL, 'uploads/instructor/NC77i2wPd5e4s1OhlLBaKr5u95ifOMaeiHuNfOiu.jpg', NULL, '2020-12-21 07:34:31', '2021-03-30 18:16:12', NULL, NULL, NULL),
+(24, 'admin', 'admin', 'admin@gmail.com', 'Admin', NULL, 1, '$2y$12$y2GNYpeyre8/Zs.9Q/T1IO.QPRkfbp6VuOnEhC.IY37FarPlBpFIO', 0, NULL, 'uploads/user/user.png', 'ydHnaZgOGGDSdnWperV4zYE4OccUFpYTESsbLJ7LttyGNt5TLGYcQsWXFNNx', '2021-03-28 13:38:06', '2021-03-28 13:38:06', NULL, NULL, NULL),
+(25, 'puneet', 'puneet', 'design.lukee@gmail.com', 'Instructor', NULL, 0, '$2y$10$KudHo2cGWxZ2MFLtq0yXQ.n3068pcqXpnQefhTcUPLLuHtWBWmFbO', 0, NULL, 'uploads/user/user.png', 'ShTKKHvyYHMv5OWDvMQVhEkk9c832aLJwpNvxWhJYR6NEZvblOR8AbDneZsA', '2021-03-30 18:10:14', '2021-03-30 18:10:14', NULL, NULL, NULL),
+(26, 'Puneet Chaudhary', 'puneet-chaudhary', 'pcadmin@gmail.com', 'Admin', NULL, 0, '$2y$10$kjHXqnNI3FVb7Tad0GKZp.ciWy9J2ZKe6NMFkcknb73.ZZKn2/uN6', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:13:22', '2021-04-05 19:13:22', NULL, NULL, NULL),
+(27, 'Deepika', 'deepika', 'deepikaranalive@yahoo.com', 'Student', NULL, 0, '$2y$12$ffgbNoc/cRvrlhd3g96uc.glRrnog3DGbyBbOh8EFMNUVHGMRaQ22', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:49:03', '2021-04-05 19:49:03', NULL, NULL, NULL),
+(28, 'Mehak Talwar', 'mehak-talwar', 'mehaktalwar.mt@gmail.com', 'Student', NULL, 0, '$2y$12$ffgbNoc/cRvrlhd3g96uc.glRrnog3DGbyBbOh8EFMNUVHGMRaQ22', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 19:58:36', '2021-04-05 19:58:36', NULL, NULL, NULL),
+(29, 'Ashish Rana', 'ashish-rana', 'aroradeepi05@gmail.com', 'Student', NULL, 0, '$2y$10$hoHGNPqDP3V7b3awGL5LQ.NPqaIHu5EFw6lwa3SnSy/2OxX8.drfe', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-05 20:29:29', '2021-04-05 20:29:29', NULL, NULL, NULL),
+(31, 'Clark Estes', 'clark-estes', 'hihiq@mailinator.com', 'Instructor', NULL, 0, '$2y$12$.V1kmatkf1mBzxNLuNUH7ONXNlDDM8xiD3wDl8jOF6PYmXkFPRbqS', 0, NULL, 'uploads/user/user.png', 'CjVrmo02eCOs01jcco2XDC2tvtnEsElIAb3hsL5Q8Ee9uwZbllSQEM5aYRBu', '2021-04-08 18:57:14', '2021-04-08 18:57:14', NULL, NULL, NULL),
+(32, 'Malik Lara', 'malik-lara', 'qimomuwopi@mailinator.com', 'Instructor', NULL, 0, '$2y$10$hSBQ3E/yBgMekIf/9KixWeJF2Kfq2fOCN5bCMBC0bLOi5k7mc32N6', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-08 19:06:32', '2021-04-08 19:06:32', NULL, NULL, NULL),
+(33, 'Joshua Mullen', '', 'hijisasiny@mailinator.com', 'Instructor', NULL, 0, '$2y$10$niPs5on3EatiMPyRFsVd4OMgBcaTFbpbLTg0u1TJwH1Z3UbZBIMMO', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-12 16:13:45', '2021-04-12 16:13:45', NULL, NULL, NULL),
+(34, 'Nyssa Macias', '2', 'xuvajafu@mailinator.com', 'Instructor', NULL, 0, '$2y$10$h7Q.lK8Dqu3tvAJ8ykiro.ELJiA7fdkafaPx8nzjj4zm5D755mJBG', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-12 16:14:23', '2021-04-12 16:14:23', NULL, NULL, NULL),
+(35, 'Ria House', '2', 'sawed@mailinator.com', 'Instructor', NULL, 0, '$2y$10$MWRVRRWYiYzGiOok2U3gPOVnm/nTJnfHf6QUiIN7yo5oaPzrXPCUO', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-12 16:17:31', '2021-04-12 16:17:31', NULL, NULL, NULL),
+(40, 'Kenyon Murray', '2', 'ahmedsk128@gmail.com', 'Instructor', NULL, 1, '$2y$10$1PysDcbyxMsT3Kpi6rsG/ubpeh7Fp4YG2ps7WdUzg7g4lKTTNwJg.', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-12 16:39:47', '2021-04-12 16:41:38', NULL, NULL, NULL),
+(45, 'student1', 'student1', 'student1@gmail.com', 'Student', NULL, 1, '$2y$10$gWwCCqZkrsR4s2xmZaUmXOURTKGcU4Tb.Ml.i03ZkNlTa9mnXPx16', 0, NULL, 'uploads/user/user.png', NULL, '2021-04-12 20:05:10', '2021-04-12 20:05:10', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -3592,13 +5087,15 @@ INSERT INTO `users` (`id`, `name`, `slug`, `email`, `user_type`, `email_verified
 -- Table structure for table `verify_users`
 --
 
-CREATE TABLE `verify_users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `verify_users`;
+CREATE TABLE IF NOT EXISTS `verify_users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `verify_users`
@@ -3609,7 +5106,38 @@ INSERT INTO `verify_users` (`id`, `user_id`, `token`, `created_at`, `updated_at`
 (2, 25, '15e49c34f06d5a94afe3c316266f851901c9dce3', '2021-03-30 18:12:18', '2021-03-30 18:12:18'),
 (3, 26, '254574784c187d55b95ed26b541e495e15e9aef8', '2021-04-05 19:13:22', '2021-04-05 19:13:22'),
 (4, 27, '7e7ef9ba0fcf73d51591277813f74eccca287d83', '2021-04-05 19:57:26', '2021-04-05 19:57:26'),
-(5, 28, '1b44c36459c78700c10506d7e113b762f97a6ce1', '2021-04-05 20:06:46', '2021-04-05 20:06:46');
+(5, 28, '1b44c36459c78700c10506d7e113b762f97a6ce1', '2021-04-05 20:06:46', '2021-04-05 20:06:46'),
+(6, 40, 'a80a6b59ff2e516d323c48627484f047c4d89cba', '2021-04-12 16:39:50', '2021-04-12 16:39:50'),
+(7, 45, 'cd4578a0a0d8b106eec14e1b342acc71403e7a57', '2021-04-12 20:05:13', '2021-04-12 20:05:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallets`
+--
+
+DROP TABLE IF EXISTS `wallets`;
+CREATE TABLE IF NOT EXISTS `wallets` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `wallet_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `wallet_icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `wallet_rate` double DEFAULT NULL,
+  `redeem_limit` double DEFAULT NULL,
+  `registration_point` double DEFAULT NULL,
+  `free_course_point` double DEFAULT NULL,
+  `paid_course_point` double DEFAULT NULL,
+  `course_complete_point` double DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `wallets`
+--
+
+INSERT INTO `wallets` (`id`, `wallet_name`, `wallet_icon`, `wallet_rate`, `redeem_limit`, `registration_point`, `free_course_point`, `paid_course_point`, `course_complete_point`, `created_at`, `updated_at`) VALUES
+(1, 'Account Balance', 'fa fa-money', 10, 50, 0, 0, 0, 0, NULL, '2021-03-04 08:10:37');
 
 -- --------------------------------------------------------
 
@@ -3617,13 +5145,17 @@ INSERT INTO `verify_users` (`id`, `user_id`, `token`, `created_at`, `updated_at`
 -- Table structure for table `wishlists`
 --
 
-CREATE TABLE `wishlists` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `wishlists`;
+CREATE TABLE IF NOT EXISTS `wishlists` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `course_price` double DEFAULT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `wishlists_user_id_foreign` (`user_id`),
+  KEY `wishlists_course_id_foreign` (`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3632,895 +5164,13 @@ CREATE TABLE `wishlists` (
 -- Table structure for table `zooms`
 --
 
-CREATE TABLE `zooms` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `zooms`;
+CREATE TABLE IF NOT EXISTS `zooms` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `addons`
---
-ALTER TABLE `addons`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `admin_earnings`
---
-ALTER TABLE `admin_earnings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `affiliates`
---
-ALTER TABLE `affiliates`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `affiliate_histories`
---
-ALTER TABLE `affiliate_histories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `affiliate_payments`
---
-ALTER TABLE `affiliate_payments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `api_password_resets`
---
-ALTER TABLE `api_password_resets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `api_password_resets_email_index` (`email`);
-
---
--- Indexes for table `blogs`
---
-ALTER TABLE `blogs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `carts`
---
-ALTER TABLE `carts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `carts_user_id_foreign` (`user_id`),
-  ADD KEY `carts_course_id_foreign` (`course_id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `certificates`
---
-ALTER TABLE `certificates`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `certificate_stores`
---
-ALTER TABLE `certificate_stores`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `classes`
---
-ALTER TABLE `classes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `classes_course_id_foreign` (`course_id`);
-
---
--- Indexes for table `class_contents`
---
-ALTER TABLE `class_contents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `class_contents_class_id_foreign` (`class_id`);
-
---
--- Indexes for table `coupons`
---
-ALTER TABLE `coupons`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `coupons_code_unique` (`code`);
-
---
--- Indexes for table `courses`
---
-ALTER TABLE `courses`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `courses_slug_unique` (`slug`),
-  ADD KEY `courses_user_id_foreign` (`user_id`),
-  ADD KEY `courses_category_id_foreign` (`category_id`);
-
---
--- Indexes for table `course_comments`
---
-ALTER TABLE `course_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `course_comments_course_id_foreign` (`course_id`),
-  ADD KEY `course_comments_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `course_purchase_histories`
---
-ALTER TABLE `course_purchase_histories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `course_purchase_histories_enrollment_id_foreign` (`enrollment_id`);
-
---
--- Indexes for table `currencies`
---
-ALTER TABLE `currencies`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `enrollments`
---
-ALTER TABLE `enrollments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `enrollments_course_id_foreign` (`course_id`),
-  ADD KEY `enrollments_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `forums`
---
-ALTER TABLE `forums`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `forum_post_views`
---
-ALTER TABLE `forum_post_views`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `helpful_answers`
---
-ALTER TABLE `helpful_answers`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `instructors`
---
-ALTER TABLE `instructors`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `instructors_email_unique` (`email`),
-  ADD KEY `instructors_package_id_foreign` (`package_id`),
-  ADD KEY `instructors_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `instructor_accounts`
---
-ALTER TABLE `instructor_accounts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `instructor_accounts_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `instructor_earnings`
---
-ALTER TABLE `instructor_earnings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `instructor_earnings_enrollment_id_foreign` (`enrollment_id`),
-  ADD KEY `instructor_earnings_package_id_foreign` (`package_id`),
-  ADD KEY `instructor_earnings_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `instructor_subscription_earnings`
---
-ALTER TABLE `instructor_subscription_earnings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `instructor_subscription_payments`
---
-ALTER TABLE `instructor_subscription_payments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `jobs_queue_index` (`queue`);
-
---
--- Indexes for table `know_abouts`
---
-ALTER TABLE `know_abouts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `languages`
---
-ALTER TABLE `languages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `laravel_logger_activity`
---
-ALTER TABLE `laravel_logger_activity`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `massages`
---
-ALTER TABLE `massages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `massages_enroll_id_foreign` (`enroll_id`),
-  ADD KEY `massages_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `media_managers`
---
-ALTER TABLE `media_managers`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `meetings`
---
-ALTER TABLE `meetings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `notification_users`
---
-ALTER TABLE `notification_users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `notification_users_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `oauth_access_tokens`
---
-ALTER TABLE `oauth_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
-
---
--- Indexes for table `oauth_auth_codes`
---
-ALTER TABLE `oauth_auth_codes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `oauth_auth_codes_user_id_index` (`user_id`);
-
---
--- Indexes for table `oauth_clients`
---
-ALTER TABLE `oauth_clients`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `oauth_clients_user_id_index` (`user_id`);
-
---
--- Indexes for table `oauth_personal_access_clients`
---
-ALTER TABLE `oauth_personal_access_clients`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `oauth_refresh_tokens`
---
-ALTER TABLE `oauth_refresh_tokens`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `packages`
---
-ALTER TABLE `packages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `package_purchase_histories`
---
-ALTER TABLE `package_purchase_histories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `package_purchase_histories_user_id_foreign` (`user_id`),
-  ADD KEY `package_purchase_histories_package_id_foreign` (`package_id`);
-
---
--- Indexes for table `pages`
---
-ALTER TABLE `pages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `page_contents`
---
-ALTER TABLE `page_contents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `page_contents_page_id_foreign` (`page_id`);
-
---
--- Indexes for table `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indexes for table `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `payments_account_id_foreign` (`account_id`),
-  ADD KEY `payments_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Indexes for table `post_replies`
---
-ALTER TABLE `post_replies`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `questions`
---
-ALTER TABLE `questions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `quizzes`
---
-ALTER TABLE `quizzes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `quiz_scores`
---
-ALTER TABLE `quiz_scores`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `seen_contents`
---
-ALTER TABLE `seen_contents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `seen_contents_enroll_id_foreign` (`enroll_id`),
-  ADD KEY `seen_contents_course_id_foreign` (`course_id`),
-  ADD KEY `seen_contents_class_id_foreign` (`class_id`),
-  ADD KEY `seen_contents_content_id_foreign` (`content_id`),
-  ADD KEY `seen_contents_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `sliders`
---
-ALTER TABLE `sliders`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `students`
---
-ALTER TABLE `students`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `students_email_unique` (`email`),
-  ADD KEY `students_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `student_accounts`
---
-ALTER TABLE `student_accounts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscription_carts`
---
-ALTER TABLE `subscription_carts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscription_courses`
---
-ALTER TABLE `subscription_courses`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscription_course_requests`
---
-ALTER TABLE `subscription_course_requests`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscription_enrollments`
---
-ALTER TABLE `subscription_enrollments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `subscription_settings`
---
-ALTER TABLE `subscription_settings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `support_tickets`
---
-ALTER TABLE `support_tickets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `support_tickets_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `support_ticket_replays`
---
-ALTER TABLE `support_ticket_replays`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `support_ticket_replays_ticket_id_foreign` (`ticket_id`),
-  ADD KEY `support_ticket_replays_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `system_settings`
---
-ALTER TABLE `system_settings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `themes`
---
-ALTER TABLE `themes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
-
---
--- Indexes for table `verify_users`
---
-ALTER TABLE `verify_users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `wishlists`
---
-ALTER TABLE `wishlists`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `wishlists_user_id_foreign` (`user_id`),
-  ADD KEY `wishlists_course_id_foreign` (`course_id`);
-
---
--- Indexes for table `zooms`
---
-ALTER TABLE `zooms`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `addons`
---
-ALTER TABLE `addons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `admin_earnings`
---
-ALTER TABLE `admin_earnings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `affiliates`
---
-ALTER TABLE `affiliates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `affiliate_histories`
---
-ALTER TABLE `affiliate_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `affiliate_payments`
---
-ALTER TABLE `affiliate_payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `api_password_resets`
---
-ALTER TABLE `api_password_resets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `blogs`
---
-ALTER TABLE `blogs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `carts`
---
-ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `certificates`
---
-ALTER TABLE `certificates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `certificate_stores`
---
-ALTER TABLE `certificate_stores`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `classes`
---
-ALTER TABLE `classes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `class_contents`
---
-ALTER TABLE `class_contents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
-
---
--- AUTO_INCREMENT for table `coupons`
---
-ALTER TABLE `coupons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `courses`
---
-ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT for table `course_comments`
---
-ALTER TABLE `course_comments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `course_purchase_histories`
---
-ALTER TABLE `course_purchase_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `currencies`
---
-ALTER TABLE `currencies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `enrollments`
---
-ALTER TABLE `enrollments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `forums`
---
-ALTER TABLE `forums`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `forum_post_views`
---
-ALTER TABLE `forum_post_views`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `helpful_answers`
---
-ALTER TABLE `helpful_answers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `instructors`
---
-ALTER TABLE `instructors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `instructor_accounts`
---
-ALTER TABLE `instructor_accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `instructor_earnings`
---
-ALTER TABLE `instructor_earnings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `instructor_subscription_earnings`
---
-ALTER TABLE `instructor_subscription_earnings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `instructor_subscription_payments`
---
-ALTER TABLE `instructor_subscription_payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `jobs`
---
-ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `know_abouts`
---
-ALTER TABLE `know_abouts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `languages`
---
-ALTER TABLE `languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `laravel_logger_activity`
---
-ALTER TABLE `laravel_logger_activity`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6138;
-
---
--- AUTO_INCREMENT for table `massages`
---
-ALTER TABLE `massages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `media_managers`
---
-ALTER TABLE `media_managers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
--- AUTO_INCREMENT for table `meetings`
---
-ALTER TABLE `meetings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
-
---
--- AUTO_INCREMENT for table `notification_users`
---
-ALTER TABLE `notification_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `oauth_clients`
---
-ALTER TABLE `oauth_clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `oauth_personal_access_clients`
---
-ALTER TABLE `oauth_personal_access_clients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `packages`
---
-ALTER TABLE `packages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `package_purchase_histories`
---
-ALTER TABLE `package_purchase_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `pages`
---
-ALTER TABLE `pages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `page_contents`
---
-ALTER TABLE `page_contents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `payments`
---
-ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `post_replies`
---
-ALTER TABLE `post_replies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `questions`
---
-ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `quizzes`
---
-ALTER TABLE `quizzes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `quiz_scores`
---
-ALTER TABLE `quiz_scores`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `seen_contents`
---
-ALTER TABLE `seen_contents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sliders`
---
-ALTER TABLE `sliders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `students`
---
-ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `student_accounts`
---
-ALTER TABLE `student_accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `subscription_carts`
---
-ALTER TABLE `subscription_carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `subscription_courses`
---
-ALTER TABLE `subscription_courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `subscription_course_requests`
---
-ALTER TABLE `subscription_course_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `subscription_enrollments`
---
-ALTER TABLE `subscription_enrollments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `subscription_settings`
---
-ALTER TABLE `subscription_settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `support_tickets`
---
-ALTER TABLE `support_tickets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `support_ticket_replays`
---
-ALTER TABLE `support_ticket_replays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `system_settings`
---
-ALTER TABLE `system_settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- AUTO_INCREMENT for table `themes`
---
-ALTER TABLE `themes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
--- AUTO_INCREMENT for table `verify_users`
---
-ALTER TABLE `verify_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `wishlists`
---
-ALTER TABLE `wishlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `zooms`
---
-ALTER TABLE `zooms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

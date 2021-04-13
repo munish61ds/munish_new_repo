@@ -68,7 +68,7 @@
             </div><!-- end row -->
             <div class="cart-detail-wrap mt-4">
                 <div class="row">
-                    @if(env('COUPON_ACTIVE') != "NO" && 
+                    @if(env('COUPON_ACTIVE') != "NO" &&
                         couponRouteForBlade())
                     <div class="col-lg-6 ml-auto">
 
@@ -78,8 +78,8 @@
 
                             <h3 class="widget-title font-size-20">@translate(Have coupon code? Apply here)</h3>
 
-                            <form action="{{ route('checkout.coupon.store') }}" 
-                                  class="needs-validation" 
+                            <form action="{{ route('checkout.coupon.store') }}"
+                                  class="needs-validation"
                                   novalidate
 					              method="post">
                                   @csrf
@@ -98,12 +98,12 @@
                             @endif
 
                         <div class="mt-4">
-    
+
                             @if(Session::has('success'))
                                 <p class="alert alert-success">{{ Session::get('success') }}</p>
                             @endif
-    
-    
+
+
                             @if(Session::has('error'))
                                 <p class="alert alert-danger">{{ Session::get('error') }}</p>
                             @endif
@@ -129,7 +129,7 @@
 
                                                             <br>
 
-                                                <h3>@translate(Discounted Amount): 
+                                                <h3>@translate(Discounted Amount):
                                                     <span class="badge badge-success"> {{ couponDiscount($coupon) }} </span>
                                                 </h3>
 
@@ -167,7 +167,7 @@
                                         @if(Session::has('coupon'))
 
                                         <span class="primary-color-3"> <del>{{formatPrice($total_price)}}</del> {{formatPrice($total_price - couponDiscountPrice($coupon))}}</span>
-                                        
+
                                         @else
                                         <span class="primary-color-3">{{formatPrice($total_price)}}</span>
                                         @endif
@@ -201,15 +201,15 @@
                                                     Pay with {{ walletName() }} ({{ WalletPrice($total_price) }})
                                                 </button>
                                             </form>
-                                                
+
                                             @else
 
                                             <p class="btn btn-success w-75 p-3">
                                                 @translate(Not enough) {{ walletName() }} ({{ walletBalance() }}) @translate(to purchase)
                                             </p>
-                                                
+
                                             @endif
-                                            
+
                                         @else
                                             <p class="btn btn-success w-75 p-3">
                                                 @translate(Not enough) {{ walletName() }} ({{ walletBalance() }}) @translate(to purchase)
@@ -218,10 +218,10 @@
                                     </div>
                                     @endif
 
-                                        
+
                                         <div class="payment-method-wrap">
                                             <div class="checkout-item-list">
-                                                
+
 
                                                 <div class="accordion" id="paymentMethodExample">
 
@@ -328,13 +328,13 @@
 
                                                                             @if(Session::has('coupon'))
 
-                                                                                <input type="hidden" 
+                                                                                <input type="hidden"
                                                                                        name="amount"
                                                                                        value="{{ StripePrice($total_price - couponDiscountPrice($coupon)) }}">
 
                                                                             @else
-                                                                            
-                                                                            <input type="hidden" 
+
+                                                                            <input type="hidden"
                                                                                    name="amount"
                                                                                    value="{{ StripePrice($total_price) }}">
 
@@ -503,9 +503,9 @@
                         .find('.alert')
                         .text(response.error.message);
                 } else {
-// token contains id, last4, and card type
+					// token contains id, last4, and card type
                     var token = response['id'];
-// insert the token into the form so it gets submitted to the server
+					// insert the token into the form so it gets submitted to the server
                     $form.find('input[type=text]').empty();
                     $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
                     $form.get(0).submit();
@@ -513,43 +513,29 @@
             }
 
         });
-
-
     </script>
 
-
-    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-    <script>
-        "use strict"
-        paypal.Button.render({
-            // Configure environment
-            env: '{{ env('PAYPAL_ENVIRONMENT') }}',
-            client:{
-                production: '{{ env('PAYPAL_CLIENT_ID') }}'
-            },
-        //Todo::must be  env data in client
-            // Customize button (optional)
-            locale: 'en_US',
-            style: {
+    <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_CLIENT_ID')}}"></script>
+    <script type="text/javascript">
+    	paypal.Buttons({
+    		locale: 'en_US',
+    		style: {
                 size: 'responsive',
                 color: 'gold',
                 shape: 'pill',
                 label: 'checkout',
             },
-
             // Enable Pay Now checkout flow (optional)
             commit: true,
-
-            // Set up a payment
-            payment: function (data, actions) {
-                return actions.payment.create({
-                    transactions: [{
+		    // Set up a payment
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
                         amount: {
-                            
                             @if(Session::has('coupon'))
-                            total: '{{ $total_price  - couponDiscountPrice($coupon) }}',
+                            value: '{{ $total_price  - couponDiscountPrice($coupon) }}',
                             @else
-                            total: '{{ $total_price }}',
+                            value: '{{ $total_price }}',
                             @endif
                             currency: 'USD'
                         }
@@ -557,8 +543,8 @@
                 });
             },
             // Execute the payment
-            onAuthorize: function (data, actions) {
-                return actions.payment.execute().then(function () {
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function(details) {
                     // Show a confirmation message to the buyer
                     /*append data in input form*/
                     $('#orderID').val(data.orderID);
@@ -568,8 +554,7 @@
                     $('#paypal-form').submit();
                 });
             }
-        }, '#paypal-button');
-
+	  	}).render('#paypal-button');
     </script>
 
     {{-- PAYTM START --}}

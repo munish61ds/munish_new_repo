@@ -32,8 +32,7 @@
 	        </a>
 	    @endif
 	</div>
-	
-	
+
 	<!--======================================
 					START PACKAGE AREA
 	======================================-->
@@ -289,31 +288,31 @@
     	<ol class="carousel-indicators">
 	      	<li data-target="#carouselHomePageMid1Indicators" data-slide-to="0" class="active"></li>
 	    </ol>
-	    <div class="carousel-inner" role="listbox">
-				<div class="carousel-item active" style="background-image: url('{{ filePath('best_online_learning.jpg') }}')">
-					<div class="carousel-caption d-none d-md-block">
-						<span class="display-4 main-title custom_span_class">Online English Courses<br> With The Best Teachers</span>
-						<p class="lead_style">Languafina teachers have more than 15 years of classroom teaching experience each. All teachers are highly qualified and they are specialists in IELTS and Cambridge English exams preparation.</p>
-						<br>
-							<a href="{{ route('student.register') }}" class="theme-btn line-height-40 text-capitalize butn-margin">
-								Start Learning
-							</a>
-					</div>
-		      </div>
-			</div>
+    	<div class="carousel-inner" role="listbox">
+			<div class="carousel-item active" style="background-image: url('{{ filePath('best_online_learning.jpg') }}')">
+				<div class="carousel-caption d-none d-md-block">
+					<span class="display-4 main-title custom_span_class">Online English Courses<br> With The Best Teachers</span>
+					<p class="lead_style">Languafina teachers have more than 15 years of classroom teaching experience each. All teachers are highly qualified and they are specialists in IELTS and Cambridge English exams preparation.</p>
+					<br>
+					<a href="{{ route('student.register') }}" class="theme-btn line-height-40 text-capitalize butn-margin">
+						Start Learning
+					</a>
+				</div>
+	      </div>
 		</div>
+	</div>
 
-		
-		
+
+
     <!--======================================
             START PACKAGE AREA
     ======================================-->
     <section class="choose-area-custom-section text-center">
-			@include('frontend.include.our_services')
-		</section><!-- end package-area -->
-		
-		<!--======================================
-            START PACKAGE AREA
+		@include('frontend.include.our_services')
+	</section><!-- end package-area -->
+
+	<!--======================================
+        START PACKAGE AREA
     ======================================-->
     <section class="choose-area section-padding text-center" style="display:none;">
         <div class="container">

@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <!--<div class="card col-md-3 col-12">
+        {{-- <div class="card col-md-3 col-12">
             <div class="card-content">
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/testimonials.svg') }}" />
                     <div class="card-title">@translate(Testimonials)</div>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div-->
+        </div> --}}
     </div>
     {{-- <div class="ft">
         <p class="chk"><small class="text-muted">Still not sure?</small></p>
