@@ -63,7 +63,13 @@ class LoginController extends Controller
             }
         }
 
-
+        /* check the instructor takes the evaluation test */
+        if($user->user_type == "Instructor") {
+        	$ins = Instructor::where('user_id', $user->id)->first();
+        	if($ins->evaluation_test == 0) {
+        		return redirect()->route('instructor.evaluation_test');
+        	}
+        }
     }
 
 

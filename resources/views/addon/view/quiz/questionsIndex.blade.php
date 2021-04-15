@@ -66,7 +66,7 @@
                 <hr>
                 <div class="text-right">
                     <button class="btn btn-sm btn-outline-success p-2 m-3" id="add-answer" type="button"><i
-                            class="fa fa-plus-circle"></i> @translate(Add Question) </button>
+                            class="fa fa-plus-circle"></i> @translate(Add Answer) </button>
 
                 </div>
                 <div class="row">

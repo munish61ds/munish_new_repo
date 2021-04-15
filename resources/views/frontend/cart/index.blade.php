@@ -221,203 +221,25 @@
 
                                         <div class="payment-method-wrap">
                                             <div class="checkout-item-list">
-
-
                                                 <div class="accordion" id="paymentMethodExample">
-
-                                                    {{-- Stripe --}}
-
                                                     <div class="card">
-                                                        <div class="card-header w-75" id="headingTwo">
-                                                            <div
-                                                                class="checkout-item d-flex align-items-center justify-content-between">
-                                                                <label for="radio-8 stripe-label"
-                                                                       class="radio-trigger collapsed mb-0 w-100"
-                                                                       data-toggle="collapse" data-target="#collapseTwo"
-                                                                       aria-expanded="false"
-                                                                       aria-controls="collapseTwo">
-                                                    <span
-                                                        class="widget-title font-size-18 stripe-btn d-block text-center">
-                                                      <img src="{{ asset('frontend/images/stripe.png') }}"
-                                                           class="img-fluid" alt="">
-                                                    </span>
-                                                                </label>
+                                                    	{{-- Stripe --}}
+                                                        @include('includes.student_cart.stripe_checkout')
+                                                    </div>
 
-                                                            </div>
-                                                        </div>
+	                                                <div class="card">
+	                                                	{{-- Paypal --}}
+	                                            		@include('includes.student_cart.paypal_checkout_buttons')
+	                                                </div>
 
-
-                                                        <div id="collapseTwo" class="collapse"
-                                                             aria-labelledby="headingTwo"
-                                                             data-parent="#paymentMethodExample">
-                                                            <div class="card-body mb-3">
-                                                                <div class="contact-form-action">
-
-
-                                                                    <form role="form"
-                                                                          action="{{ route('stripe.post') }}"
-                                                                          method="post" class="require-validation"
-                                                                          data-cc-on-file="false"
-                                                                          data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
-                                                                          id="payment-form">
-                                                                        @csrf
-
-                                                                        <div class="input-box">
-                                                                            <label class="label-text">@translate(Name on Card) <span
-                                                                                    class="primary-color-2 ml-1">*</span></label>
-                                                                            <div class="form-group">
-                                                                                <span
-                                                                                    class="la la-pencil input-icon"></span>
-                                                                                <input class="form-control"
-                                                                                       placeholder="Card Name"
-                                                                                       type="text" name="text"
-                                                                                       required="">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="input-box">
-                                                                            <label class="label-text">@translate(Card Number)<span
-                                                                                    class="primary-color-2 ml-1">*</span></label>
-                                                                            <div class="form-group">
-                                                                                <span
-                                                                                    class="la la-pencil input-icon"></span>
-                                                                                <input class="form-control card-number"
-                                                                                       name="text"
-                                                                                       placeholder="1234  5678  9876  5432"
-                                                                                       required="" type="text">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="input-box">
-                                                                            <label class="label-text">@translate(Expiry Month)<span
-                                                                                    class="primary-color-2 ml-1">*</span></label>
-                                                                            <div class="form-group">
-                                                                                <span
-                                                                                    class="la la-pencil input-icon"></span>
-                                                                                <input
-                                                                                    class="form-control card-expiry-month"
-                                                                                    placeholder="MM" required=""
-                                                                                    name="text" type="text">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="input-box">
-                                                                            <label class="label-text">@translate(Expiry Year)<span
-                                                                                    class="primary-color-2 ml-1">*</span></label>
-                                                                            <div class="form-group">
-                                                                                <span
-                                                                                    class="la la-pencil input-icon"></span>
-                                                                                <input
-                                                                                    class="form-control card-expiry-year"
-                                                                                    placeholder="YY" required=""
-                                                                                    name="text" type="text">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="input-box">
-                                                                            <label class="label-text">@translate(CVC)<span
-                                                                                    class="primary-color-2 ml-1">*</span></label>
-                                                                            <div class="form-group">
-                                                                                <span
-                                                                                    class="la la-pencil input-icon"></span>
-                                                                                <input class="form-control card-cvc"
-                                                                                       placeholder="CVC" required=""
-                                                                                       name="text" type="text">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="input-box">
-                                                                            <input type="hidden" name="name"
-                                                                                   value="{{ Auth::user()->name }}">
-
-                                                                            @if(Session::has('coupon'))
-
-                                                                                <input type="hidden"
-                                                                                       name="amount"
-                                                                                       value="{{ StripePrice($total_price - couponDiscountPrice($coupon)) }}">
-
-                                                                            @else
-
-                                                                            <input type="hidden"
-                                                                                   name="amount"
-                                                                                   value="{{ StripePrice($total_price) }}">
-
-                                                                            @endif
-
-                                                                        </div>
-
-                                                                        <button type="submit"
-                                                                                class="theme-btn d-block text-center m-auto">
-                                                                                @if(Session::has('coupon'))
-                                                                                    @translate(Proceed)({{formatPrice($total_price - couponDiscountPrice($coupon))}})
-                                                                                @else
-                                                                                    @translate(Proceed)({{formatPrice($total_price)}})
-                                                                                @endif
-                                                                        </button>
-
-                                                                    </form>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div><!-- end card -->
-                                                {{-- Stripe::END --}}
-
-
-                                                <!-- end card -->
-                                                {{-- Paypal button --}}
-
-                                                    <div class="card">
-                                                        <div id="paypal-button"></div>
-                                                    </div><!-- end card -->
-                                                {{-- Paypal button:END --}}
-
-                                            {{-- PAYTM PAYMENT --}}
-
-											@if(env('PAYTM_MERCHANT_ID') != "" &&  env('PAYTM_MERCHANT_KEY') != "" &&  env('PAYTM_ACTIVE') != "NO" && paytmRouteForBlade())
-                                                {{--PAYTM--}}
-
-                                                <form action="{{ route('paytm.payment') }}" method="POST" id="payTmForm">
-                                                    @csrf
-                                                    @if(Session::has('coupon'))
-                                                        <input type="hidden" name="amount" value="{{ PaytmPrice($total_price - couponDiscountPrice($coupon)) }}">
-                                                    @else
-                                                        <input type="hidden" name="amount" value="{{ PaytmPrice($total_price) }}">
-                                                    @endif
-                                                </form>
-
-												<a href="javascript:void()" title="Pay via PayTM" onclick="paytmPay()">
-													<div class="card border-bottom-0 paytm-top">
-														<div class="card-header">
-															<div class="checkout-item d-flex align-items-center justify-content-between">
-																<span class="widget-title font-size-18 stripe-btn w-75 d-block text-center font-weight-bold m-auto">
-																		<img src="{{ filePath('paytm.png') }}" height="25px"
-																			width="80px" alt="Paytm">
-																</span>
-															</div>
-														</div>
-													</div>
-												</a>
-
-												{{--PAYTM ends--}}
-											@endif
-
-											{{-- PAYTM PAYMENT::END --}}
-
-                                                    <form id="paypal-form" method="post" action="{{route('paypal.paymnet')}}" class="invisible">
-                                                        @csrf
-                                                        <input type="hidden" name="orderID" id="orderID">
-                                                        <input type="hidden" name="payerID" id="payerID">
-                                                        <input type="hidden" name="paymentID" id="paymentID">
-                                                        <input type="hidden" name="paymentToken" id="paymentToken">
-                                                        @if(Session::has('coupon'))
-                                                            <input type="hidden" value="{{PaypalPrice($total_price- couponDiscountPrice($coupon))}}" name="amount" id="amount">
-                                                        @else
-                                                            <input type="hidden" value="{{PaypalPrice($total_price)}}" name="amount" id="amount">
-                                                        @endif
-                                                    </form>
+	                                                <div class="card">
+	                                                	{{-- Paypal --}}
+	                                            		@include('includes.student_cart.paytm_checkout')
+	                                                </div>
                                                 </div><!-- end accordion -->
                                             </div>
                                         </div><!-- end payment-method-wrap -->
                                     </div><!-- end card-box-shared-body -->
-
-
 
                                     <div class="m-5">
 
@@ -434,7 +256,6 @@
 											@if (env('STRIPE_KEY') != NULL || env('STRIPE_SECRET') != NULL)
 												<img src="{{ filePath('stripe.png') }}" alt="#stripe" class="w-25 p-2">
 											@endif
-
                                     </div>
 
                                 </div>
@@ -454,120 +275,4 @@
     <!-- ================================
         END CART AREA
     ================================= -->
-@endsection
-@section('js')
-    {{-- stripe --}}
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
-    <script type="text/javascript">
-        "use strict"
-        $(function () {
-            var $form = $(".require-validation");
-            $('form.require-validation').bind('submit', function (e) {
-                var $form = $(".require-validation"),
-                    inputSelector = ['input[type=email]', 'input[type=password]',
-                        'input[type=text]', 'input[type=file]',
-                        'textarea'].join(', '),
-                    $inputs = $form.find('.required').find(inputSelector),
-                    $errorMessage = $form.find('div.error'),
-                    valid = true;
-                $errorMessage.addClass('hide');
-
-                $('.has-error').removeClass('has-error');
-                $inputs.each(function (i, el) {
-                    var $input = $(el);
-                    if ($input.val() === '') {
-                        $input.parent().addClass('has-error');
-                        $errorMessage.removeClass('hide');
-                        e.preventDefault();
-                    }
-                });
-
-                if (!$form.data('cc-on-file')) {
-                    e.preventDefault();
-                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
-                    Stripe.createToken({
-                        number: $('.card-number').val(),
-                        cvc: $('.card-cvc').val(),
-                        exp_month: $('.card-expiry-month').val(),
-                        exp_year: $('.card-expiry-year').val()
-                    }, stripeResponseHandler);
-                }
-
-            });
-
-            function stripeResponseHandler(status, response) {
-                if (response.error) {
-                    $('.error')
-                        .removeClass('hide')
-                        .find('.alert')
-                        .text(response.error.message);
-                } else {
-					// token contains id, last4, and card type
-                    var token = response['id'];
-					// insert the token into the form so it gets submitted to the server
-                    $form.find('input[type=text]').empty();
-                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
-                    $form.get(0).submit();
-                }
-            }
-
-        });
-    </script>
-
-    <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_CLIENT_ID')}}"></script>
-    <script type="text/javascript">
-    	paypal.Buttons({
-    		locale: 'en_US',
-    		style: {
-                size: 'responsive',
-                color: 'gold',
-                shape: 'pill',
-                label: 'checkout',
-            },
-            // Enable Pay Now checkout flow (optional)
-            commit: true,
-		    // Set up a payment
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            @if(Session::has('coupon'))
-                            value: '{{ $total_price  - couponDiscountPrice($coupon) }}',
-                            @else
-                            value: '{{ $total_price }}',
-                            @endif
-                            currency: 'USD'
-                        }
-                    }]
-                });
-            },
-            // Execute the payment
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function(details) {
-                    // Show a confirmation message to the buyer
-                    /*append data in input form*/
-                    $('#orderID').val(data.orderID);
-                    $('#payerID').val(data.payerID);
-                    $('#paymentID').val(data.paymentID)
-                    $('#paymentToken').val(data.paymentToken)
-                    $('#paypal-form').submit();
-                });
-            }
-	  	}).render('#paypal-button');
-    </script>
-
-    {{-- PAYTM START --}}
-
-		@if(env('PAYTM_MERCHANT_ID') != "" &&  env('PAYTM_MERCHANT_KEY') != "" &&  env('PAYTM_ACTIVE') != "NO" && paytmRouteForBlade())
-
-		<script>
-			function paytmPay(){
-				$('#payTmForm').submit();
-			}
-		</script>
-
-		@endif
-
-		{{-- PAYTM END --}}
 @endsection

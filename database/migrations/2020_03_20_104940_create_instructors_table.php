@@ -26,7 +26,8 @@ class CreateInstructorsTable extends Migration
             $table->string('tw')->nullable();
             $table->string('skype')->nullable();
             $table->longText('about')->nullable();
-            $table->longText('attributes')->nullable(); // for trainer qualifications
+            $table->longText('attributes')->nullable();
+            $table->boolean('evaluation_test')->default(0);
 
             //fk here
             $table->bigInteger('package_id')->unsigned()->nullable();

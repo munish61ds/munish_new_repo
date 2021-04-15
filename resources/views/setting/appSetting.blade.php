@@ -2,13 +2,6 @@
 @section('title','Setup App Setting')
 @section('parentPageTitle', 'All')
 
-@section('css-link')
-
-@stop
-
-@section('page-style')
-
-@stop
 @section('content')
     <div class="row">
         <div class="col-md-10 offset-md-1 px-3">
@@ -37,12 +30,16 @@
                                name="GOOGLE_CALLBACK"
                                class="form-control mb-2">
                         <hr class="py-2">
-                        <label class="label">@translate(PAYPAL CLIENT ID)(Business account) <a href="https://developer.paypal.com/docs/api-basics/manage-apps/" target="_blank"><i class="fa fa-info text-warning"></i></a></label>
+
+                        <label class="label">@translate(PAYPAL CLIENT ID) (Business account)
+                        	<a href="https://developer.paypal.com/docs/api-basics/manage-apps/" target="_blank">
+	                        	<i class="fa fa-info text-warning"></i>
+	                        </a>
+                        </label>
                         <input type="hidden" name="types[]" value="PAYPAL_CLIENT_ID">
                         <input type="text" placeholder="@translate(Enter the data)" value="{{env('PAYPAL_CLIENT_ID')}}"
                                name="PAYPAL_CLIENT_ID"
                                class="form-control mb-2">
-
                         <label class="label">@translate(PAYPAL APP SECRET)</label>
                         <input type="hidden" name="types[]" value="PAYPAL_APP_SECRET">
                         <input type="text" placeholder="@translate(Enter the data)" value="{{env('PAYPAL_APP_SECRET')}}"

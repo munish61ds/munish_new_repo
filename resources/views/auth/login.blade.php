@@ -117,10 +117,11 @@
 
                           {{-- Flash message after successful registration --}}
                           @if (Session::has('message'))
-                              <div class="alert alert-info text-center">{{ Session::get('message') }}</div>
+                              <div class="alert alert-info text-center mr-4 ml-4 mt-3">{{ Session::get('message') }}</div>
                           @endif
-
-
+                          @if (Session::has('evaluation_test_flash'))
+                              <div class="alert alert-info text-center mr-4 ml-4 mt-3">{{ Session::get('evaluation_test_flash') }}</div>
+                          @endif
 
                           {{-- Login form --}}
                           <div class="card-box-shared-body">
@@ -205,7 +206,7 @@
                                               </div>
                                           </div><!-- end col-md-12 -->
                                           <div class="col-lg-12">
-                                              <p class="mt-4">@translate(Don't have an account)? <a href="{{ route('student.register') }}" class="primary-color-2">@translate(Register)</a></p>
+                                              <p class="mt-4">@translate(Do not have an account)? <a href="{{ route('student.register') }}" class="primary-color-2">@translate(Register)</a></p>
                                           </div><!-- end col-md-12 -->
                                       </div><!-- end row -->
                                   </form>

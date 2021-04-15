@@ -58,6 +58,43 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('course/published', 'Course\CourseController@published')->name('course.publish');
     Route::get('course/rating', 'Course\CourseController@rating')->name('course.rating');
 
+    // Evaluation test --------------
+    Route::group(['prefix' => 'evaluation-test'], function () {
+    	// Categories
+    	Route::name('evaluation-test.category.')
+    		->prefix('category')
+    		->namespace('Module\EvaluationTest')
+    		->group(function () {
+			    Route::get('create', 'CategoryController@create')->name('create');
+			    Route::post('store', 'CategoryController@store')->name('store');
+			    Route::get('edit/{id}', 'CategoryController@edit')->name('edit');
+			    Route::post('update', 'CategoryController@update')->name('update');
+			    Route::get('destroy/{id}', 'CategoryController@destroy')->name('destroy');
+			    Route::get('index', 'CategoryController@index')->name('index');
+    	});
+
+	    // Evaluation test & questions
+	    Route::name('evaluation-test.')
+    		->namespace('Module\EvaluationTest')
+    		->group(function () {
+				Route::get('create','EvaluationTestController@create')->name('create');
+			    Route::get('list','EvaluationTestController@create')->name('list');
+			    Route::post('store','EvaluationTestController@store')->name('store');
+			    Route::get('status','EvaluationTestController@published')->name('published');
+			    Route::get('edit/{id}','EvaluationTestController@edit')->name('edit');
+			    Route::post('update','EvaluationTestController@update')->name('update');
+			    Route::get('delete/{id}','EvaluationTestController@delete')->name('delete');
+
+			    Route::get('questions/add/{id}','EvaluationTestController@questionsIndex')->name('question.add');
+			    Route::post('questions/store','EvaluationTestController@questionsStore')->name('questions.store');
+			    Route::get('questions/status','EvaluationTestController@questionsPublished')->name('questions.published');
+			    Route::get('questions/delete/{id}','EvaluationTestController@questionsDelete')->name('questions.delete');
+			    Route::get('questions/edit/{id}','EvaluationTestController@questionsEdit')->name('questions.edit');
+			    Route::post('questions/update','EvaluationTestController@questionsUpdate')->name('questions.update');
+	    });
+    });
+    // Evaluation test --------------
+
     // class
     Route::get('class/create/{id}', 'Course\ClassController@create')->name('classes.create');
     Route::post('class/store', 'Course\ClassController@store')->name('classes.store')->middleware('demo');
@@ -271,7 +308,6 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
 
 
     if (themeManager() == "rumbok"){
-
         /*know about module*/
         Route::get('know/index','KnowAboutController@index')->name('know.index');
         Route::get('know/create','KnowAboutController@create')->name('know.create');
@@ -290,6 +326,3 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
         Route::get('blog/publish','BlogController@isActive')->name('blog.active');
     }
 });
-
-
-

@@ -54,7 +54,7 @@
 
 
                             <li class="{{request()->is('dashboard/media/manager*')
-                                    ? 'active' : null}}">
+                                ? 'active' : null}}">
                                 <a href="javaScript:void();">
                                     <i class="fa fa-picture-o"></i>
                                     <span>@translate(Media Manager)</span><i
@@ -72,8 +72,8 @@
                             </li>
 
                             <li class="{{request()->is('dashboard/course*')
-                                   ||request()->is('dashboard/category*')
-                                   || request()->is('dashboard/category*') ? 'active' : null}}">
+                               ||request()->is('dashboard/category*')
+                               || request()->is('dashboard/category*') ? 'active' : null}}">
                                 <a href="javaScript:void();">
                                     <i class="fa fa-book"></i>
                                     <span>@translate(Courses) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
@@ -108,7 +108,7 @@
                             </li>
 
 
-                        {{-- Coupon manager --}}
+                        	{{-- Coupon manager --}}
                             @if (couponActive() && \Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
 
                                 <li class="{{request()->is('dashboard/coupon*')
@@ -138,8 +138,6 @@
                                 </li>
                             @endif
                             {{-- Coupon manager::END --}}
-
-
 
 
                             {{-- Zoom manager --}}
@@ -213,9 +211,7 @@
                             {{--Certificate end--}}
 
 
-<!--
-
-                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+							<!--@if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                 {{-- Package area --}}
                                 <li><a href="{{route('packages.index')}}"
                                        class="{{request()->is('dashboard/package*') ?'active':null}}">
@@ -225,7 +221,7 @@
                                 <li><a href="{{route('payments.index')}}"
                                        class="{{request()->is('dashboard/payment*') ?'active':null}}">
                                         <i class="fa fa-money"></i>
-                                        <span>@translate(Instructor's Payment)
+                                        <span>@translate(Payments of instructor)
                                             @if(\App\Model\Payment::where('status','Request')->count() > 0)
                                                 <sup
                                                     class="badge badge-info">{{\App\Model\Payment::where('status','Request')->count()}}
@@ -235,10 +231,8 @@
                                         </span>
                                     </a>
                                 </li>
+                            @endif-->
 
-                            @endif
-
--->
                             @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Instructor")
 
                                 <li><a href="{{route('students.index')}}"
@@ -323,11 +317,11 @@
                             @endif
 
 
-                          <!--  @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+                          	<!--  @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
                                 {{-- Admin Earning area --}}
                                 <li><a href="{{route('admin.earning.index')}}"
                                        class="{{request()->is('dashboard/admin*') ?'active':null}}">
-                                        <i class="fa fa-history"></i> <span>@translate(Admin's Earning)</span>
+                                        <i class="fa fa-history"></i> <span>@translate(Earning of Admin)</span>
                                     </a>
                                 </li>
 
@@ -347,15 +341,33 @@
                                 @endif
                             @endif -->
 
-                           <!--   {{-- Support Ticket --}}
-                            <li><a href="{{route('tickets.index')}}"
+                           	<!--   {{-- Support Ticket --}}
+                            	<li><a href="{{route('tickets.index')}}"
                                    class="{{request()->is('dashboard/ticket*') ?'active':null}}">
                                     <i class="fa fa-envelope-open-o"></i> <span>@translate(Support Ticket)</span>
                                 </a>
+                            </li> -->
 
-                            </li>
+							@if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+	                            <li class="{{request()->is('dashboard/evaluation-test*')
+	                               	||request()->is('dashboard/evaluation-test/category*')
+	                               	|| request()->is('dashboard/evaluation-test/category*') ? 'active' : null}}">
+	                                <a href="javaScript:void();">
+	                                    <i class="fa fa-book"></i>
+	                                    <span>@translate(Evaluation test)</span>
+	                                    <i class="feather icon-chevron-right"></i>
+	                                </a>
+	                                <ul class="vertical-submenu">
+	                                    <li><a href="{{route('evaluation-test.category.index')}}"
+	                                           class="{{request()->is('dashboard/evaluation-test/category*') ?'active':null}}">@translate(Categories)</a></li>
+                                        <li><a href="{{route('evaluation-test.create')}}"
+                                               class="{{request()->is('dashboard/evaluation-test/create*') ?'active':null}}">@translate(Create Test)</a></li>
+                                        <li><a href="{{route('evaluation-test.list')}}"
+                                               class="{{request()->is('dashboard/evaluation-test/list*') || request()->is('dashboard/evaluation-test/questions*')  ?'active':null}}">@translate(Test List)</a></li>
+	                                </ul>
+	                            </li>
+                            @endif
 
--->
                             {{-- Settings Area --}}
                             <li class="{{request()->is('dashboard/smtp*')
                                    || request()->is('dashboard/language*')

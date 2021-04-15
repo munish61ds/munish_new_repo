@@ -10,8 +10,7 @@
 
 Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']], function () {
     // homepage
-    Route::get('/', 'FrontendController@homepage')
-        ->name('homepage');
+    Route::get('/', 'FrontendController@homepage')->name('homepage');
 
     if (env('BLOG_ACTIVE') == "YES"){
         /*for frontend blog*/
@@ -21,7 +20,7 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         Route::get('blog/tag/{tag}','FrontendController@tagBlog')->name('blog.tag');
     }
 
-     Route::get('faqs','FrontendController@viewFaqs')->name('faqs.all');
+    Route::get('faqs','FrontendController@viewFaqs')->name('faqs.all');
 
     /*search courses*/
     Route::get('search', 'FrontendController@searchCourses')->name('search.courses');
@@ -63,6 +62,16 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
     /*instructor create*/
     Route::post('instructor/create', 'FrontendController@registerCreate')
         ->name('instructor.create')->middleware('demo');
+
+    /*instructor evaluation test*/
+    Route::name('instructor.')
+	->prefix('instructor/evaluation-test')
+	->namespace('Module\EvaluationTest')
+	->group(function () {
+	    Route::get('/', 'EvaluationTestController@evaluationTest')->name('evaluation_test');
+	    Route::post('/', 'EvaluationTestController@evaluationTestPost')->name('evaluation_test_post');
+	    Route::get('/done', 'EvaluationTestController@evaluationTestDone')->name('evaluation_test_done');
+	});
 
     /*instructor payment*/
     Route::get('instructor/payment/{slug}', 'FrontendController@insPayment')

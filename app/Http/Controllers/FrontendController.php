@@ -59,12 +59,16 @@ use Illuminate\Support\Str;
 
 class FrontendController extends Controller
 {
-
     private  $theme = 'frontend';
+
     function __construct()
     {
         $this->theme = themeManager();
         $this->middleware(['installed']);
+
+        $this->middleware('auth', [
+            'only' => ['evaluationTestPost']
+        ]);
     }
 
     function userNotify($user_id,$details)
@@ -1237,14 +1241,7 @@ class FrontendController extends Controller
         // }
 
         try {
-            // $user->notify(new InstructorRegister());
-            // VerifyUser::create([
-            //     'user_id' => $user->id,
-            //     'token' => sha1(time())
-            // ]);
-            //send verify mail
-            // $user->notify(new VerifyNotifications($user));
-            $evaluation_test_link = '#';
+            $evaluation_test_link = route('instructor.evaluation_test');
             $data = [
 				'user_name' => $user->first_name .' ' . $user->last_name,
 				'evaluation_test_link' => $evaluation_test_link,
