@@ -48,7 +48,7 @@
 			.header-menu-fluid,
 			.header-top,
 			.header-menu-content {
-				background-color: rgba(8,0,134,1) !important;
+				background-color: #fd0100 !important;
 			}
     	@endif
     </style>
