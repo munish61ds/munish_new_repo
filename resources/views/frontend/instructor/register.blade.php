@@ -528,8 +528,11 @@
 									        			<div class="form-group form-check">
 									        				<input type="hidden" name="agree_ev_test" value="0">
 														    <input type="checkbox" class="form-check-input @error('agree_ev_test') is-invalid @enderror mt-2"
+														    	required
 														    	id="agree_ev_test" name="agree_ev_test" value="{{ old('agree_ev_test') ? old('agree_ev_test') : 1 }}">
-														    <label class="form-check-label label-text" for="agree_ev_test">@translate(I agree to take an evaluation test.)</label>
+														    <label class="form-check-label label-text" for="agree_ev_test">
+														    	@translate(I agree to take an evaluation test.) *
+														    </label>
 			                                                @error('agree_ev_test')
 			                                                <span class="invalid-feedback" role="alert">
 			                                                  <strong>{{ $message }}</strong>
@@ -541,11 +544,12 @@
 									        			<div class="form-group form-check">
 									        				<input type="hidden" name="agree_terms_cond" value="0">
 														    <input type="checkbox" class="form-check-input @error('agree_terms_cond') is-invalid @enderror mt-2"
+														    	required
 														    	id="agree_terms_cond" name="agree_terms_cond" value="{{ old('agree_terms_cond') ? old('agree_terms_cond') : 1 }}">
 														    <label class="form-check-label label-text" for="agree_terms_cond">
 														    	@translate(I agree for)
 														    	<a href="#">@translate(terms and conditions)</a>
-														    	@translate(of Langufina.)
+														    	@translate(of Langufina.) *
 														    </label>
 			                                                @error('agree_terms_cond')
 			                                                <span class="invalid-feedback" role="alert">
@@ -559,6 +563,9 @@
 									    </div>
 									</div>
 									<div class="mb-3 ml-4">
+										<p class="text-danger mb-3" id="fill_required" style="display: none;">
+											Please fill required fields first.
+										</p>
 										<button class="btn btn-primary" id="prev-btn" type="button">
 											<i class="fa fa-arrow-left"></i>
 											Previous step
@@ -624,15 +631,41 @@
                 },
             });
 
-            $("#prev-btn").on("click", function() {
-                // Navigate previous
-                $('#smartwizard').smartWizard("prev");
-                return true;
-            });
+            // check valid step
+            function checkValidStep() {
+            	var step_index = parseInt($('#smartwizard').smartWizard("getStepIndex")) + 1;
+            	let status = true;
+            	$(`#step-${step_index} [required]`).each(function(){
+            		if($(this).attr('type') == 'checkbox') {
+            			if(!$(this).prop('checked')) {
+            				status = false;
+            			}
+            		} else {
+	            		if($(this).val() == '' || $(this).val() == null) {
+	            			status = false;
+	            		}
+            		}
+            	});
+            	return status;
+            }
+
             $("#next-btn").on("click", function() {
-                // Navigate next
-                $('#smartwizard').smartWizard("next");
-                return true;
+                if(checkValidStep()) {
+                	$('#fill_required').hide();
+	                $('#smartwizard').smartWizard("next");
+	                return true;
+                } else {
+                	$('#fill_required').show();
+                }
+            });
+            $("#prev-btn").on("click", function() {
+                if(checkValidStep()) {
+                	$('#fill_required').hide();
+	                $('#smartwizard').smartWizard("prev");
+	                return true;
+                } else {
+                	$('#fill_required').show();
+                }
             });
 
             // Demo Button Events

@@ -29,15 +29,15 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         /*check  the user is payment clear*/
-        if ($user->user_type == "Instructor") {
-            /*check the payment */
-            $ins = Instructor::where('user_id',$user->id)->first();
-            $pa = PackagePurchaseHistory::where('user_id',$user->id)->where('package_id',$ins->package_id)->first();
-            if($pa == null){
-                auth()->logout();
-                return redirect()->route('instructor.payment',$user->slug);
-            }
-        }
+        // if ($user->user_type == "Instructor") {
+        //     /*check the payment */
+        //     $ins = Instructor::where('user_id',$user->id)->first();
+        //     $pa = PackagePurchaseHistory::where('user_id',$user->id)->where('package_id',$ins->package_id)->first();
+        //     if($pa == null){
+        //         auth()->logout();
+        //         return redirect()->route('instructor.payment',$user->slug);
+        //     }
+        // }
 
 
         if (!$user->verified) {
@@ -56,12 +56,12 @@ class LoginController extends Controller
         }
 
         /*check the instructor paid the package payment*/
-        if($user->user_type == "Instructor"){
-            $ins = Instructor::with('purchaseHistory')->where('user_id',$user->id)->first();
-            if($ins->purchaseHistory == null){
-                return redirect()->route('instructor.payment',$user->slug);
-            }
-        }
+        // if($user->user_type == "Instructor"){
+        //     $ins = Instructor::with('purchaseHistory')->where('user_id',$user->id)->first();
+        //     if($ins->purchaseHistory == null){
+        //         return redirect()->route('instructor.payment',$user->slug);
+        //     }
+        // }
 
         /* check the instructor takes the evaluation test */
         if($user->user_type == "Instructor") {

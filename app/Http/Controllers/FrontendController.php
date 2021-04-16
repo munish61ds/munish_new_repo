@@ -1150,34 +1150,34 @@ class FrontendController extends Controller
 	        return back();
       	}
 
-        // $request->validate([
-        //     // 'package_id' => 'required',
-        //     'first_name' => 'required|min:3',
-        //     'middle_name' => 'required|min:3',
-        //     'last_name' => 'required|min:3',
-        //     'phone_number' => 'required|min:8',
-        //     'email' => 'required|unique:users',
-        //     'password' => 'required|min:8',
-        //     'confirm_password' => 'required|required_with:password|same:password',
-        //     'city' => 'required|min:3',
-        //     'agree_ev_test' => 'required|numeric|min:1',
-        //     'agree_terms_cond' => 'required|numeric|min:1',
-        // ], [
-        //     // 'package_id.required' => translate('Please select a package'),
-        //     'first_name.required' => translate('First name is required'),
-        //     'middle_name.required' => translate('Middle name is required'),
-        //     'last_name.required' => translate('Last name is required'),
-        //     'phone_number.required' => translate('Phone number is required'),
-        //     'email.required' => translate('Email is required'),
-        //     'email.unique' => translate('Email is already exist.'),
-        //     'password.required' => translate('Password is required'),
-        //     'password.min' => translate('Password must be minimum 8 characters'),
-        //     'confirm_password.required' => translate('Please confirm your password'),
-        //     'confirm_password.same' => translate('Password did not match'),
-        //     'city.required' => translate('Please enter your city'),
-        //     'agree_ev_test.required' => translate('Please agree for evaluation test'),
-        //     'agree_terms_cond.required' => translate('Password the terms and conditions of Languafina'),
-        // ]);
+        $request->validate([
+            // 'package_id' => 'required',
+            'first_name' => 'required|min:3',
+            'middle_name' => 'required|min:3',
+            'last_name' => 'required|min:3',
+            'phone_number' => 'required|min:8',
+            'email' => 'required|unique:users',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|required_with:password|same:password',
+            'city' => 'required|min:3',
+            'agree_ev_test' => 'required|numeric|min:1',
+            'agree_terms_cond' => 'required|numeric|min:1',
+        ], [
+            // 'package_id.required' => translate('Please select a package'),
+            'first_name.required' => translate('First name is required'),
+            'middle_name.required' => translate('Middle name is required'),
+            'last_name.required' => translate('Last name is required'),
+            'phone_number.required' => translate('Phone number is required'),
+            'email.required' => translate('Email is required'),
+            'email.unique' => translate('Email is already exist.'),
+            'password.required' => translate('Password is required'),
+            'password.min' => translate('Password must be minimum 8 characters'),
+            'confirm_password.required' => translate('Please confirm your password'),
+            'confirm_password.same' => translate('Password did not match'),
+            'city.required' => translate('Please enter your city'),
+            'agree_ev_test.required' => translate('Please agree for evaluation test'),
+            'agree_terms_cond.required' => translate('Password the terms and conditions of Languafina'),
+        ]);
 
         /*check the sulg */
         $slug_name = Str::slug($request->name);
@@ -1191,6 +1191,7 @@ class FrontendController extends Controller
         $user->email = $request->email;
         $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
         $user->user_type = 'Instructor';
+        $user->save();
 
 
         // save data in instructor
@@ -1253,7 +1254,7 @@ class FrontendController extends Controller
         	exit;
         }
 
-        $user->save();
+
         $instructor->save();
 
         Session::flash('message', translate("Registration done successfully. Please verify your email before login."));

@@ -199,7 +199,7 @@
 	<div class="container">
 	<div class="last_div wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
 	  <div class="footer_logo"><a href="#" title="wscube_logo">
-	      <img src="{{ filePath(getSystemSetting('type_logo')->value) }}" class="lazy" />
+	      <img src="{{ filePath(getSystemSetting('type_logo')->value) }}" class="lazy" height="80px" />
 	    </a>
 	  </div>
 	  <p>WsCube Tech has an expanded client-base in 15+ countries and a proven track record of delivering more than 800+
