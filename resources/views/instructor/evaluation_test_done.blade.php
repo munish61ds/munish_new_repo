@@ -11,7 +11,7 @@
   	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
 </head>
 <body style="background: #FAFAFA;">
-	<nav class="navbar navbar-dark bg-dark" style="margin-bottom: 60px; padding: 15px; background: #fd0100 !important;">
+	<nav class="navbar navbar-dark bg-dark" style="margin-bottom: 60px; padding: 15px; background: #EC7063 !important;">
 		<div class="container">
 			<span class="navbar-brand mb-0 h1" style="font-size: 24px">Languafina</span>
 		</div>

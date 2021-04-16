@@ -28,6 +28,7 @@ class CreateInstructorsTable extends Migration
             $table->longText('about')->nullable();
             $table->longText('attributes')->nullable();
             $table->boolean('evaluation_test')->default(0);
+            $table->string('type')->default('basic');
 
             //fk here
             $table->bigInteger('package_id')->unsigned()->nullable();

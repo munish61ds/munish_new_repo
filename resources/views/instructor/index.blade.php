@@ -29,21 +29,14 @@
             <thead>
                 <tr class="text-center">
                     <th>S/L</th>
-                    <th>
-                        @translate(Photo)
-                    </th>
-                    <th>
-                        @translate(Name)</th>
-                    <th>
-                        @translate(Email)</th>
-                    <th>
-                        @translate(Phone)</th>
-                    <th>
-                        @translate(Balance)</th>
-                    <th>
-                        @translate(About)</th>
-                    <th>
-                        @translate(Action)</th>
+                    <th>@translate(Avatar)</th>
+                    <th>@translate(Main info)</th>
+                    {{-- <th>@translate(Address info)</th> --}}
+                    <th>@translate(Qualification info)</th>
+                    <th>@translate(Balance)</th>
+                    <th>@translate(Evaluation test)</th>
+                    <th>@translate(Type)</th>
+                    <th>@translate(Action)</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -57,12 +50,43 @@
                             <img src="" class="img-thumbnail rounded-circle avatar-lg" alt="avatar"><br />
                         @endif
                     </td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->email ?? 'N/A'}}</td>
-                    <td>{{$item->phone ?? 'N/A'}}</td>
+                    <td class="text-left">
+                    	<b>{{$item->email ?? 'N/A'}}</b><br>
+                    	{{ $item->p_name ?? $item->name }}
+                    	{{ $item->p_gender }}
+                    	{{ $item->p_phone_number ?? $item->phone }}
+                    	{{ $item->p_dob }}
+                    </td>
+                    {{-- <td class="text-left">
+                    	{{ $item->p_state }}
+                    	{{ $item->p_pin_code }}
+                    	{{ $item->p_city }}
+                    	{{ $item->p_sub_address1 }}
+                    	{{ $item->p_sub_address2 }}
+                    </td> --}}
+                    <td class="text-left">
+                    	{!! $item->p_qualifications !!}
+                    	<hr style="margin: 5px">
+                    	{!! $item->p_work_experience !!}
+                    </td>
                     <td>{{formatPrice($item->balance)}}
                     </td>
-                    <td>{!! $item->about !!}
+                    <td>
+                    	@if($item->evaluation_test)
+                    		<span class="text-success">Taken</span>
+                    	@else
+                    		<span class="text-wanring">Not taken</span>
+                    	@endif
+                    </td>
+                    <td>
+                    	<div class="switchery-list">
+                    		basic
+                            <input type="checkbox" data-url="{{route('instructors.update_type')}}"
+                                   data-id="{{$item->id}}"
+                                   class="js-switch-success mr-2 ml-2"
+                                   id="category-switch" {{$item->type == 'pro' ? 'checked' : null}} />
+                            pro
+                        </div>
                     </td>
                     <td>
                         <div class="kanban-menu">

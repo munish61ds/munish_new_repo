@@ -21,6 +21,13 @@ use App\NotificationUser;
 
 class CourseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('authenticated_instructor:pro', [
+        	'except' => ['userNotify']
+        ]);
+    }
 
     function userNotify($user_id,$details)
     {
@@ -28,11 +35,6 @@ class CourseController extends Controller
         $notify->user_id = $user_id;
         $notify->data = $details;
         $notify->save();
-    }
-
-    public function __construct()
-    {
-        $this->middleware('auth');
     }
 
     /*only instructor show only his/her course
@@ -336,8 +338,6 @@ class CourseController extends Controller
         }
         return response(['message' => translate('Course Published  Status is Change ')], 200);
     }
-
-
 
     //course rating
     public function rating(Request $request)

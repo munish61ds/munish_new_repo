@@ -131,12 +131,12 @@
 											   		<label for="ans_{{ $answer_id }}_{{ $question['id'] }}">
 											     		<div class="pull-left pp">
 											     			@switch($answer_id)
-											     				@case(1) <span>A</span> @break
-											     				@case(2) <span>B</span> @break
-											     				@case(3) <span>C</span> @break
-											     				@case(4) <span>D</span> @break
-											     				@case(5) <span>E</span> @break
-											     				@case(6) <span>F</span> @break
+											     				@case(0) <span>A</span> @break
+											     				@case(1) <span>B</span> @break
+											     				@case(2) <span>C</span> @break
+											     				@case(3) <span>D</span> @break
+											     				@case(4) <span>E</span> @break
+											     				@case(5) <span>F</span> @break
 											     			@endswitch
 											     		</div>{{ $answer_content }}
 											 		</label>

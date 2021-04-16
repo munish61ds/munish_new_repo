@@ -20,6 +20,13 @@ use Illuminate\View\View;
 
 class QuizController extends Controller
 {
+	public function __construct() {
+		$this->middleware('authenticated_instructor:pro');
+		$this->middleware('authenticated_instructor:pro', [
+        	'except' => ['start', 'quizStart', 'quizDone', 'questionScoreShow']
+        ]);
+	}
+
     //
     public function create()
     {
@@ -289,7 +296,6 @@ class QuizController extends Controller
     }
 
     /*show done score */
-
     public function questionScoreShow($id)
     {
         $scores = QuizScore::where('id', $id)->first();

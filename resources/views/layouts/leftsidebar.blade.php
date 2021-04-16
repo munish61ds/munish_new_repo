@@ -71,46 +71,73 @@
                                 </ul>
                             </li>
 
-                            <li class="{{request()->is('dashboard/course*')
-                               ||request()->is('dashboard/category*')
-                               || request()->is('dashboard/category*') ? 'active' : null}}">
-                                <a href="javaScript:void();">
-                                    <i class="fa fa-book"></i>
-                                    <span>@translate(Courses) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                                            <sup
-                                                class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? "@translate(Unpublished)":null}}</sup>
-                                        @endif</span>
-
-                                    <i class="feather icon-chevron-right"></i>
-
-                                </a>
-                                <ul class="vertical-submenu">
-                                    @if(\Illuminate\Support\Facades\Auth::user()->user_type != "Admin")
-                                        {{-- instructor's Nav --}}
-                                        <li><a href="{{route('course.create')}}"
-                                               class="{{request()->is('dashboard/course/create*') ?'active':null}}">@translate(Start
-                                                New Course)</a></li>
-                                    @else
-                                        {{-- admin's Nav --}}
+                            @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
+	                            <li class="{{request()->is('dashboard/course*')
+	                               ||request()->is('dashboard/category*')
+	                               || request()->is('dashboard/category*') ? 'active' : null}}">
+	                                <a href="javaScript:void();">
+	                                    <i class="fa fa-book"></i>
+	                                    <span>@translate(Courses)</span>
+	                                    <span>
+	                                    	<sup class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? "@translate(Unpublished)":null}}</sup>
+	                                    </span>
+	                                    <i class="feather icon-chevron-right"></i>
+	                                </a>
+	                                <ul class="vertical-submenu">
                                         <li><a href="{{route('categories.index')}}"
                                                class="{{request()->is('dashboard/category*') ?'active':null}}">@translate(Categories)</a>
                                         </li>
-                                    @endif
 
-                                    <li><a href="{{route('course.index')}}"
-                                           class="{{request()->is('dashboard/course/index*') ?'active':null}}">@translate(All
-                                            Courses) @if(\Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-                                                <sup
-                                                    class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? \App\Model\Course::where('is_published',false)->count():null}}</sup>
-                                            @endif</a></li>
+	                                    <li><a href="{{route('course.index')}}" class="{{request()->is('dashboard/course/index*') ?'active':null}}">@translate(All Courses)
+                                            <sup class="badge badge-info">{{\App\Model\Course::where('is_published',false)->count() > 0 ? \App\Model\Course::where('is_published',false)->count():null}}</sup>
+                                        </a></li>
+	                                </ul>
+	                            </li>
+                            @elseif(Auth::user()->instructor_type == 'pro')
+                            	<li class="{{request()->is('dashboard/course*')
+	                               ||request()->is('dashboard/category*')
+	                               || request()->is('dashboard/category*') ? 'active' : null}}">
+	                               <a href="javaScript:void();">
+	                                    <i class="fa fa-book"></i>
+	                                    <span>@translate(Courses)</span>
+	                                    <i class="feather icon-chevron-right"></i>
+	                                </a>
+	                                <ul class="vertical-submenu">
+                                        {{-- instructor's Nav --}}
+                                        <li><a href="{{route('course.create')}}"
+                                               class="{{request()->is('dashboard/course/create*') ?'active':null}}">@translate(Start New Course)</a></li>
 
-                                </ul>
-                            </li>
+	                                    <li><a href="{{route('course.index')}}" class="{{request()->is('dashboard/course/index*') ?'active':null}}">
+                                    		@translate(All Courses)
+                                        </a></li>
+	                                </ul>
+	                            </li>
+                            @endif
 
+                            {{--quiz start--}}
+                            @if(Auth::user()->instructor_type == "pro" && env('QUIZ_ACTIVE') == 'YES')
+                                <li class="{{request()->is('dashboard/quiz*') ? 'active' : null}}">
+                                    <a href="javaScript:void();">
+                                        <i class="fa fa-question-circle"></i>
+                                        <span>@translate(Quiz)</span>
+                                        <i class="feather icon-chevron-right"></i>
 
-                        	{{-- Coupon manager --}}
+                                    </a>
+                                    <ul class="vertical-submenu">
+                                        {{-- instructor's Nav --}}
+                                        <li><a href="{{route('quiz.create')}}"
+                                               class="{{request()->is('dashboard/quiz/create*') ?'active':null}}">@translate(Quiz
+                                                Create)</a></li>
+                                        <li><a href="{{route('quiz.list')}}"
+                                               class="{{request()->is('dashboard/quiz/list*') || request()->is('dashboard/quiz/questions*')  ?'active':null}}">@translate(Quiz
+                                                List)</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+                            {{--quiz end--}}
+
+                            {{-- Coupon manager --}}
                             @if (couponActive() && \Illuminate\Support\Facades\Auth::user()->user_type == "Admin")
-
                                 <li class="{{request()->is('dashboard/coupon*')
                                     ? 'active' : null}}">
                                     <a href="javascript:;">
@@ -176,28 +203,6 @@
                                 </li>
                             @endif
                             {{-- Zoom manager::END --}}
-
-                            {{--quiz start--}}
-                            @if(\Illuminate\Support\Facades\Auth::user()->user_type != "Admin" && env('QUIZ_ACTIVE') == 'YES')
-                                <li class="{{request()->is('dashboard/quiz*') ? 'active' : null}}">
-                                    <a href="javaScript:void();">
-                                        <i class="fa fa-question-circle"></i>
-                                        <span>@translate(Quiz)</span>
-                                        <i class="feather icon-chevron-right"></i>
-
-                                    </a>
-                                    <ul class="vertical-submenu">
-                                        {{-- instructor's Nav --}}
-                                        <li><a href="{{route('quiz.create')}}"
-                                               class="{{request()->is('dashboard/quiz/create*') ?'active':null}}">@translate(Quiz
-                                                Create)</a></li>
-                                        <li><a href="{{route('quiz.list')}}"
-                                               class="{{request()->is('dashboard/quiz/list*') || request()->is('dashboard/quiz/questions*')  ?'active':null}}">@translate(Quiz
-                                                List)</a></li>
-                                    </ul>
-                                </li>
-                            @endif
-                            {{--quiz end--}}
 
 
                             {{--Certificate start--}}
@@ -364,6 +369,8 @@
                                                class="{{request()->is('dashboard/evaluation-test/create*') ?'active':null}}">@translate(Create Test)</a></li>
                                         <li><a href="{{route('evaluation-test.list')}}"
                                                class="{{request()->is('dashboard/evaluation-test/list*') || request()->is('dashboard/evaluation-test/questions*')  ?'active':null}}">@translate(Test List)</a></li>
+	                                	<li><a href="{{route('evaluation-test.instructor-results.list')}}"
+                                               class="{{request()->is('dashboard/evaluation-test/instructor-results*') ?'active':null}}">@translate(Instructor results)</a></li>
 	                                </ul>
 	                            </li>
                             @endif

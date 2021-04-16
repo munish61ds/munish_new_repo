@@ -3,12 +3,14 @@
 namespace App\Http;
 
 use App\Http\Middleware\Affiliate;
+use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\CheckUser;
+use App\Http\Middleware\HelloWorldMiddleware;
 use App\Http\Middleware\InstallCheck;
 use App\Http\Middleware\Installed;
-use App\Http\Middleware\AuthMiddleware;
-use App\Http\Middleware\HelloWorldMiddleware;
 use App\Http\Middleware\PostRequestBlockForDemo;
+use App\Http\Middleware\RoleAuthenticate;
+use App\Http\Middleware\RoleAuthenticateInstructor;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 
@@ -78,6 +80,8 @@ class Kernel extends HttpKernel
         'checkBackend'=>CheckUser::class,
         'check.frontend'=>AuthMiddleware::class,
         'helloWorld' =>HelloWorldMiddleware::class,
-        'demo'=>PostRequestBlockForDemo::class
+        'demo'=>PostRequestBlockForDemo::class,
+        'authenticated' => RoleAuthenticate::class,
+        'authenticated_instructor' => RoleAuthenticateInstructor::class,
     ];
 }

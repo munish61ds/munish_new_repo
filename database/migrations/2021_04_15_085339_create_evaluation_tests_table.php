@@ -16,7 +16,7 @@ class CreateEvaluationTestsTable extends Migration
         Schema::create('evaluation_tests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id'); // creator id
             $table->unsignedBigInteger('category_id');
             $table->integer('test_time')->nullable(); //this is for start time
             $table->float('pass_mark');

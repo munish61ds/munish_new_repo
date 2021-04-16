@@ -16,9 +16,10 @@ class CreateEvaluationTestResultsTable extends Migration
     	if(!Schema::hasTable('evaluation_test_results')) {
 	        Schema::create('evaluation_test_results', function (Blueprint $table) {
 	            $table->id();
-	            $table->integer('user_id')->unsigned();
-	            $table->integer('question_id')->unsigned();
-	            $table->boolean('is_correct');
+	            $table->integer('user_id')->unsigned(); // instructor
+	            $table->integer('test_id')->unsigned();
+	            $table->longText('results');
+	            $table->longText('attributes')->nullable();
 	            $table->timestamps();
 	        });
     	}

@@ -222,6 +222,11 @@
                                         <div class="payment-method-wrap">
                                             <div class="checkout-item-list">
                                                 <div class="accordion" id="paymentMethodExample">
+                                                	<div class="card">
+	                                                	{{-- Payem --}}
+	                                            		@include('includes.student_cart.paytm_checkout')
+	                                                </div>
+
                                                     <div class="card">
                                                     	{{-- Stripe --}}
                                                         @include('includes.student_cart.stripe_checkout')
@@ -230,11 +235,6 @@
 	                                                <div class="card">
 	                                                	{{-- Paypal --}}
 	                                            		@include('includes.student_cart.paypal_checkout_buttons')
-	                                                </div>
-
-	                                                <div class="card">
-	                                                	{{-- Paypal --}}
-	                                            		@include('includes.student_cart.paytm_checkout')
 	                                                </div>
                                                 </div><!-- end accordion -->
                                             </div>

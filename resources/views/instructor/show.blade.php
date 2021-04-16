@@ -22,14 +22,16 @@
             <div class="float-left py-1 px-3">
                 <h3>@translate(Instructor Details)</h3>
             </div>
-            @if($instructor->user->banned == false)
-            <div class="float-right">
-                <button type="submit" class="btn btn-blue btn-danger" href="">@translate(Disable Account)</button>
-            </div>
-            @else
-                <div class="float-right">
-                    <button type="submit" class="btn btn-blue btn-success">@translate(Active Account)</button>
-                </div>
+            @if($instructor->user != null)
+	            @if($instructor->user->banned == false)
+	            <div class="float-right">
+	                <button type="submit" class="btn btn-blue btn-danger" href="">@translate(Disable Account)</button>
+	            </div>
+	            @else
+	                <div class="float-right">
+	                    <button type="submit" class="btn btn-blue btn-success">@translate(Active Account)</button>
+	                </div>
+	            @endif
             @endif
         </div>
     </form>
@@ -47,12 +49,14 @@
                         <p class="text-center">@translate(Balance) : <span class="text-primary">{{ formatPrice($instructor->balance) }}</span></p>
                         <div class="em-separator separator-dashed"></div>
                         <div class="text-center">
+                            @if($instructor->relationBetweenPackage != null)
                             <h5>@translate(Package)</h5>
-                            <img src="{{ filePath($instructor->relationBetweenPackage->image) }}" class="img-fluid rounded-sm package-img">
-                            <div class="em-separator separator-dashed"></div>
-                            Price: <span class="text-primary">{{formatPrice($instructor->relationBetweenPackage->price)}}</span>
-                            <div class="em-separator separator-dashed"></div>
-                            Commission: <span class="text-primary">{{formatPrice($instructor->relationBetweenPackage->commission)}}</span>
+                            	<img src="{{ filePath($instructor->relationBetweenPackage->image) }}" class="img-fluid rounded-sm package-img">
+	                            <div class="em-separator separator-dashed"></div>
+	                            Price: <span class="text-primary">{{formatPrice($instructor->relationBetweenPackage->price)}}</span>
+	                            <div class="em-separator separator-dashed"></div>
+	                            Commission: <span class="text-primary">{{formatPrice($instructor->relationBetweenPackage->commission)}}</span>
+                            @endif
                         </div>
                     </div>
                 </div>

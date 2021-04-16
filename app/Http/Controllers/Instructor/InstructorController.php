@@ -52,17 +52,13 @@ class InstructorController extends Controller
     {
         if(Auth::user()->user_type == "Instructor"){
             $instructor = Instructor::where('user_id', Auth::id())
-                ->with('purchaseHistory')
-                ->with('courses')
+                ->with('purchaseHistory', 'user', 'courses')
                 ->first();
         }else{
             $instructor = Instructor::where('user_id', $id)
-                ->with('purchaseHistory')
-                ->with('courses')
+                ->with('purchaseHistory', 'user', 'courses')
                 ->first();
         }
-
-
         return view('instructor.show', compact('instructor'));
     }
 
@@ -144,5 +140,18 @@ class InstructorController extends Controller
         $user->save();
         return back();
     }
+
+    public function updateType(Request $request) {
+    	$instructor = Instructor::find($request->id);
+    	if($instructor->type == 'basic') {
+    		$instructor->type = 'pro';
+    	} elseif($instructor->type == 'pro') {
+    		$instructor->type = 'basic';
+    	}
+    	$instructor->save();
+
+        return response(['message' => translate('Instructor type is updated')], 200);
+    }
+
     //END
 }

@@ -65,6 +65,19 @@
             </div>
             <div class="infobar">
                 <ul class="list-inline mb-0">
+                	<li class="list-inline-item">
+                		@if(Auth::user()->instructor_type != null)
+                		<div class="profilebar mr-3">
+                			<div class="dropdown">
+                                <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                       		<span class="text-success" style="text-transform: uppercase;">
+		                       			({{ Auth::user()->instructor_type }} instructor)
+		                       		</span>
+		                       	</a>
+		                    </div>
+                		</div>
+                       	@endif
+                	</li>
                     <!--currency-->
                     <li class="list-inline-item">
                         <div class="languagebar">

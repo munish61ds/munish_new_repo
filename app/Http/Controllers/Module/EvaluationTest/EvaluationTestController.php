@@ -21,7 +21,13 @@ use Auth;
 class EvaluationTestController extends Controller
 {
 	public function __construct() {
-		// $this->middleware('authenticated:super_admin');
+		$this->middleware('authenticated:Admin', [
+            'only' => [
+            	'create', 'store', 'edit', 'update', 'delete',
+            	'questionsIndex', 'questionsStore', 'questionsPublished', 'questionsDelete', 'questionsEdit', 'questionsUpdate',
+            	'instructorResultList'
+            ]
+        ]);
 	}
 
     // List & Create
@@ -74,7 +80,6 @@ class EvaluationTestController extends Controller
         return back();
     }
 
-
     /*EvaluationTest delete*/
     public function delete($id)
     {
@@ -83,7 +88,6 @@ class EvaluationTestController extends Controller
         notify()->success(translate('Evaluation Test Delete Successful Done'));
         return back();
     }
-
 
     /*questions*/
     public function questionsIndex($id)
@@ -151,13 +155,11 @@ class EvaluationTestController extends Controller
     }
 
     /*questions edit*/
-
     public function questionsEdit($id)
     {
         $question = EvaluationTestQuestion::where('id', $id)->first();
         return view('module.evaluation_test.test.questionsEdit', compact('question'));
     }
-
 
     public function questionsUpdate(Request $request)
     {
@@ -188,16 +190,44 @@ class EvaluationTestController extends Controller
         return back();
     }
 
+    public function instructorResultList() {
+    	$results = EvaluationTestResult::with('user', 'test', 'test.category')->paginate(10);
+        return view('module.evaluation_test.instructor_results.index', compact('results'));
+    }
+
+    public function updateEligible(Request $request) {
+        $test = EvaluationTestResult::where('id', $request->id);
+
+    	if($test->first()->attributes == null) {
+    		$test = $test->first();
+    		$test->attributes = json_encode([
+    			'eligible' => 1
+    		]);
+    		$test->save();
+    	} else if (json_decode($test->first()->attributes)->eligible == 1) {
+            $test->update(['attributes->eligible' => 0]);
+        } else {
+            $test->update(['attributes->eligible' => 1]);
+        }
+
+        return response(['message' => translate('Eligible status is updated')], 200);
+    }
+
+
     /* Frontend -------- */
 
+    protected function get_current_test() {
+    	return EvaluationTest::where('status', 1)->first();
+    }
+
     protected function get_evaluation_test_time() {
-    	$current_test = EvaluationTest::where('status', 1)->first();
+    	$current_test = $this->get_current_test();
     	$test_time = $current_test->test_time;
     	return $test_time;
     }
 
     protected function get_evaluation_test_questions() {
-    	$current_test = EvaluationTest::where('status', 1)->first();
+    	$current_test = $this->get_current_test();
     	$question_collection = EvaluationTestQuestion::where('test_id', $current_test->id)
     		->select([
     			'id',
@@ -241,43 +271,50 @@ class EvaluationTestController extends Controller
     		return redirect()->route('dashboard');
     	}
 
-    	$questions = $this->get_evaluation_test_questions();
-    	$time = $this->get_evaluation_test_time(); // in minutes
-    	return view('instructor.evaluation_test')->with([
-    		'questions_count' => count($questions),
-    		'questions' => $questions,
-    		'time' => $time,
-    	]);
+    	$current_test = $this->get_current_test();
+    	if($current_test != null) {
+	    	Session::put('current_test_id', $current_test->id);
+
+	    	$questions = $this->get_evaluation_test_questions();
+	    	$time = $this->get_evaluation_test_time(); // in minutes
+	    	return view('instructor.evaluation_test')->with([
+	    		'questions_count' => count($questions),
+	    		'questions' => $questions,
+	    		'time' => $time,
+	    	]);
+    	} else {
+    		// There're no actived evaulation tests
+    		echo "There're no actived evaulation tests, Please contact with support section.";
+    		echo "<br><a href='". route('homepage') ."'>Back to homepage</a>";
+    	}
     }
 
-    public function evaluationTestPost() {
+    public function evaluationTestPost(Request $request) {
     	$questions = $this->get_evaluation_test_questions();
     	$result = [];
-    	foreach (request()->ans as $question_id => $answer_id) {
+    	foreach ($request->ans as $question_id => $answer_id) {
     		foreach ($questions as $key => $question) {
     			if($question['id'] == $question_id) {
     				if($answer_id == $question['correct_answer']) {
     					$result[] = [
-    						'question_id' => $question_id,
-    						'is_correct' => true,
+    						'q_id' => $question_id,
+    						'is_corr' => true,
     					];
     				} else {
     					$result[] = [
-    						'question_id' => $question_id,
-    						'is_correct' => false,
+    						'q_id' => $question_id,
+    						'is_corr' => false,
     					];
     				}
     			}
     		}
     	}
 
-    	foreach ($result as $single) {
-	    	$etr = new EvaluationTestResult;
-	    	$etr->user_id = Auth()->user()->id;
-	    	$etr->question_id = $single['question_id'];
-	    	$etr->is_correct = $single['is_correct'];
-	    	$etr->save();
-    	}
+    	$etr = new EvaluationTestResult;
+    	$etr->user_id = Auth()->user()->id;
+    	$etr->test_id = Session::get('current_test_id');
+    	$etr->results = json_encode($result);
+    	$etr->save();
 
     	// update evaluation test status case
     	$ins = Instructor::where('user_id', Auth()->user()->id)->first();

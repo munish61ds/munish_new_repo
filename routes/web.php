@@ -62,35 +62,44 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::group(['prefix' => 'evaluation-test'], function () {
     	// Categories
     	Route::name('evaluation-test.category.')
-    		->prefix('category')
-    		->namespace('Module\EvaluationTest')
-    		->group(function () {
-			    Route::get('create', 'CategoryController@create')->name('create');
-			    Route::post('store', 'CategoryController@store')->name('store');
-			    Route::get('edit/{id}', 'CategoryController@edit')->name('edit');
-			    Route::post('update', 'CategoryController@update')->name('update');
-			    Route::get('destroy/{id}', 'CategoryController@destroy')->name('destroy');
-			    Route::get('index', 'CategoryController@index')->name('index');
-    	});
+		->prefix('category')
+		->namespace('Module\EvaluationTest')
+		->group(function () {
+		    Route::get('create', 'CategoryController@create')->name('create');
+		    Route::post('store', 'CategoryController@store')->name('store');
+		    Route::get('edit/{id}', 'CategoryController@edit')->name('edit');
+		    Route::post('update', 'CategoryController@update')->name('update');
+		    Route::get('destroy/{id}', 'CategoryController@destroy')->name('destroy');
+		    Route::get('index', 'CategoryController@index')->name('index');
+		});
 
 	    // Evaluation test & questions
 	    Route::name('evaluation-test.')
-    		->namespace('Module\EvaluationTest')
-    		->group(function () {
-				Route::get('create','EvaluationTestController@create')->name('create');
-			    Route::get('list','EvaluationTestController@create')->name('list');
-			    Route::post('store','EvaluationTestController@store')->name('store');
-			    Route::get('status','EvaluationTestController@published')->name('published');
-			    Route::get('edit/{id}','EvaluationTestController@edit')->name('edit');
-			    Route::post('update','EvaluationTestController@update')->name('update');
-			    Route::get('delete/{id}','EvaluationTestController@delete')->name('delete');
+		->namespace('Module\EvaluationTest')
+		->group(function () {
+			Route::get('create','EvaluationTestController@create')->name('create');
+		    Route::get('list','EvaluationTestController@create')->name('list');
+		    Route::post('store','EvaluationTestController@store')->name('store');
+		    Route::get('status','EvaluationTestController@published')->name('published');
+		    Route::get('edit/{id}','EvaluationTestController@edit')->name('edit');
+		    Route::post('update','EvaluationTestController@update')->name('update');
+		    Route::get('delete/{id}','EvaluationTestController@delete')->name('delete');
 
-			    Route::get('questions/add/{id}','EvaluationTestController@questionsIndex')->name('question.add');
-			    Route::post('questions/store','EvaluationTestController@questionsStore')->name('questions.store');
-			    Route::get('questions/status','EvaluationTestController@questionsPublished')->name('questions.published');
-			    Route::get('questions/delete/{id}','EvaluationTestController@questionsDelete')->name('questions.delete');
-			    Route::get('questions/edit/{id}','EvaluationTestController@questionsEdit')->name('questions.edit');
-			    Route::post('questions/update','EvaluationTestController@questionsUpdate')->name('questions.update');
+		    Route::get('questions/add/{id}','EvaluationTestController@questionsIndex')->name('question.add');
+		    Route::post('questions/store','EvaluationTestController@questionsStore')->name('questions.store');
+		    Route::get('questions/status','EvaluationTestController@questionsPublished')->name('questions.published');
+		    Route::get('questions/delete/{id}','EvaluationTestController@questionsDelete')->name('questions.delete');
+		    Route::get('questions/edit/{id}','EvaluationTestController@questionsEdit')->name('questions.edit');
+		    Route::post('questions/update','EvaluationTestController@questionsUpdate')->name('questions.update');
+    	});
+
+    	// Instructor results
+		Route::name('evaluation-test.instructor-results.')
+		->prefix('instructor-results')
+		->namespace('Module\EvaluationTest')
+		->group(function () {
+			Route::get('list','EvaluationTestController@instructorResultList')->name('list');
+			Route::get('update-eligible','EvaluationTestController@updateEligible')->name('update_eligible');
 	    });
     });
     // Evaluation test --------------
@@ -101,6 +110,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     Route::get('class/edit/{id}', 'Course\ClassController@edit')->name('classes.edit');
     Route::post('class/update', 'Course\ClassController@update')->name('classes.update')->middleware('demo');
     Route::get('class/trash/{id}', 'Course\ClassController@destroy')->name('classes.destroy');
+
     //class content
     Route::get('class/content/create/{id}', 'Course\ContentController@create')->name('classes.contents.create');
     Route::post('class/content/store', 'Course\ContentController@store')->name('classes.contents.store')->middleware('demo');
@@ -121,6 +131,7 @@ Route::group(['middleware' => ['installed', 'checkBackend', 'auth', 'activity'],
     //instructor
     Route::get('instructor/index', 'Instructor\InstructorController@index')->name('instructors.index');
     Route::get('instructor/show/{id}', 'Instructor\InstructorController@show')->name('instructors.show');
+    Route::get('instructor/update-type', 'Instructor\InstructorController@updateType')->name('instructors.update_type');
     Route::get('/profile/{id}', 'Instructor\InstructorController@edit')->name('instructors.edit');
     Route::post('/profile/update', 'Instructor\InstructorController@update')->name('instructors.update')->middleware('demo');
     Route::post('/users/banned', 'Instructor\InstructorController@banned')->name('users.banned')->middleware('demo');
