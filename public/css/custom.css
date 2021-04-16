@@ -52,7 +52,7 @@ body {
 }
 #carouselHomePageSliderIndicators .carousel-caption .main-title,
 #carouselHomePageSliderIndicators .carousel-caption .lead {
-	text-shadow: 1px 1px 1px #555;
+	text-shadow: 1px 1px 1px #000;
 	text-transform: uppercase;
 }
 
@@ -80,7 +80,7 @@ body {
 
 #carouselHomePageSliderIndicators .carousel-caption .lead {
 	/* color: #fff700; */
-	color: #fd0100;
+	color: #EC7063;
 	padding-top: 20px;
 	font-weight: bold;
 	margin-bottom: 20px;
