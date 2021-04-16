@@ -87,7 +87,7 @@
         <div class="card col-md-3 col-12">
             <div class="card-content">
                 <div class="card-body"> <img class="img" src="{{ asset('frontend/images/our_services/tests.svg') }}" />
-                    <div class="card-title">@translate(Practice Test)</div>
+                    <div class="card-title">@translate(Practice Tests)</div>
                     <div class="card-subtitle">
                         <p> <small class="text-muted">Track your progress with regular practice tests and feedbacks to ease out the learning process.</small> </p>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/extra_mat.svg') }}" />
                     <div class="card-title">@translate(Extra Learning Materials)</div>
                     <div class="card-subtitle">
-                        <p> <small class="text-muted">Languafina has created quality content for improving English speaking skills. This includes English Grammar lessons and special Spoken English lessons.</small> </p>
+                        <p> <small class="text-muted">Languafina provides its students with additional authentic and quality content apart from what is provided to them during their classes. We believe in self practice and promote that by provide extra learning materials.</small> </p>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="card col-md-3 col-12">
+        <!--<div class="card col-md-3 col-12">
             <div class="card-content">
                 <div class="card-body"> <img class="img rck" src="{{ asset('frontend/images/our_services/testimonials.svg') }}" />
                     <div class="card-title">@translate(Testimonials)</div>
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div-->
     </div>
     {{-- <div class="ft">
         <p class="chk"><small class="text-muted">Still not sure?</small></p>

@@ -42,6 +42,15 @@
 				/** background-color: rgba(8,0,134,1) !important; **/
 				background-color: #EC7063 !important;
 			}
+			.header-menu-fluid
+			{
+				position: relative;
+				bottom: 40px;
+			}
+			
+			a.login_anchor:hover{
+				color: #fd0100;
+			}
 		/* otherwise pages  */
     	@else
     		.header-menu-area,
@@ -50,7 +59,18 @@
 			.header-menu-content {
 				background-color: #EC7063 !important;
 			}
+			.header-menu-fluid
+			{
+				position: relative;
+				bottom: 20px;
+			}
+			a.login_anchor:hover{
+				color: #fff;
+			}
+
     	@endif
+			
+			
     </style>
 
     @yield('css')

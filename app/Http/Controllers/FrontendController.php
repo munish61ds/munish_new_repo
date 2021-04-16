@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Alert;
 use App\Blog;
 use App\Faq;
+use App\Aboutus;
 use App\Http\Middleware\Affiliate;
 use App\Mail\InstructorRegisterMail;
 use App\Model\AdminEarning;
@@ -1528,4 +1529,17 @@ class FrontendController extends Controller
     	$faqs = Faq::all();
     	return view($this->theme.'.faqs.index', compact('faqs'));
     }
+
+    public function viewAboutus() {
+    	$aboutus = ''; // array(1=>'AboutUS'); // Aboutus::all();
+			
+    	return view($this->theme.'.aboutus.index', compact('aboutus'));
+    }
+
+    public function viewContactus() {
+    	$contactus = '';
+    	return view($this->theme.'.contactus.index', compact('contactus'));
+    }
+
+
 }

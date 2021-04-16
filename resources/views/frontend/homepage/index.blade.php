@@ -304,10 +304,10 @@
 
 
 
-    <!--======================================
-            START PACKAGE AREA
-    ======================================-->
-    <section class="choose-area-custom-section text-center">
+	<!--======================================
+					START PACKAGE AREA
+	======================================-->
+	<section class="choose-area-custom-section text-center">
 		@include('frontend.include.our_services')
 	</section><!-- end package-area -->
 

@@ -32,8 +32,9 @@
                             @endif
                             @if(getSystemSetting('type_google')->value != null)
                                 <li><a href="{{getSystemSetting('type_google')->value}}" target="_blank"><i
-                                            class="fa fa-google-plus"></i></a></li>
+                                            class="fa fa-instagram"></i></a></li>
                             @endif
+														
                         </ul>
                     </div><!-- end footer-widget -->
                 </div><!-- end col-lg-3 -->
@@ -65,6 +66,8 @@
                         <span class="section-divider"></span>
                         <ul class="list-items">
                             <li><a href="{{route('faqs.all')}}">FAQs</a></li>
+                            <li><a href="{{route('aboutus')}}">About Us</a></li>
+                            <li><a href="{{route('contactus')}}">Contact Us</a></li>
                         </ul>
                     </div><!-- end footer-widget -->
                 </div><!-- end col-lg-3 -->

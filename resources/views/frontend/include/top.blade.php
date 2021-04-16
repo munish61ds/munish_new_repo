@@ -4,13 +4,17 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="header-widget header-widget1">
-                        <ul class="contact-info d-flex align-items-center">
-                        <li><a href="mailto:{{getSystemSetting('type_mail')->value}}"                                   class="mail"> <span class="la la-envelope-o"></span> {{getSystemSetting('type_mail')->value}}</a></li>
-                            @if (env('FORUM_PANEL') === 'YES')
-                            <!--<li><a href="{{ route('forum.index') }}" target="_blank"> <i class="fa fa-comments-o" aria-hidden="true"></i> Forum</a></li>-->
-                            @endif
-
-                        </ul>
+											<!--<ul class="contact-info d-flex align-items-center">
+                        <li>
+													<a href="mailto:{{getSystemSetting('type_mail')->value}}" class="mail">
+														<span class="la la-envelope-o"></span> 
+														{{getSystemSetting('type_mail')->value}}
+													</a>
+												</li> -->
+												@if (env('FORUM_PANEL') === 'YES')
+												<!--<li><a href="{{ route('forum.index') }}" target="_blank"> <i class="fa fa-comments-o" aria-hidden="true"></i> Forum</a></li>-->
+												@endif
+											<!-- </ul> -->
                     </div><!-- end header-widget -->
                 </div><!-- end col-lg-6 -->
                 <div class="col-lg-6">
@@ -18,9 +22,9 @@
        
                         <div class="header-right-info d-flex align-items-center">
                             @guest()
-                                <ul class="user-action d-flex align-items-center mr-10">
+                               <!-- <ul class="user-action d-flex align-items-center mr-10">
                                     <li><a href="{{ route('login') }}">@translate(Login)</a></li>
-                                </ul>
+                                </ul> -->
                             @endguest
                         </div>
                     </div><!-- end header-widget -->

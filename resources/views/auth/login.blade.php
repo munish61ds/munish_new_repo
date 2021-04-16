@@ -106,7 +106,7 @@
   @elseif(false)
 
   @else
-      <section class="login-area padding-top-50px">
+      <section class="login-area section--padding-custom-login">
           <div class="container">
               <div class="row">
                   <div class="col-lg-7 mx-auto">
@@ -196,7 +196,7 @@
                                                   <div class="custom-checkbox d-flex justify-content-between">
                                                       <input type="checkbox" id="chb1" name="remember" {{ old('remember') ? 'checked' : '' }}>
                                                       <label for="chb1">@translate(Remember Me)</label>
-                                                      <a href="{{route('student.password.reset')}}" class="primary-color-2"> @translate(Forgot my password)?</a>
+                                                      <a href="{{route('student.password.reset')}}" class="primary-color-2"> @translate(Forgot password)?</a>
                                                   </div>
                                               </div>
                                           </div><!-- end col-md-12 -->

@@ -20,7 +20,9 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         Route::get('blog/tag/{tag}','FrontendController@tagBlog')->name('blog.tag');
     }
 
-    Route::get('faqs','FrontendController@viewFaqs')->name('faqs.all');
+	Route::get('faqs','FrontendController@viewFaqs')->name('faqs.all');
+	Route::get('aboutus','FrontendController@viewAboutus')->name('aboutus');
+	Route::get('contactus','FrontendController@viewContactus')->name('contactus');
 
     /*search courses*/
     Route::get('search', 'FrontendController@searchCourses')->name('search.courses');

@@ -26,8 +26,20 @@ body {
 	color: #2d2d2d !important;
 }
 
+.login_li{
+	padding: 10px;
+}
+
+a.login_anchor{
+	color: #fff;
+	font-size: 15px;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
 #carouselHomePageSliderIndicators {
-    position: relative;
+    /* position: relative */;
+    position: absolute;
     top: -120px;
     width: 100%;
 }
@@ -41,7 +53,7 @@ body {
 	background-size: cover;
 }
 #carouselHomePageSliderIndicators .carousel-caption {
-	bottom: calc(50% - 167px);
+	bottom: calc(50% - 140px);
 	width: 64%;
 	left: 18%;
 	right: initial;
@@ -60,21 +72,38 @@ body {
 #carouselHomePageSliderIndicators .carousel-caption .custom_span_class {
 	line-height: 1;
 	text-transform: uppercase;
+	/* opacity: 1; */
 }
 
 #carouselHomePageSliderIndicators .carousel-caption .butn-margin {
+	
+}
 
+.header-menu-area{
+	position: relative; 
+	width: 100%;
+}
+
+
+.textBackOpcty
+{
+	/* background-color: #000; */
+	/* border: 1px solid black; */
+	/* opacity: 0.6; */
 }
 
 
 #carouselHomePageSliderIndicators .carousel-caption .lead_style {
 	text-align: center;
-	width: 60%;
+	width: 750px;
 	margin: auto;
 	margin-top: auto;
 	font-size: 15px;
 	line-height: 1.5;
 	margin-top: 8px;
+	
+	color: #fff;
+
 }
 
 
@@ -85,6 +114,9 @@ body {
 	font-weight: bold;
 	margin-bottom: 20px;
 }
+
+
+
 #carouselHomePageMid1Indicators {
 	margin-top: 70px !important;
 	margin-bottom: 40px !important;
@@ -160,16 +192,19 @@ body {
 .logo-right-button .side-menu-open * {
 	color: #FFF !important;
 }
-.logo-right-button .notification-item > button {
-	background: #FFF;
-    color: #2d2d2d;
-}
-.user-action-wrap .userDrop {
-    width: 240px !important;
-    top: 22px !important;
-}
+
 .choose-area-custom-section
 {
 	padding-top: 40px !important;
 	padding-bottom: 50px !important;
+}
+
+.section--padding-custom-login {
+    padding-top: 150px;
+    padding-bottom: 140px;
+}
+
+button.theme-btn
+{
+	border: none;
 }
