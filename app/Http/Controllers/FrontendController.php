@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 
 use Alert;
+use App\Aboutus;
 use App\Blog;
 use App\Faq;
-use App\Aboutus;
 use App\Http\Middleware\Affiliate;
 use App\Mail\InstructorRegisterMail;
 use App\Model\AdminEarning;
@@ -47,6 +47,7 @@ use App\SubscriptionEnrollment;
 use App\User;
 use Carbon\Carbon;
 use Hash;
+use Hashids\Hashids;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -1154,7 +1155,6 @@ class FrontendController extends Controller
         $request->validate([
             // 'package_id' => 'required',
             'first_name' => 'required|min:3',
-            'middle_name' => 'required|min:3',
             'last_name' => 'required|min:3',
             'phone_number' => 'required|min:8',
             'email' => 'required|unique:users',
@@ -1166,7 +1166,6 @@ class FrontendController extends Controller
         ], [
             // 'package_id.required' => translate('Please select a package'),
             'first_name.required' => translate('First name is required'),
-            'middle_name.required' => translate('Middle name is required'),
             'last_name.required' => translate('Last name is required'),
             'phone_number.required' => translate('Phone number is required'),
             'email.required' => translate('Email is required'),
@@ -1243,10 +1242,16 @@ class FrontendController extends Controller
         // }
 
         try {
+        	// $hashids = new Hashids('hashing_instructor_activation_case');
+        	// $hashed_user_id = $hashids->encode($user->id);
+        	$hashed_user_id = $user->id;
+        	$passing_valid_hash = \Hash::make('Languafina_hashing');
             $evaluation_test_link = route('instructor.evaluation_test');
             $data = [
-				'user_name' => $user->first_name .' ' . $user->last_name,
+				'user_name' => $request->first_name .' ' . $request->last_name,
 				'evaluation_test_link' => $evaluation_test_link,
+				'passing_valid_hash' => $passing_valid_hash,
+				'hashed_user_id' => $hashed_user_id,
 			];
             Mail::to($request->email)->send(new InstructorRegisterMail($data));
         } catch (\Exception $exception) {
@@ -1532,7 +1537,7 @@ class FrontendController extends Controller
 
     public function viewAboutus() {
     	$aboutus = ''; // array(1=>'AboutUS'); // Aboutus::all();
-			
+
     	return view($this->theme.'.aboutus.index', compact('aboutus'));
     }
 

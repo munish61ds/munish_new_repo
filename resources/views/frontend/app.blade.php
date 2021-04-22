@@ -40,14 +40,14 @@
 			.fixed-nav .header-top,
 			.fixed-nav .header-menu-content {
 				/** background-color: rgba(8,0,134,1) !important; **/
-				background-color: #EC7063 !important;
+				background-color: #fd0100 !important;
 			}
 			.header-menu-fluid
 			{
 				position: relative;
 				bottom: 40px;
 			}
-			
+
 			a.login_anchor:hover{
 				color: #fd0100;
 			}
@@ -57,7 +57,7 @@
 			.header-menu-fluid,
 			.header-top,
 			.header-menu-content {
-				background-color: #EC7063 !important;
+				background-color: #fd0100 !important;
 			}
 			.header-menu-fluid
 			{
@@ -69,11 +69,11 @@
 			}
 
     	@endif
-			
-			
     </style>
 
     @yield('css')
+
+    @livewireStyles
     <!-- end inject -->
 </head>
 
@@ -151,6 +151,7 @@
 @include('sweetalert::alert')
 @yield('js')
 
+@livewireScripts
 </body>
 
 </html>

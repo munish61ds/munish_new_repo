@@ -16,6 +16,7 @@
         "fideloper/proxy": "^4.4.1",
         "fruitcake/laravel-cors": "^1.0.6",
         "guzzlehttp/guzzle": "^6.5.5",
+        "hashids/hashids": "^4.1",
         "intervention/image": "^2.5.1",
         "joisarjignesh/bigbluebutton": "^1.1.6",
         "laravel/framework": "^7.30.0",
@@ -23,6 +24,7 @@
         "laravel/socialite": "^4.4.1",
         "laravel/tinker": "^2.x-dev",
         "laravel/ui": "2.0.0",
+        "livewire/livewire": "^2.4",
         "mckenziearts/laravel-notify": "^1.1.2",
         "mews/purifier": "^3.3.3",
         "milon/barcode": "^7.0.1",
@@ -46,7 +48,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+	        "php": "7.4"
+	    }
     },
     "extra": {
         "laravel": {

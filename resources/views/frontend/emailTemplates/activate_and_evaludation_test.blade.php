@@ -15,21 +15,15 @@
                                     <td height="60" style="background-color:#403e3e;font-family: 'Montserrat',Arial, sans-serif;font-size:26px;font-weight:500;letter-spacing:1px;line-height:30px;" align="center">
                                         <center>
                                             <img data-crop="false" style="display:block;"
-                                                 src="{{ asset('email_logo.png') }}" alt="img"/>
+                                                 src="{{ url('public/email_logo.png') }}" alt="Languafina.com"/>
                                         </center>
                                     </td>
                                 </tr>
                                 <tr height="50"></tr>
                                 <tr>
                                     <td style="color:#141d23;font-family: 'Montserrat',Arial, sans-serif;font-size:26px;font-weight:600;letter-spacing:1px;line-height:30px;" data-bgcolor="Title" data-color="Title" data-size="Title" data-min="12" data-max="60" align="center">
-                                        Hello!!
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td style="color:#141d23;font-family: 'Montserrat',Arial, sans-serif;font-size:22px;font-weight:600;letter-spacing:1px;line-height:30px;" data-bgcolor="Title" data-color="Title" data-size="Title" data-min="12" data-max="60" align="center">
-                                        {!! $data['user_name'] !!}
+                                        <img src="{{ url('public/success_email.svg') }}" class="text-center" height="80px">
+                                        Congratulation<br>You have success signing up
                                     </td>
                                 </tr>
                                 <tr>
@@ -38,7 +32,7 @@
 
                                 <tr>
                                     <td style="color:#141d23;font-family: 'Montserrat',Arial, sans-serif;font-size:18px;padding-right:30px;padding-left:30px;font-weight:500;letter-spacing:1px;line-height:30px;" data-bgcolor="Title" data-color="Title" data-size="Title" data-min="12" data-max="60" align="center">
-                                        Welcome to our website! Please click on the Below button to confirm your account
+                                        Welcome {!! $data['user_name'] !!}, as a new member with us, this e-mail is a notice to verify that your e-mail is correct and to take our evaluation test, press the button to take the test now if you are ready for it.
                                     </td>
                                 </tr>
                                 <tr>
@@ -63,7 +57,7 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="center" width="200" valign="middle" style="border-collapse:collapse!important;border-radius:35px;padding:20px 25px" bgcolor="#6791de">
-                                                                            <a href="{!! $data['evaluation_test_link'] !!}" style="color:#fff!important;text-decoration:none;display:block;font-size:23px;font-style:italic" target="_blank" >
+                                                                            <a href="{!! $data['evaluation_test_link'] !!}?h={{ $data['passing_valid_hash'] }}&ui={{ $data['hashed_user_id'] }}" style="color:#fff!important;text-decoration:none;display:block;font-size:23px;font-style:italic" target="_blank" >
 	                                                                            Take an evaluation test
 	                                                                        </a>
                                                                         </td>

@@ -171,9 +171,9 @@
 					                                	</div>
 					                                	<div class="col-lg-3 col-6">
 					                                		<div class="input-box">
-					                                            <label class="label-text">@translate(Middle Name)<span class="primary-color-2 ml-1">*</span></label>
+					                                            <label class="label-text">@translate(Middle Name)</label>
 					                                            <div class="form-group">
-					                                                <input class="form-control @error('middle_name') is-invalid @enderror" type="text" name="middle_name" required value="{{ old('middle_name') }}">
+					                                                <input class="form-control @error('middle_name') is-invalid @enderror" type="text" name="middle_name" value="{{ old('middle_name') }}">
 					                                                @error('middle_name')
 					                                                <span class="invalid-feedback" role="alert">
 					                                                  <strong>{{ $message }}</strong>
@@ -199,16 +199,7 @@
 					                                <div class="row">
 					                                    <div class="col-lg-12 col-12">
 					                                        <div class="input-box">
-					                                            <label class="label-text">@translate(Email Address)<span class="primary-color-2 ml-1">*</span></label>
-					                                            <div class="form-group">
-					                                                <input class="form-control @error('email') is-invalid @enderror" type="email" name="email" placeholder="Email address" required value="{{ old('email') }}">
-					                                                <small id="emailHelp" class="form-text text-muted">Need for signin to your dashboard, email not appear publicly.</small>
-					                                                @error('email')
-					                                                <span class="invalid-feedback" role="alert">
-					                                                  <strong>{{ $message }}</strong>
-					                                                </span>
-					                                                @enderror
-					                                            </div>
+					                                        	@livewire('instructor.register.email-address')
 					                                        </div>
 					                                    </div>
 					                                </div>
@@ -564,7 +555,7 @@
 									</div>
 									<div class="mb-3 ml-4">
 										<p class="text-danger mb-3" id="fill_required" style="display: none;">
-											Please fill required fields first.
+											Please fill required/invalid fields first.
 										</p>
 										<button class="btn btn-primary" id="prev-btn" type="button">
 											<i class="fa fa-arrow-left"></i>
@@ -632,10 +623,12 @@
             });
 
             // check valid step
-            function checkValidStep() {
-            	var step_index = parseInt($('#smartwizard').smartWizard("getStepIndex")) + 1;
+            function checkValidStep(step_index) {
             	let status = true;
             	$(`#step-${step_index} [required]`).each(function(){
+            		if($(this).hasClass('is-invalid')) {
+            			status = false;
+            		}
             		if($(this).attr('type') == 'checkbox') {
             			if(!$(this).prop('checked')) {
             				status = false;
@@ -650,7 +643,8 @@
             }
 
             $("#next-btn").on("click", function() {
-                if(checkValidStep()) {
+            	var step_index = parseInt($('#smartwizard').smartWizard("getStepIndex")) + 1;
+                if(checkValidStep(step_index)) {
                 	$('#fill_required').hide();
 	                $('#smartwizard').smartWizard("next");
 	                return true;
@@ -659,7 +653,8 @@
                 }
             });
             $("#prev-btn").on("click", function() {
-                if(checkValidStep()) {
+            	var step_index = parseInt($('#smartwizard').smartWizard("getStepIndex"));
+                if(checkValidStep(step_index)) {
                 	$('#fill_required').hide();
 	                $('#smartwizard').smartWizard("prev");
 	                return true;

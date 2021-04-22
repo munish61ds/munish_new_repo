@@ -53,7 +53,7 @@ a.login_anchor{
 	background-size: cover;
 }
 #carouselHomePageSliderIndicators .carousel-caption {
-	bottom: calc(50% - 140px);
+	bottom: calc(50% - 170px);
 	width: 64%;
 	left: 18%;
 	right: initial;
@@ -76,11 +76,11 @@ a.login_anchor{
 }
 
 #carouselHomePageSliderIndicators .carousel-caption .butn-margin {
-	
+
 }
 
 .header-menu-area{
-	position: relative; 
+	position: relative;
 	width: 100%;
 }
 
@@ -101,7 +101,7 @@ a.login_anchor{
 	font-size: 15px;
 	line-height: 1.5;
 	margin-top: 8px;
-	
+
 	color: #fff;
 
 }
@@ -109,7 +109,7 @@ a.login_anchor{
 
 #carouselHomePageSliderIndicators .carousel-caption .lead {
 	/* color: #fff700; */
-	color: #EC7063;
+	color: #fd0100;
 	padding-top: 20px;
 	font-weight: bold;
 	margin-bottom: 20px;

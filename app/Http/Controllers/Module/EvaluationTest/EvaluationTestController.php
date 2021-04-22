@@ -10,12 +10,14 @@ use App\EvaluationTestResult;
 use App\Http\Controllers\Controller;
 use App\Model\Demo;
 use App\Model\Instructor;
+use App\User;
+use Auth;
 use Carbon\Carbon;
+use Hashids\Hashids;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Auth;
 
 
 class EvaluationTestController extends Controller
@@ -257,7 +259,20 @@ class EvaluationTestController extends Controller
     	return $questions;
     }
 
-    public function evaluationTest() {
+    public function evaluationTest(Request $request) {
+    	if($request->h != null && $request->ui != null) {
+    		if(\Hash::check('Languafina_hashing', $request->h)) {
+    			// $hashids = new Hashids('hashing_instructor_activation_case');
+        		// $user_id = $hashids->decode($request->ui);
+        		$user_id = $request->ui;
+        		if($user_id != null && $user_id > 0) {
+        			User::where('id', $user_id)->update([
+        				'verified' => 1
+        			]);
+    				\Session::flash('message', 'Thank you, your email has been verified.');
+        		}
+    		}
+    	}
     	if(!\Auth()->check()) {
     		\Session::flash('evaluation_test_flash', 'Please login first before taking the evaluation test.');
     		return redirect()->route('login');
