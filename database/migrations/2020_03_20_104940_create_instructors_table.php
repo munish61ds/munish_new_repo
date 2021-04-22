@@ -26,11 +26,11 @@ class CreateInstructorsTable extends Migration
             $table->string('tw')->nullable();
             $table->string('skype')->nullable();
             $table->longText('about')->nullable();
+            $table->longText('attributes')->nullable(); // for trainer qualifications
 
             //fk here
-            $table->bigInteger('package_id')->unsigned();
-            $table->foreign('package_id')->
-            references('id')->on('packages')->onDelete('cascade');
+            $table->bigInteger('package_id')->unsigned()->nullable();
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
             //this fk for login instructor
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

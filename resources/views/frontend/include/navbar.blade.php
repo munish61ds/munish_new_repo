@@ -1,4 +1,12 @@
-<style>.our-post-content{	    display: none;}.funfact-area {    position: relative;    z-index: 1;    display: none;}</style><div class="header-menu-content">
+<style>
+	.our-post-content{	    display: none;}
+	.funfact-area {    position: relative;    z-index: 1;    display: none;}
+/*	.header-menu-content {
+	    border-bottom: 1px solid #EEE !important;
+	}*/
+</style>
+
+<div class="header-menu-content">
     <div class="container-fluid">
         <div class="main-menu-content">
             <div class="row align-items-center h-100">
@@ -49,7 +57,7 @@
                                         <span class="la la-search search-icon"></span>
 
                                         <!-- Search bar END - -->
-  
+
                                         <!-- ======================== Search Suggession ============================= -->
                                         <div class="overflow-hidden search-list w-100">
                                             <div id="appendSearchCart1"></div>
@@ -74,8 +82,8 @@
                                 <div class="header-action-button d-flex align-items-center">
 
                                     @if (Auth::user()->user_type === "Student")
-                                        
-                        
+
+
                                     <div class="header-widget header-widget2">
                                         <div class="header-right-info">
                                             <ul class="user-cart d-flex align-items-center ">
@@ -290,17 +298,17 @@
                                                                     </a>
                                                                 </h4>
 
-                                                                @if (walletActive())
+                                                                {{-- @if (walletActive())
                                                                     <span class="email"><i class="fa fa-money"></i> {{  walletBalance() }}</span>
-                                                                @endif
+                                                                @endif --}}
 
 
                                                             </div>
                                                         </div><!-- end mess__title -->
 
-                                                        
+
                                                         @if (Auth::user()->user_type != "Admin")
-                                                            
+
                                                         <div class="mess__body">
                                                             <ul class="list-items">
 
@@ -406,8 +414,8 @@
                                                         </div>
 
                                                         @endif
-                                                        
-                                                        
+
+
                                                         <!-- end mess__body -->
                                                     </div><!-- end mess-dropdown -->
                                                 </div><!-- end dropdown-menu -->
@@ -423,7 +431,7 @@
                                             <ul class="user-cart d-flex align-items-center ">
                                                 <li class="p-50p">
                                                     <a href="{{route('dashboard')}}"
-                                                       class="btn btn-success text-white my-course-btn">@translate(Go To Dashboard)</a>
+                                                       class="btn btn-secondary text-white my-course-btn">@translate(Go To Dashboard)</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -465,7 +473,7 @@
                                                                     class="email">{{\Illuminate\Support\Facades\Auth::user()->email}}</span>
                                                             </div>
                                                         </div><!-- end mess__title -->
-                                                    
+
 
                                                         <div class="mess__body">
                                                             <ul class="list-items">
@@ -488,7 +496,7 @@
                                                                                 <i class="la la-puzzle-piece"></i> @translate(Addons Manager)
                                                                             </a>
                                                                         </li>
-                                                                        
+
                                                                         @endif
 
                                                                         <li class="mb-0">
@@ -510,10 +518,10 @@
                                                                             </a>
                                                                         </li>
 
-                                                                    
-                                                                    
+
+
                                                                 @endif
-                                                                
+
 
                                                                 <li class="mb-0">
                                                                     <div class="section-block mt-2 mb-2"></div>
@@ -535,7 +543,7 @@
 
                                                             </ul>
                                                         </div>
-                                                        
+
                                                         <!-- end mess__body -->
                                                     </div><!-- end mess-dropdown -->
                                                 </div><!-- end dropdown-menu -->
@@ -543,8 +551,8 @@
                                         </div>
                                     </div>
 
-                                  
-                                        
+
+
                                     @endif
 
 
@@ -582,7 +590,7 @@
                                 <ul id="custom_toggle_bar" class="d-flex">
                                     <li class="pr-2"><a href="{{route('instructor.register')}}"
                                                         class="theme-btn instructor-btn">Trainer</a></li>
-                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Become Student)</a></li>
+                                    <li><a href="{{route('student.register')}}" class="theme-btn student-btn">@translate(Student)</a></li>
                                 </ul>
                                 <div class="side-menu-open">
                                     <i class="la la-bars"></i>
@@ -665,7 +673,7 @@
                             </div><!-- end side-menu-wrap -->
                             {{-- responsive menu END--}}
                         </div><!-- end side-nav-container -->
-                    </div><!-- end menu-wrapper -->                    
+                    </div><!-- end menu-wrapper -->
                 </div><!-- end col-lg-9 -->
             </div><!-- end row -->
         </div>

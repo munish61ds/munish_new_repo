@@ -1,0 +1,171 @@
+body {
+	height: 50px;
+}
+.header-top {
+	border: 0;
+}
+.header-widget ul.contact-info li a,
+.header-widget ul.contact-info li span,
+.header-widget .user-action li a {
+	color: #FFF !important;
+}
+.header-menu-content {
+	border-bottom: 0 !important;
+}
+.header-menu-area, .header-menu-fluid, .header-top, .header-menu-content {
+	background-color: transparent;
+}
+.logo-box .header-category > ul > li > a,
+.logo-box .header-category > ul > li > a:hover {
+	color: #FFF;
+}
+
+.header-widget .my-course-btn {
+	background-color: #FFF;
+	border-color: #EEE;
+	color: #2d2d2d !important;
+}
+
+#carouselHomePageSliderIndicators {
+    position: relative;
+    top: -120px;
+    width: 100%;
+}
+#carouselHomePageSliderIndicators .carousel-item {
+	height: 800px;
+	min-height: 350px;
+	background: no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+#carouselHomePageSliderIndicators .carousel-caption {
+	bottom: calc(50% - 167px);
+	width: 64%;
+	left: 18%;
+	right: initial;
+}
+#carouselHomePageSliderIndicators .carousel-caption .main-title {
+	color: #FFF;
+	font-weight: bold;
+}
+#carouselHomePageSliderIndicators .carousel-caption .main-title,
+#carouselHomePageSliderIndicators .carousel-caption .lead {
+	text-shadow: 1px 1px 1px #555;
+	text-transform: uppercase;
+}
+
+
+#carouselHomePageSliderIndicators .carousel-caption .custom_span_class {
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+#carouselHomePageSliderIndicators .carousel-caption .butn-margin {
+	
+}
+
+
+#carouselHomePageSliderIndicators .carousel-caption .lead_style {
+	text-align: center;
+	width: 60%;
+	margin: auto;
+	margin-top: auto;
+	font-size: 15px;
+	line-height: 1.5;
+	margin-top: 8px;
+}
+
+
+#carouselHomePageSliderIndicators .carousel-caption .lead {
+	/* color: #fff700; */
+	color: #fd0100;
+	padding-top: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+
+
+#carouselHomePageMid1Indicators {
+	margin-top: 70px !important;
+	margin-bottom: 40px !important;
+}
+
+#carouselHomePageMid1Indicators .carousel-item {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 400px;
+	min-height: 250px;
+	background: no-repeat center center scroll;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+#carouselHomePageMid1Indicators .carousel-caption .main-title,
+#carouselHomePageMid1Indicators .carousel-caption .lead {
+	text-shadow: 1px 1px 1px #555;
+}
+#carouselHomePageMid1Indicators .carousel-caption .lead {
+	color: #FFF;
+	padding-top: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+.header-top {
+	height: 40px !important;
+}
+.header-top .contact-info {
+	height: 38px !important;
+}
+.main-menu-content {
+	height: 75px !important;
+}
+.why-us * {
+	font-size: 140%;
+	line-height: 35px;
+	text-align: justify;
+    text-align-last: center;
+}
+.why-us p {
+    padding: 112px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.are-you-someone {
+	margin-top: 35px;
+}
+.are-you-someone .btn-box-inner {
+	text-align: center;
+}
+.are-you-someone .btn-box-inner > span {
+	font-size: 150%;
+}
+.choose-area {
+	padding-top: 140px !important;
+	padding-bottom: 50px !important;
+}
+.owl-stage-outer .card-item .card-image {
+	border: 1px solid #EEE;
+}
+.owl-stage-outer .card-item .card-image a {
+	height: 245px;
+}
+.owl-stage-outer .card-item .card-image a img {
+	height: 100%;
+	object-fit: contain;
+}
+.owl-stage-outer .card__title {
+	min-height: 55px;
+}
+.logo-right-button .side-menu-open * {
+	color: #FFF !important;
+}
+
+.choose-area-custom-section
+{
+	padding-top: 40px !important;
+	padding-bottom: 50px !important;
+}

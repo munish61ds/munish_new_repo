@@ -15,8 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-
     'theme' => env('ACTIVE_THEME', 'frontend'),
+
+    'asset_url' => env('ASSET_URL', '/public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'development'),
 
     /*
     |--------------------------------------------------------------------------
@@ -188,7 +189,7 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Mprince\Pointable\PointableServiceProvider::class
 
-        
+
     ),
 
     /*

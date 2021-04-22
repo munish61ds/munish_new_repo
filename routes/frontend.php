@@ -4,9 +4,9 @@
  *
  * */
 
- Route::get('x', function () {
-    return checkRedeem(9);
- });
+ // Route::get('x', function () {
+ //    return checkRedeem(9);
+ // });
 
 Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']], function () {
     // homepage
@@ -20,6 +20,8 @@ Route::group(['middleware' => ['installed', 'check.frontend','demo', 'activity']
         Route::get('blog/category/{id}','FrontendController@categoryBlog')->name('blog.category');
         Route::get('blog/tag/{tag}','FrontendController@tagBlog')->name('blog.tag');
     }
+
+     Route::get('faqs','FrontendController@viewFaqs')->name('faqs.all');
 
     /*search courses*/
     Route::get('search', 'FrontendController@searchCourses')->name('search.courses');

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 
+use Alert;
 use App\Blog;
+use App\Faq;
 use App\Http\Middleware\Affiliate;
+use App\Mail\InstructorRegisterMail;
 use App\Model\AdminEarning;
 use App\Model\AffiliateHistory;
 use App\Model\AffiliatePayment;
@@ -29,31 +32,30 @@ use App\Model\Student;
 use App\Model\StudentAccount;
 use App\Model\VerifyUser;
 use App\Model\Wishlist;
+use App\NotificationUser;
 use App\Notifications\AffiliateCommission;
 use App\Notifications\EnrolmentCourse;
 use App\Notifications\InstructorRegister;
 use App\Notifications\StudentRegister;
 use App\Notifications\VerifyNotifications;
-use App\NotificationUser;
 use App\Page;
 use App\QuizScore;
 use App\Subscription;
 use App\SubscriptionCart;
 use App\SubscriptionEnrollment;
 use App\User;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
+use Hash;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use Hash;
-use Alert;
 
 class FrontendController extends Controller
 {
@@ -250,8 +252,11 @@ class FrontendController extends Controller
 
         $subscriptions = Subscription::Published()->get();
 
+        // $faqs = Faq::all();
 
-        return view($this->theme.'.homepage.index', compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count'));
+        return view($this->theme.'.homepage.index',
+        	compact('latestCourses', 'packages', 'subscriptions', 'sliders', 'popular_cat', 'course', 'cat', 'trading_courses', 'enroll_courser_count')
+        );
     }
 
 
@@ -460,8 +465,8 @@ class FrontendController extends Controller
                 'user_id' => $user->id,
                 'token' => sha1(time())
             ]);
-            
-            
+
+
 
             // send verify mail
             $user->notify(new VerifyNotifications($user));
@@ -574,7 +579,7 @@ class FrontendController extends Controller
     /*check out*/
     public function enrollCourses()
     {
-        
+
         if (Auth::user()->user_type != "Student") {
             \auth()->logout();
             return response('Your credentials does not match.', 403);
@@ -957,9 +962,9 @@ class FrontendController extends Controller
 
         }
 
-            
-            
-           
+
+
+
 
             $request->session()->forget('payment');
         } else {
@@ -977,7 +982,7 @@ class FrontendController extends Controller
     /*affiliate page view*/
     public function affiliateCreate(){
 
-        
+
         /*here show affiliate history table*/
         $history =null;
         $payment =null;
@@ -1137,88 +1142,122 @@ class FrontendController extends Controller
     {
 
         if (env('DEMO') === "YES") {
-        Alert::warning('warning', 'This is demo purpose only');
-        return back();
-      }
+	        Alert::warning('warning', 'This is demo purpose only');
+	        return back();
+      	}
 
-        $request->validate([
-            'package_id' => 'required',
-            'name' => 'required',
-            'email' => ['required', 'unique:users'],
-            'password' => ['required', 'min:8'],
-            'confirm_password' => 'required|required_with:password|same:password',
-        ], [
-            'package_id.required' => translate('Please select a package'),
-            'name.required' => translate('Name is required'),
-            'email.required' => translate('Email is required'),
-            'email.unique' => translate('Email is already exist.'),
-            'password.required' => translate('Password is required'),
-            'password.min' => translate('Password must be minimum 8 characters'),
-            'confirm_password.required' => translate('Please confirm your password'),
-            'confirm_password.same' => translate('Password did not match'),
-        ]);
-        /*get package value*/
-        $package = Package::where('id', $request->package_id)->firstOrFail();
-        //create user for login
+        // $request->validate([
+        //     // 'package_id' => 'required',
+        //     'first_name' => 'required|min:3',
+        //     'middle_name' => 'required|min:3',
+        //     'last_name' => 'required|min:3',
+        //     'phone_number' => 'required|min:8',
+        //     'email' => 'required|unique:users',
+        //     'password' => 'required|min:8',
+        //     'confirm_password' => 'required|required_with:password|same:password',
+        //     'city' => 'required|min:3',
+        //     'agree_ev_test' => 'required|numeric|min:1',
+        //     'agree_terms_cond' => 'required|numeric|min:1',
+        // ], [
+        //     // 'package_id.required' => translate('Please select a package'),
+        //     'first_name.required' => translate('First name is required'),
+        //     'middle_name.required' => translate('Middle name is required'),
+        //     'last_name.required' => translate('Last name is required'),
+        //     'phone_number.required' => translate('Phone number is required'),
+        //     'email.required' => translate('Email is required'),
+        //     'email.unique' => translate('Email is already exist.'),
+        //     'password.required' => translate('Password is required'),
+        //     'password.min' => translate('Password must be minimum 8 characters'),
+        //     'confirm_password.required' => translate('Please confirm your password'),
+        //     'confirm_password.same' => translate('Password did not match'),
+        //     'city.required' => translate('Please enter your city'),
+        //     'agree_ev_test.required' => translate('Please agree for evaluation test'),
+        //     'agree_terms_cond.required' => translate('Password the terms and conditions of Languafina'),
+        // ]);
 
-        $slug_name = Str::slug($request->name);
         /*check the sulg */
+        $slug_name = Str::slug($request->name);
         $users = User::where('slug', $slug_name)->get();
         if ($users->count() > 0) {
             $slug_name = $slug_name.($users->count() + 1);
         }
         $user = new User();
         $user->slug = $slug_name;
-        $user->name = $request->name;
+        $user->name = $request->first_name .' '. $request->last_name;
         $user->email = $request->email;
         $user->password = \Illuminate\Support\Facades\Hash::make($request->password);
         $user->user_type = 'Instructor';
-        $user->save();
 
-        //save data in instructor
+
+        // save data in instructor
+        $attributes = [
+        	'saluation' => $request->saluation,
+        	'first_name' => $request->first_name,
+        	'middle_name' => $request->middle_name,
+        	'last_name' => $request->last_name,
+        	'gender' => $request->gender,
+        	'dob' => $request->dob,
+        	'phone_number' => $request->phone_number,
+        	'state' => $request->state,
+        	'pin_code' => $request->pin_code,
+        	'city' => $request->city,
+        	'sub_address1' => $request->sub_address1,
+        	'sub_address2' => $request->sub_address2,
+        	'qualification' => $request->qualification,
+        	'work_experiance' => $request->work_experiance,
+        	'agree_ev_test' => $request->agree_ev_test,
+        	'agree_terms_cond' => $request->agree_terms_cond,
+        ];
         $instructor = new Instructor();
-        $instructor->name = $request->name;
+        $instructor->name = $request->first_name .' '. $request->last_name;
         $instructor->email = $request->email;
-        $instructor->package_id = $request->package_id;
+        // $instructor->package_id = $request->package_id;
         $instructor->user_id = $user->id;
-        $instructor->save();
+        $instructor->attributes = json_encode($attributes);
 
         /*get package payment*/
-        if ($package->price > 0) {
-
-            return redirect()->route('instructor.payment', $user->slug);
-        } else {
+        // if ($package->price > 0) {
+            // return redirect()->route('instructor.payment', $user->slug);
+        // } else {
             /**/
-
             //add purchase history
-            $purchase = new PackagePurchaseHistory();
-            $purchase->amount = $package->price;
-            $purchase->payment_method = $request->payment_method;
-            $purchase->package_id = $request->package_id;
-            $purchase->user_id = $user->id;
-            $purchase->save();
-
+            // $purchase = new PackagePurchaseHistory();
+            // $purchase->amount = $package->price;
+            // $purchase->payment_method = $request->payment_method;
+            // $purchase->package_id = $request->package_id;
+            // $purchase->user_id = $user->id;
+            // $purchase->save();
 
             //todo::admin Earning calculation
-            $admin = new AdminEarning();
-            $admin->amount = $package->price;
-            $admin->purposes = "Sale Package";
-            $admin->save();
+            // $admin = new AdminEarning();
+            // $admin->amount = $package->price;
+            // $admin->purposes = "Sale Package";
+            // $admin->save();
 
-            try {
+        // }
 
-                $user->notify(new InstructorRegister());
-
-                VerifyUser::create([
-                    'user_id' => $user->id,
-                    'token' => sha1(time())
-                ]);
-                //send verify mail
-                $user->notify(new VerifyNotifications($user));
-            } catch (\Exception $exception) {
-
-            }
+        try {
+            // $user->notify(new InstructorRegister());
+            // VerifyUser::create([
+            //     'user_id' => $user->id,
+            //     'token' => sha1(time())
+            // ]);
+            //send verify mail
+            // $user->notify(new VerifyNotifications($user));
+            $evaluation_test_link = '#';
+            $data = [
+				'user_name' => $user->first_name .' ' . $user->last_name,
+				'evaluation_test_link' => $evaluation_test_link,
+			];
+            Mail::to($request->email)->send(new InstructorRegisterMail($data));
+        } catch (\Exception $exception) {
+        	echo $exception->getMessage();
+        	echo '<br> unable to send verify notifications to email\'s user.';
+        	exit;
         }
+
+        $user->save();
+        $instructor->save();
 
         Session::flash('message', translate("Registration done successfully. Please verify your email before login."));
         return redirect()->route('login');
@@ -1485,5 +1524,10 @@ class FrontendController extends Controller
         $categories = Category::where('is_published', 1)->get();
         $blogs = Blog::where('is_active',1)->where('tags', 'like', '%' . $tag . '%')->paginate(5);
         return view($this->theme . '.blog.posts', compact('blogs', 'categories'));
+    }
+
+    public function viewFaqs() {
+    	$faqs = Faq::all();
+    	return view($this->theme.'.faqs.index', compact('faqs'));
     }
 }

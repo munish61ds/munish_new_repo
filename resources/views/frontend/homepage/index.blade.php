@@ -1,119 +1,63 @@
 @extends('frontend.app')
 @section('content')
 
-
-    <!--================================
-         START SLIDER AREA
-=================================-->
-    <section class="slider-area slider-area2">
-        <div class="homepage-slide2">
-            @foreach($sliders as $item)
-                <div class="single-slide-item" >
-                    <div id="perticles-js-2" style="    background-color: #00004f;"></div>
-                    <div class="slide-item-table">
-                        <div class="slide-item-tablecell">
-                            <div class="container">
-                                <div class="row">
-                                          <div class="col-lg-7">
-                                       <img src="{{ filePath($item->image) }}" style="height: 615px;
-    /* width: 566px; */
-    margin-left: -261px;
-    margin-top: -139px;">
-                                       </div>
-									   
-                                    <div class="col-lg-5">
-                                        <div class="section-heading" style="    margin-top: 54px;">
-                                            <h2 class="section__title" style="font-size: 55px;
-    line-height: 61px;
-    ">{{$item->title}}</h2>
-                                            <p class="section__desc" style="color: #fff700;
-    font-size: 22px;
-    font-weight: bold;">
-                                                {{$item->sub_title}}
-                                            </p>
-                                        </div>
-                                        <!--<div class="hero-search-form">-->
-                                        <!--    <div class="contact-form-action">-->
-                                        <!--        <form>-->
-                                        <!--            <div class="input-box">-->
-                                        <!--                <div class="form-group mb-0">-->
-                                                            <!-- Search bar -->
-                                        <!--                    <input class="form-control" id="slider-search" type="text"-->
-                                        <!--                           name="search"-->
-                                        <!--                           placeholder="@translate(Search for anything)">-->
-                                        <!--                    <span class="la la-search search-icon"></span>-->
-
-                                                            <!-- Search bar END - -->
-
-                                                            <!-- ======================== Search Suggession ============================= -->
-                                        <!--                    <div class="overflow-hidden search-list w-100">-->
-                                        <!--                        <div id="appendSearchCart2"></div>-->
-                                        <!--                    </div>-->
-
-                                        <!--                </div>-->
-                                        <!--            </div><!-- end input-box 
-                                        <!--        </form>-->
-                                        <!--    </div><!-- end contact-form-action
-                                        <!--</div>-->
-                                    </div><!-- col-lg-6 -->
-                                </div><!-- row -->
-                            </div><!-- container -->
-
-
-                            <div class="our-post-content" style="    margin-top: 0px;">
-                                <span class="hw-circle"></span>
-                                <span class="hw-circle"></span>
-                                <span class="hw-circle"></span>
-                                <div class="how-we-work-wrap">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="our-post-item">
-                                                    <i class="la la-mouse-pointer icon-element"></i>
-                                                    <div class="our__text">
-                                                        <h4 class="widget-title">{{number_format(\App\Model\Course::Published()->where('is_published',true)->count())}}
-                                                            @translate(Online courses)</h4>
-                                                        <p>@translate(Explore a variety of fresh topics)</p>
-                                                    </div><!-- our__text -->
-                                                </div><!-- our-post-item -->
-                                            </div><!-- col-lg-4 -->
-                                            <div class="col-lg-4">
-                                                <div class="our-post-item">
-                                                    <i class="la la-users icon-element"></i>
-                                                    <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Expert Instruction)</h4>
-                                                        <p>@translate(Find the right instructor for you)</p>
-                                                    </div><!-- our__text -->
-                                                </div><!-- our-post-item -->
-                                            </div><!-- col-lg-4 -->
-                                            <div class="col-lg-4">
-                                                <div class="our-post-item">
-                                                    <i class="fa fa-history icon-element"></i>
-                                                    <div class="our__text">
-                                                        <h4 class="widget-title">@translate(Lifetime access)</h4>
-                                                        <p>@translate(Learn on your schedule)</p>
-                                                    </div><!-- our__text -->
-                                                </div><!-- our-post-item -->
-                                            </div><!-- col-lg-4 -->
-                                        </div><!-- row -->
-                                    </div>
-                                </div><!-- end how-we-work-wrap -->
-                            </div><!-- our-post-content -->
-                        </div><!-- slide-item-tablecell -->
-                    </div><!-- slide-item-table -->
-                </div><!-- end single-slide-item -->
-            @endforeach
-        </div><!-- end homepage-slides -->
-    </section>
-    <!--================================
-            END SLIDER AREA
-    =================================-->
+	<div id="carouselHomePageSliderIndicators" class="carousel slide" data-ride="carousel">
+    	<ol class="carousel-indicators">
+    	@for($i=0;$i<count($sliders);$i++)
+	      	<li data-target="#carouselHomePageSliderIndicators" data-slide-to="{{ $i }}" class="@if($i==0) active @endif"></li>
+	      	@endfor
+	    </ol>
+	    <div class="carousel-inner" role="listbox">
+	    	@foreach($sliders as $item)
+		      <div class="carousel-item active" style="background-image: url('{{ filePath($item->image) }}')">
+		        <div class="carousel-caption d-none d-md-block">
+		          <h2 class="display-4 main-title">{{$item->title}}</h2>
+		          <p class="lead">{{$item->sub_title}}</p>
+		          @if(json_decode($item->attributes)->have_button->status)
+		          	<a href="{{ json_decode($item->attributes)->have_button->link }}" class="btn btn-light btn-lg">
+		          		{{ json_decode($item->attributes)->have_button->content }}
+		          	</a>
+		          @endif
+		        </div>
+		      </div>
+	      @endforeach
+	    @if(count($sliders) > 1)
+	    <a class="carousel-control-prev" href="#carouselHomePageSliderIndicators" role="button" data-slide="prev">
+	          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	          <span class="sr-only">Previous</span>
+	        </a>
+	    <a class="carousel-control-next" href="#carouselHomePageSliderIndicators" role="button" data-slide="next">
+	          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	          <span class="sr-only">Next</span>
+	        </a>
+	    @endif
+	</div>
+	
+	
+	<!--======================================
+					START PACKAGE AREA
+	======================================-->
+	<section class="choose-area section-padding text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="section-heading">
+						<h2 class="section__title">Why Languafina</h2>
+						<span class="section-divider"></span>
+					</div><!-- end section-heading -->
+				</div><!-- end col-md-12 -->
+			</div><!-- end row -->
+			<div class="row why-us">
+				<p>We, at LanguaFina, appreciate the eagerness to learn. What sets us apart from other teaching institutions is our usage of new methods and advanced technology that is available in today’s modern era. We are kicking the obsolete routines and procedures to the curb and are adopting the latest techniques required to achieve efficiency in order to succeed in today’s fast paced world. </p>
+			</div><!-- end row -->
+		</div><!-- end container -->
+	</section><!-- end package-area -->
 
 
     <!--======================================
            START LatestCourse AREA
    ======================================-->
-    <section class="course-area padding-top-120px">
+    <section class="course-area padding-top-70px">
         <div class="course-wrapper">
             <div class="container">
                 <div class="row">
@@ -300,6 +244,7 @@
     <!--======================================
             START CATEGORY AREA
     ======================================-->
+    @if(env('CATEGORY_AREA') == 'YES')
     <section class="category-area padding-bottom-90px padding-top-90px">
         <div class="container">
             <div class="row">
@@ -337,64 +282,45 @@
         </div><!-- end container -->
         </div><!-- end course-wrapper -->
     </section>
+    @endif
     <!-- end courses-area -->
-    <!--======================================
-            END CATEGORY AREA
-    ======================================-->
-    <!--======================================
-            START COURSE AREA
-    ======================================-->
 
-    <!--======================================
-            END COURSE AREA
-    ======================================-->
+    <div id="carouselHomePageMid1Indicators" class="carousel slide" data-ride="carousel">
+    	<ol class="carousel-indicators">
+	      	<li data-target="#carouselHomePageMid1Indicators" data-slide-to="0" class="active"></li>
+	    </ol>
+	    <div class="carousel-inner" role="listbox">
+				<div class="carousel-item active" style="background-image: url('{{ filePath('best_online_learning.jpg') }}')">
+					<div class="carousel-caption d-none d-md-block">
+						<span class="display-4 main-title custom_span_class">Online English Courses<br> With The Best Teachers</span>
+						<p class="lead_style">Languafina teachers have more than 15 years of classroom teaching experience each. All teachers are highly qualified and they are specialists in IELTS and Cambridge English exams preparation.</p>
+						<br>
+							<a href="{{ route('student.register') }}" class="theme-btn line-height-40 text-capitalize butn-margin">
+								Start Learning
+							</a>
+					</div>
+		      </div>
+			</div>
+		</div>
 
-    <!--======================================
-            START COURSE AREA
-    ======================================-->
-   
-    <!--======================================
-                END COURSE AREA
-        ======================================-->
-
-
+		
+		
     <!--======================================
             START PACKAGE AREA
     ======================================-->
-    <section class="choose-area section-padding text-center">
+    <section class="choose-area-custom-section text-center">
+			@include('frontend.include.our_services')
+		</section><!-- end package-area -->
+		
+		<!--======================================
+            START PACKAGE AREA
+    ======================================-->
+    <section class="choose-area section-padding text-center" style="display:none;">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-heading">
-                       
-                        <h2 class="section__title">Why Languafina</h2>
-                        <span class="section-divider"></span>
-                    </div><!-- end section-heading -->
-                </div><!-- end col-md-12 -->
-            </div><!-- end row -->
-            <div class="row">
-               <p>Languafina specializes in perfecting the art of the English language.
-We, as a firm, provide the necessary means to achieve the desired
-command of the language. Furthermore, enhancement of flow, vocabulary,
-pronunciation, and confidence in making use of English in every possible
-way is what we focus on. We provide lessons in Spoken English which are
-conducted via audio calls. This, hence, allows aspirants the opportunity to
-speak with the trainers even without any access to the internet!
-Moreover, we help in the preparation of various English proficiency tests
-such as IELTS, PTE, and TOEFL.
-</p><p>
-Why Languafina?
-We, at Languafina, appreciate the eagerness to learn. What sets us apart
-from other teaching, institutes is our usage of new methods and advanced
-technology that is available in today’s modern era. We are kicking the
-obsolete routines and procedures to the curb and are adopting the latest
-techniques required to achieve efficiency in order to succeed in today’s fast
-paced world.</p>
-            </div><!-- end row -->
-            <div class="row">
+            <div class="row are-you-someone">
                 <div class="col-lg-12">
                     <div class="btn-box mt-3 d-flex align-items-center justify-content-center text-left">
-                        <div class="btn-box-inner mr-3">
+                        <div class="btn-box-inner mr-5">
                             <span class="d-block mb-2 font-weight-semi-bold">@translate(Are you instructor?)</span>
                             <a href="{{route('instructor.register')}}" class="theme-btn line-height-40 text-capitalize">@translate(Start teaching)</a>
                         </div>
@@ -415,80 +341,74 @@ paced world.</p>
 
     <div class="section-block"></div>
 
-
-
-
-
     <!--======================================
             START SUBSCRIPTION AREA
     ======================================-->
-@if (subscriptionActive())
+	@if (subscriptionActive())
+	  	<section class="package-area section--padding">
+	    <div class="container">
+	        <div class="row">
 
-  <section class="package-area section--padding">
-    <div class="container">
-        <div class="row">
+	        @foreach ($subscriptions as $subscription)
+	            <div class="col-lg-4 column-td-half">
+	                <div class="package-item package-item-active">
 
-        @foreach ($subscriptions as $subscription)
-            <div class="col-lg-4 column-td-half">
-                <div class="package-item package-item-active">
+	                @if ($subscription->popular == true)
+	                     <div class="package-tooltip">
+	                        <span class="package__tooltip">Recommended</span>
+	                    </div><!-- end package-tooltip -->
+	                @endif
 
-                @if ($subscription->popular == true)
-                     <div class="package-tooltip">
-                        <span class="package__tooltip">Recommended</span>
-                    </div><!-- end package-tooltip -->
-                @endif
+	                    <div class="package-title text-center">
+	                        <h3 class="package__price"><span>{{ formatPrice($subscription->price) }}</span></h3>
+	                        <h3 class="package__title">{{ $subscription->name }}</h3>
+	                    </div><!-- end package-title -->
 
-                    <div class="package-title text-center">
-                        <h3 class="package__price"><span>{{ formatPrice($subscription->price) }}</span></h3>
-                        <h3 class="package__title">{{ $subscription->name }}</h3>
-                    </div><!-- end package-title -->
+	                    <ul class="list-items margin-bottom-35px">
+	                        @foreach (json_decode($subscription->description) as $item)
+	                            <li><i class="la la-check"></i> {{ $item }}</li>
+	                        @endforeach
+	                    </ul>
 
-                    <ul class="list-items margin-bottom-35px">
-                        @foreach (json_decode($subscription->description) as $item)
-                            <li><i class="la la-check"></i> {{ $item }}</li>
-                        @endforeach
-                    </ul>
+	                    <div class="btn-box">
+	                        <a href="{{ route('subscription.frontend', $subscription->duration) }}" class="theme-btn">{{ App\SubscriptionCourse::where('subscription_duration','LIKE','%'.$subscription->duration.'%')->count() }} Courses</a>
+	                        <form action="{{ route('subscription.cart') }}" method="get">
+	                            @csrf
 
-                    <div class="btn-box">
-                        <a href="{{ route('subscription.frontend', $subscription->duration) }}" class="theme-btn">{{ App\SubscriptionCourse::where('subscription_duration','LIKE','%'.$subscription->duration.'%')->count() }} Courses</a>
-                        <form action="{{ route('subscription.cart') }}" method="get">
-                            @csrf
+	                            <input type="hidden" value="{{ $subscription->duration }}" name="subscription_package">
+	                            <input type="hidden" value="{{ $subscription->price }}" name="subscription_price">
+	                            <input type="hidden" value="{{ $subscription->id }}" name="subscription_id">
+	                            @foreach (App\SubscriptionCourse::where('subscription_duration','LIKE','%'.$subscription->duration.'%')->get() as $item)
+	                                <input type="hidden" name="course_id[]" value="{{ $item->course_id }}">
+	                            @endforeach
 
-                            <input type="hidden" value="{{ $subscription->duration }}" name="subscription_package">
-                            <input type="hidden" value="{{ $subscription->price }}" name="subscription_price">
-                            <input type="hidden" value="{{ $subscription->id }}" name="subscription_id">
-                            @foreach (App\SubscriptionCourse::where('subscription_duration','LIKE','%'.$subscription->duration.'%')->get() as $item)
-                                <input type="hidden" name="course_id[]" value="{{ $item->course_id }}">
-                            @endforeach
+	                            @auth
+	                                @if (!App\SubscriptionEnrollment::where('user_id', Auth::user()->id)->where('subscription_package', $subscription->duration)->exists())
+	                                <button type="submit" class="theme-btn mt-3">choose plan</button>
+	                                @else
+	                                <button type="button" disabled class="theme-btn mt-3">Purchased</button>
+	                                @endif
+	                            @endauth
 
-                            @auth
-                                @if (!App\SubscriptionEnrollment::where('user_id', Auth::user()->id)->where('subscription_package', $subscription->duration)->exists())
-                                <button type="submit" class="theme-btn mt-3">choose plan</button>
-                                @else
-                                <button type="button" disabled class="theme-btn mt-3">Purchased</button>
-                                @endif
-                            @endauth
-
-                            @guest
-                                <a href="{{ route('login') }}" class="theme-btn mt-3">choose plan</a>
-                            @endguest
-
+	                            @guest
+	                                <a href="{{ route('login') }}" class="theme-btn mt-3">choose plan</a>
+	                            @endguest
 
 
 
-                        </form>
-                        <p class="package__meta">no hidden charges!</p>
-                    </div>
 
-                </div><!-- end package-item -->
-            </div><!-- end col-lg-4 -->
-        @endforeach
+	                        </form>
+	                        <p class="package__meta">no hidden charges!</p>
+	                    </div>
 
-        </div><!-- end row -->
-    </div><!-- end container -->
-    </section>
+	                </div><!-- end package-item -->
+	            </div><!-- end col-lg-4 -->
+	        @endforeach
 
- @endif
+	        </div><!-- end row -->
+	    </div><!-- end container -->
+	    </section>
+ 	@endif
     <!--======================================
             END SUBSCRIPTION AREA
     ======================================-->

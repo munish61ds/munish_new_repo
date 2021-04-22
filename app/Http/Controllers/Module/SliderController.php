@@ -46,9 +46,18 @@ class SliderController extends Controller
             $slider->image = $request->image;
         }
 
+        $attributes = [
+        	'have_button' => [
+        		'status' => ($request->attr_have_button != null || $request->attr_have_button == 'on') ? 1 : 0,
+        		'content' => ($request->attr_button_content != null) ? $request->attr_button_content : '',
+        		'link' => ($request->attr_button_link != null) ? $request->attr_button_link : '',
+        	]
+        ];
+
         $slider->title = $request->title;
         $slider->sub_title = $request->sub_title;
         $slider->url = $request->url;
+        $slider->attributes = $attributes;
         $slider->save();
 
         notify()->success(translate('Slide created successfully'));
@@ -79,14 +88,23 @@ class SliderController extends Controller
         ]);
 
         $slider = Slider::findOrFail($request->id);
-        
+
         if ($request->has('image')) {
             $slider->image = $request->image;
         }
 
+        $attributes = [
+        	'have_button' => [
+        		'status' => ($request->attr_have_button != null || $request->attr_have_button == 'on') ? 1 : 0,
+        		'content' => ($request->attr_button_content != null) ? $request->attr_button_content : '',
+        		'link' => ($request->attr_button_link != null) ? $request->attr_button_link : '',
+        	]
+        ];
+
         $slider->title = $request->title;
         $slider->sub_title = $request->sub_title;
         $slider->url = $request->link;
+        $slider->attributes = $attributes;
         $slider->save();
         notify()->success(translate('Slider updated successfully'));
         return back();
@@ -115,7 +133,7 @@ class SliderController extends Controller
         Alert::warning('warning', 'This is demo purpose only');
         return back();
       }
-      
+
         // don't use this type of variable naming, use $category instead of $cat1
         $slider = Slider::where('id', $request->id)->first();
         if ($slider->is_published == 1) {

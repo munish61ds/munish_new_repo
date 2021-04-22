@@ -106,7 +106,7 @@
   @elseif(false)
 
   @else
-      <section class="login-area section--padding">
+      <section class="login-area padding-top-50px">
           <div class="container">
               <div class="row">
                   <div class="col-lg-7 mx-auto">
